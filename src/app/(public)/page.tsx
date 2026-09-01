@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles, Flame, BookOpen, Loader2 } from "lucide-react";
+import { ArrowRight, Sparkles, Flame, BookOpen, Loader2, Calendar } from "lucide-react";
 import { getPublishedDays } from "@/lib/firebase/firestore";
 import { PublicDay } from "@/types";
 import { DayCard } from "@/components/public/day-card";
@@ -63,10 +63,17 @@ export default function HomePage() {
 
         {/* Hero Actions */}
         <div className="flex flex-wrap items-center gap-3 pt-2">
-          {latestDay && (
+          {latestDay ? (
             <Link href={`/day/${latestDay.dayNumber}`}>
               <Button size="lg" className="font-semibold">
                 Start Today's Challenge (Day {latestDay.dayNumber})
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          ) : (
+            <Link href="/leaderboard">
+              <Button size="lg" className="font-semibold">
+                View Global Leaderboard
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
@@ -87,19 +94,35 @@ export default function HomePage() {
             <Sparkles className="h-4 w-4 text-zinc-500 dark:text-zinc-400" />
             Latest Released Challenge
           </h2>
-          <Link
-            href="/days"
-            className="text-xs text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors flex items-center gap-1"
-          >
-            View all days
-            <ArrowRight className="h-3 w-3" />
-          </Link>
+          {publishedDays.length > 0 && (
+            <Link
+              href="/days"
+              className="text-xs text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors flex items-center gap-1"
+            >
+              View all days
+              <ArrowRight className="h-3 w-3" />
+            </Link>
+          )}
         </div>
 
         {loading ? (
           <div className="p-8 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/20 text-center flex items-center justify-center gap-2 text-xs text-zinc-400">
             <Loader2 className="h-4 w-4 animate-spin" />
             <span>Loading challenges from Firestore...</span>
+          </div>
+        ) : publishedDays.length === 0 ? (
+          <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/20 p-8 text-center space-y-3">
+            <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500">
+              <Calendar className="h-5 w-5" />
+            </div>
+            <div className="space-y-1">
+              <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                No challenges published yet
+              </h3>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                The administrator has not published Day 1 yet. Check back shortly!
+              </p>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

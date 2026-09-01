@@ -4,26 +4,18 @@ import {
   getDoc,
   getDocs,
   setDoc,
-  updateDoc,
   deleteDoc,
   query,
   where,
 } from "firebase/firestore";
 import { db } from "./client";
-import { AdminDay, PublicDay, Problem } from "@/types";
-import {
-  getPublicDays as getMockPublicDays,
-  getPublicDayByNumber as getMockPublicDay,
-  getAllAdminDays as getMockAdminDays,
-  getAdminDayByNumber as getMockAdminDay,
-} from "../mock-data";
+import { AdminDay, PublicDay } from "@/types";
 
 const DAYS_COLLECTION = "days";
 const ADMIN_DAYS_COLLECTION = "adminDays";
 
 /**
- * Fetch all published days for public view.
- * Performs client-side sort to avoid requiring manual Firestore composite indexes.
+ * Fetch all published days directly from Firestore.
  */
 export async function getPublishedDays(): Promise<PublicDay[]> {
   try {
@@ -36,15 +28,14 @@ export async function getPublishedDays(): Promise<PublicDay[]> {
       return days.sort((a, b) => b.dayNumber - a.dayNumber);
     }
   } catch (err) {
-    console.warn("[Firestore] Failed to query published days, using fallback data:", err);
+    console.error("[Firestore] Failed to query published days:", err);
   }
 
-  // Graceful fallback to initial seed / mock data
-  return getMockPublicDays();
+  return [];
 }
 
 /**
- * Fetch a single published day by day number for public view.
+ * Fetch a single published day by day number from Firestore.
  */
 export async function getPublishedDayByNumber(dayNumber: number): Promise<PublicDay | undefined> {
   try {
@@ -58,14 +49,14 @@ export async function getPublishedDayByNumber(dayNumber: number): Promise<Public
       }
     }
   } catch (err) {
-    console.warn(`[Firestore] Failed to fetch day-${dayNumber}, using fallback data:`, err);
+    console.error(`[Firestore] Failed to fetch day-${dayNumber}:`, err);
   }
 
-  return getMockPublicDay(dayNumber);
+  return undefined;
 }
 
 /**
- * Fetch all days (drafts + published) for Admin Studio.
+ * Fetch all days (drafts + published) directly from Firestore for Admin Studio.
  */
 export async function getAllAdminDays(): Promise<AdminDay[]> {
   try {
@@ -77,14 +68,14 @@ export async function getAllAdminDays(): Promise<AdminDay[]> {
       return days.sort((a, b) => b.dayNumber - a.dayNumber);
     }
   } catch (err) {
-    console.warn("[Firestore] Failed to query admin days, using fallback data:", err);
+    console.error("[Firestore] Failed to query admin days:", err);
   }
 
-  return getMockAdminDays();
+  return [];
 }
 
 /**
- * Fetch a single admin day (draft or published) by day number.
+ * Fetch a single admin day (draft or published) by day number from Firestore.
  */
 export async function getAdminDayByNumber(dayNumber: number): Promise<AdminDay | undefined> {
   try {
@@ -95,10 +86,10 @@ export async function getAdminDayByNumber(dayNumber: number): Promise<AdminDay |
       return snapshot.data() as AdminDay;
     }
   } catch (err) {
-    console.warn(`[Firestore] Failed to fetch admin day-${dayNumber}, using fallback data:`, err);
+    console.error(`[Firestore] Failed to fetch admin day-${dayNumber}:`, err);
   }
 
-  return getMockAdminDay(dayNumber);
+  return undefined;
 }
 
 /**
