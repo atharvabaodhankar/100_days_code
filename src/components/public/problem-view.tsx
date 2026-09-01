@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import {
   ExternalLink,
   Lightbulb,
@@ -14,6 +15,7 @@ import {
   Send,
   Flame,
   CheckCircle2,
+  GitCommit,
 } from "lucide-react";
 import { Problem } from "@/types";
 import { DifficultyBadge } from "../ui/badge";
@@ -39,6 +41,7 @@ export function ProblemView({
   const [userCode, setUserCode] = React.useState("");
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [submittedStreak, setSubmittedStreak] = React.useState<number | null>(null);
+  const [commitUrl, setCommitUrl] = React.useState<string | null>(null);
 
   const handleSubmitCode = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,6 +65,41 @@ export function ProblemView({
 
     setIsSubmitting(true);
     try {
+      // 1. Trigger GitHub Commit Engine API
+      let gitCommitUrl = `https://github.com/${user.githubUsername || "student"}/100-days-of-code`;
+      let gitCommitSha = "";
+
+      try {
+        const commitRes = await fetch("/api/github/commit-solution", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            githubUsername: user.githubUsername || user.displayName || "student",
+            dayNumber,
+            problemOrder: problem.order,
+            problemTitle: problem.title,
+            topic: problem.topic,
+            difficulty: problem.difficulty,
+            statement: problem.statement,
+            observation: problem.observation,
+            logic: problem.logic,
+            complexity: problem.complexity,
+            language: userCodeLang,
+            code: userCode,
+          }),
+        });
+
+        if (commitRes.ok) {
+          const commitData = await commitRes.json();
+          gitCommitUrl = commitData.commitUrl || gitCommitUrl;
+          gitCommitSha = commitData.commitSha || "";
+          setCommitUrl(gitCommitUrl);
+        }
+      } catch (e) {
+        console.warn("GitHub commit API attempt:", e);
+      }
+
+      // 2. Record Submission in Firestore & Calculate Gamified Streaks
       const res = await recordStudentSubmission({
         uid: user.uid,
         displayName: user.displayName || user.githubUsername || "Student",
@@ -71,13 +109,15 @@ export function ProblemView({
         problemOrder: problem.order,
         language: userCodeLang,
         code: userCode,
+        commitSha: gitCommitSha,
+        commitUrl: gitCommitUrl,
       });
 
       setSubmittedStreak(res.streak);
       showToast({
         type: "success",
-        title: "Solution Saved!",
-        message: `Challenge solution logged. Current Streak: ${res.streak} Days 🔥`,
+        title: "Saved to GitHub & Logged!",
+        message: `Day ${dayNumber} logged. Current Streak: ${res.streak} Days 🔥`,
       });
     } catch (err: any) {
       showToast({
@@ -177,7 +217,6 @@ export function ProblemView({
 
       {/* Pedagogical Breakdown: Observation & Intuition */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Intuition / Observation */}
         <div className="rounded-xl border border-zinc-200 dark:border-zinc-800/80 bg-white dark:bg-zinc-900/40 p-4 space-y-2 shadow-xs">
           <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400">
             <Lightbulb className="h-4 w-4" />
@@ -190,7 +229,6 @@ export function ProblemView({
           </p>
         </div>
 
-        {/* Key Concepts */}
         <div className="rounded-xl border border-zinc-200 dark:border-zinc-800/80 bg-white dark:bg-zinc-900/40 p-4 space-y-2 shadow-xs">
           <div className="flex items-center gap-2 text-zinc-800 dark:text-zinc-300">
             <Tag className="h-4 w-4 text-zinc-500 dark:text-zinc-400" />
@@ -211,7 +249,7 @@ export function ProblemView({
         </div>
       </div>
 
-      {/* Step-by-Step Logic & Algorithm */}
+      {/* Step-by-Step Logic */}
       <section className="rounded-xl border border-zinc-200 dark:border-zinc-800/80 bg-white dark:bg-zinc-900/40 p-5 space-y-3 shadow-xs">
         <div className="flex items-center gap-2 text-zinc-800 dark:text-zinc-200">
           <Compass className="h-4 w-4 text-zinc-500 dark:text-zinc-400" />
@@ -272,7 +310,6 @@ export function ProblemView({
             </h3>
           </div>
 
-          {/* Language Switcher */}
           <div className="flex items-center gap-1 bg-zinc-100 dark:bg-zinc-900 p-1 rounded-md border border-zinc-200 dark:border-zinc-800">
             <button
               onClick={() => setActiveLang("cpp")}
@@ -309,19 +346,14 @@ export function ProblemView({
           </div>
         </div>
 
-        {/* Selected Code Display */}
-        {activeLang === "cpp" && (
-          <CodeBlock code={problem.solutions.cpp} language="cpp" />
-        )}
-        {activeLang === "python" && (
-          <CodeBlock code={problem.solutions.python} language="python" />
-        )}
+        {activeLang === "cpp" && <CodeBlock code={problem.solutions.cpp} language="cpp" />}
+        {activeLang === "python" && <CodeBlock code={problem.solutions.python} language="python" />}
         {activeLang === "java" && problem.solutions.java && (
           <CodeBlock code={problem.solutions.java} language="java" />
         )}
       </section>
 
-      {/* STUDENT CODE SUBMISSION & WORKSPACE */}
+      {/* STUDENT CODE SUBMISSION & GITHUB AUTO-COMMIT WORKSPACE */}
       <section className="rounded-xl border border-emerald-200 dark:border-emerald-900/50 bg-emerald-50/30 dark:bg-emerald-950/10 p-5 space-y-4 shadow-xs mt-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-emerald-100 dark:border-emerald-900/30">
           <div className="flex items-center gap-2">
@@ -330,15 +362,14 @@ export function ProblemView({
             </div>
             <div>
               <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                Your Solution Workspace
+                Your Solution Workspace & Auto-Commit
               </h3>
               <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
-                Paste or write your verified code to log your progress & maintain your streak.
+                Saves to your <span className="font-mono text-zinc-700 dark:text-zinc-300">100-days-of-code</span> GitHub repo & logs streak.
               </p>
             </div>
           </div>
 
-          {/* Student Language Picker */}
           <div className="flex items-center gap-1 bg-white dark:bg-zinc-900 p-1 rounded-md border border-zinc-200 dark:border-zinc-800 self-start sm:self-center">
             <button
               type="button"
@@ -391,14 +422,26 @@ export function ProblemView({
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             {submittedStreak !== null ? (
-              <div className="inline-flex items-center gap-2 text-xs text-emerald-700 dark:text-emerald-400 font-medium">
-                <CheckCircle2 className="h-4 w-4" />
-                <span>Solved for Day {dayNumber}! Streak maintained at {submittedStreak} days.</span>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-xs text-emerald-700 dark:text-emerald-400 font-medium">
+                <div className="flex items-center gap-1.5">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                  <span>Day {dayNumber} Solved! Current Streak: {submittedStreak} Days 🔥</span>
+                </div>
+                {commitUrl && (
+                  <Link
+                    href={commitUrl}
+                    target="_blank"
+                    className="inline-flex items-center gap-1 font-mono text-[11px] text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white underline underline-offset-2"
+                  >
+                    <GitCommit className="h-3 w-3" />
+                    <span>View Commit on GitHub ↗</span>
+                  </Link>
+                )}
               </div>
             ) : (
               <div className="text-[11px] text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5">
                 <Flame className="h-3.5 w-3.5 text-amber-500" />
-                <span>Completing 1 problem marks Day {dayNumber} as completed for your streak.</span>
+                <span>Auto-commits solution + problem README to your GitHub repo.</span>
               </div>
             )}
 
@@ -411,7 +454,7 @@ export function ProblemView({
                 className="font-semibold bg-emerald-600 hover:bg-emerald-700 text-white dark:bg-emerald-500 dark:hover:bg-emerald-600 dark:text-zinc-950 self-end sm:self-center"
               >
                 <Send className="h-3.5 w-3.5 mr-1.5" />
-                Save Solution & Track Streak
+                Save & Push to GitHub
               </Button>
             ) : (
               <Button

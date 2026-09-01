@@ -19,6 +19,15 @@ export const env = {
     return raw.split(",").map((k) => k.trim()).filter(Boolean);
   },
 
+  // GitHub App Configuration (Server-side / Auto-commit Engine)
+  github: {
+    appId: process.env.GITHUB_APP_ID || "",
+    privateKey: process.env.GITHUB_APP_PRIVATE_KEY || "",
+    appSlug: process.env.GITHUB_APP_SLUG || "100-days-of-code-dsa",
+    clientId: process.env.GITHUB_CLIENT_ID || "",
+    clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
+  },
+
   // Firebase Client SDK Configuration
   firebase: {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "",
@@ -37,13 +46,13 @@ export const env = {
     region: process.env.AWS_REGION || "ap-south-1",
   },
 
-  // Allowed Allowed Production Domains (Custom Domain & Specific Vercel Domain)
+  // Allowed Production Domains
   ALLOWED_DOMAINS: [
     "https://challenge.atharvabaodhankar.me",
     "https://100dayscode-gamma.vercel.app",
   ],
 
-  // Dynamic App URL resolution (Custom domain, 100dayscode-gamma.vercel.app, or localhost)
+  // Dynamic App URL resolution
   get NEXT_PUBLIC_APP_URL(): string {
     if (typeof window !== "undefined") {
       return window.location.origin;
