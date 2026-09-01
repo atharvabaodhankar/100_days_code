@@ -3,13 +3,13 @@
  */
 
 export const env = {
-  // Admin Email Authorization (No manual secret passphrases)
+  // Admin Email Authorization
   ADMIN_EMAILS: (process.env.ADMIN_EMAILS || "baodhankaratharva@gmail.com")
     .split(",")
     .map((e) => e.trim().toLowerCase())
     .filter(Boolean),
 
-  // AI Providers — parsed into arrays for Round-Robin rotation and rate-limit failover
+  // AI Providers (Server-side / Lambda)
   get GEMINI_API_KEYS(): string[] {
     const raw = process.env.GEMINI_API_KEY || "";
     return raw.split(",").map((k) => k.trim()).filter(Boolean);
@@ -37,8 +37,19 @@ export const env = {
     region: process.env.AWS_REGION || "ap-south-1",
   },
 
-  // Public Configuration
-  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+  // Dynamic App URL (Supports custom domain, any vercel.app URL, or localhost seamlessly)
+  get NEXT_PUBLIC_APP_URL(): string {
+    if (typeof window !== "undefined") {
+      return window.location.origin;
+    }
+    if (process.env.NEXT_PUBLIC_APP_URL) {
+      return process.env.NEXT_PUBLIC_APP_URL;
+    }
+    if (process.env.VERCEL_URL) {
+      return `https://${process.env.VERCEL_URL}`;
+    }
+    return "http://localhost:3000";
+  },
 
   isProduction: process.env.NODE_ENV === "production",
 };
