@@ -6,8 +6,7 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { DifficultyBadge } from "../ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
-import { ExternalLink, Sparkles, RefreshCw } from "lucide-react";
-import { Button } from "../ui/button";
+import { ExternalLink } from "lucide-react";
 
 export function ProblemEditor({
   problem,
@@ -25,15 +24,15 @@ export function ProblemEditor({
   };
 
   return (
-    <div className="space-y-6 rounded-xl border border-zinc-800 bg-zinc-900/30 p-5">
+    <div className="space-y-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/30 p-5 shadow-xs transition-colors">
       {/* Problem Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-zinc-800">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-zinc-200 dark:border-zinc-800">
         <div className="flex items-center gap-2">
-          <span className="font-mono text-xs font-semibold bg-zinc-800 px-2 py-0.5 rounded text-zinc-300">
+          <span className="font-mono text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded text-zinc-800 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700/50">
             Problem #{current.order}
           </span>
           <DifficultyBadge difficulty={current.difficulty} />
-          <span className="text-xs text-zinc-400 font-mono">
+          <span className="text-xs text-zinc-500 dark:text-zinc-400 font-mono">
             Source: {current.sourceName}
           </span>
         </div>
@@ -43,7 +42,7 @@ export function ProblemEditor({
             href={current.sourceUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-zinc-400 hover:text-zinc-200 flex items-center gap-1 w-fit"
+            className="text-xs text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 flex items-center gap-1 w-fit"
           >
             <span>Original Link</span>
             <ExternalLink className="h-3 w-3" />
@@ -149,7 +148,7 @@ export function ProblemEditor({
 
       {/* Code Solutions Editor */}
       <div className="space-y-3 pt-2">
-        <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 block">
+        <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block">
           Reference Code Implementation
         </label>
         <Tabs defaultValue="cpp">
