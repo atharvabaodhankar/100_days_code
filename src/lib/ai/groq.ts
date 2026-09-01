@@ -2,9 +2,7 @@ import { env } from "../env";
 import { KeyRotator } from "./key-rotator";
 import { buildSystemPrompt, buildUserPrompt, RawScrapedProblem } from "./prompts";
 
-const groqRotator = new KeyRotator("Groq", env.GROQ_API_KEYS);
-
-// Verified active free tier Groq models
+// Verified active free tier Groq model
 const GROQ_MODEL = "qwen/qwen3.6-27b";
 
 export async function generateWithGroq(params: {
@@ -18,6 +16,13 @@ export async function generateWithGroq(params: {
     ...params,
     publicUrl: env.NEXT_PUBLIC_APP_URL,
   });
+
+  const keys = env.GROQ_API_KEYS;
+  if (keys.length === 0) {
+    throw new Error("GROQ_API_KEY environment variable is not configured.");
+  }
+
+  const groqRotator = new KeyRotator("Groq", keys);
 
   const rawJsonText = await groqRotator.executeWithRotation(async (apiKey) => {
     const url = "https://api.groq.com/openai/v1/chat/completions";

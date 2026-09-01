@@ -2,8 +2,6 @@ import { env } from "../env";
 import { KeyRotator } from "./key-rotator";
 import { buildSystemPrompt, buildUserPrompt, RawScrapedProblem } from "./prompts";
 
-const geminiRotator = new KeyRotator("Gemini", env.GEMINI_API_KEYS);
-
 // Verified active free tier Gemini model
 const GEMINI_MODEL = "gemini-2.5-flash";
 
@@ -18,6 +16,13 @@ export async function generateWithGemini(params: {
     ...params,
     publicUrl: env.NEXT_PUBLIC_APP_URL,
   });
+
+  const keys = env.GEMINI_API_KEYS;
+  if (keys.length === 0) {
+    throw new Error("GEMINI_API_KEY environment variable is not configured.");
+  }
+
+  const geminiRotator = new KeyRotator("Gemini", keys);
 
   const rawJsonText = await geminiRotator.executeWithRotation(async (apiKey) => {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;

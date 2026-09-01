@@ -70,6 +70,9 @@ export class AIService {
     let modelUsed: string = "gemini-2.5-flash";
     let latencyMs: number = 0;
 
+    let geminiErrMessage = "";
+    let groqErrMessage = "";
+
     // 1. Try Gemini (Primary)
     try {
       console.log(`[AIService] Triggering Gemini generation for Day ${params.dayNumber}...`);
@@ -79,8 +82,9 @@ export class AIService {
       modelUsed = geminiRes.provider;
       latencyMs = geminiRes.latencyMs;
       console.log(`[AIService] Gemini successfully generated content in ${latencyMs}ms`);
-    } catch (geminiError) {
-      console.warn("[AIService] Gemini generation failed. Falling back to Groq...", geminiError);
+    } catch (geminiError: any) {
+      geminiErrMessage = geminiError?.message || String(geminiError);
+      console.warn("[AIService] Gemini generation failed. Falling back to Groq...", geminiErrMessage);
 
       // 2. Fallback to Groq (Secondary)
       try {
@@ -90,13 +94,14 @@ export class AIService {
         modelUsed = groqRes.provider;
         latencyMs = groqRes.latencyMs;
         console.log(`[AIService] Groq successfully generated content in ${latencyMs}ms`);
-      } catch (groqError) {
+      } catch (groqError: any) {
+        groqErrMessage = groqError?.message || String(groqError);
         console.error("[AIService] Both Gemini and Groq AI providers failed:", {
-          geminiError,
-          groqError,
+          gemini: geminiErrMessage,
+          groq: groqErrMessage,
         });
         throw new Error(
-          "All AI generation providers failed. Please verify API keys or retry."
+          `AI generation failed. (Gemini: ${geminiErrMessage}) | (Groq: ${groqErrMessage})`
         );
       }
     }
@@ -143,14 +148,10 @@ export class AIService {
       topic: validData.topic,
       status: "draft",
       problemCount: formattedProblems.length,
-      rawUrls: params.problems.map((p) => p.sourceUrl),
-      whatsappMessage: validData.whatsappMessage,
+      rawUrls: params.problems.map((p) => p.sourceUrl || ""),
       createdAt: now,
       updatedAt: now,
-      generationMetadata: {
-        providerUsed,
-        latencyMs,
-      },
+      whatsappMessage: validData.whatsappMessage,
       problems: formattedProblems,
     };
 
