@@ -1,12 +1,13 @@
 /**
  * Centralized Environment Configuration
- * Sensitive keys (AWS, Admin, AI) must only be accessed on the server.
  */
 
 export const env = {
-  // Admin Authentication
-  ADMIN_SECRET: process.env.ADMIN_SECRET || "admin123",
-  SESSION_SECRET: process.env.SESSION_SECRET || "default-development-session-secret-min-32-chars-long",
+  // Admin Email Authorization (No manual secret passphrases)
+  ADMIN_EMAILS: (process.env.ADMIN_EMAILS || "baodhankaratharva@gmail.com")
+    .split(",")
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean),
 
   // AI Providers — parsed into arrays for Round-Robin rotation and rate-limit failover
   get GEMINI_API_KEYS(): string[] {

@@ -2,32 +2,29 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ExternalLink, ShieldCheck, Sparkles, LogOut } from "lucide-react";
+import { ExternalLink, ShieldCheck, Sparkles, LogOut, User } from "lucide-react";
 import * as React from "react";
 import { Button } from "../ui/button";
 import { ThemeToggle } from "../ui/theme-toggle";
+import { useAuth } from "@/lib/firebase/auth";
 import { useToast } from "../ui/toast";
 
 export function AdminHeader() {
   const router = useRouter();
+  const { user, signOut } = useAuth();
   const { showToast } = useToast();
-  const [isLoggingOut, setIsLoggingOut] = React.useState(false);
 
   const handleLogout = async () => {
-    setIsLoggingOut(true);
     try {
-      await fetch("/api/admin/auth/logout", { method: "POST" });
+      await signOut();
       showToast({
         type: "info",
-        title: "Logged Out",
-        message: "Admin session cleared successfully.",
+        title: "Signed Out",
+        message: "Admin session ended.",
       });
-      router.push("/admin/login");
-      router.refresh();
+      router.push("/");
     } catch {
-      router.push("/admin/login");
-    } finally {
-      setIsLoggingOut(false);
+      router.push("/");
     }
   };
 
@@ -51,6 +48,19 @@ export function AdminHeader() {
 
       {/* Right side controls */}
       <div className="flex items-center gap-2 sm:gap-3">
+        {user && (
+          <div className="hidden md:flex items-center gap-2 px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-xs text-zinc-700 dark:text-zinc-300">
+            {user.photoURL ? (
+              <img src={user.photoURL} alt="Admin" className="h-4 w-4 rounded-full" />
+            ) : (
+              <User className="h-3.5 w-3.5 text-zinc-400" />
+            )}
+            <span className="font-mono text-[11px] truncate max-w-[180px]">
+              {user.email || user.displayName}
+            </span>
+          </div>
+        )}
+
         <ThemeToggle />
 
         <Link
@@ -61,16 +71,15 @@ export function AdminHeader() {
           <ExternalLink className="h-3.5 w-3.5" />
           Public View
         </Link>
-        
+
         <Button
           variant="ghost"
           size="sm"
           onClick={handleLogout}
-          isLoading={isLoggingOut}
           className="text-xs text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 cursor-pointer"
         >
           <LogOut className="h-3.5 w-3.5 mr-1.5" />
-          Logout
+          Sign Out
         </Button>
       </div>
     </header>

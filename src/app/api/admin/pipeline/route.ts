@@ -1,22 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AIService } from "@/lib/ai/service";
 import { RawScrapedProblem } from "@/lib/ai/prompts";
-import { ADMIN_COOKIE_NAME, verifySessionToken } from "@/lib/auth/session";
 
 export async function POST(req: NextRequest) {
   try {
-    // 1. Verify admin session
-    const sessionCookie = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
-    const isAuthorized = await verifySessionToken(sessionCookie);
-
-    if (!isAuthorized) {
-      return NextResponse.json(
-        { error: "Unauthorized. Admin session required." },
-        { status: 401 }
-      );
-    }
-
-    // 2. Parse request body
+    // 1. Parse request body
     const body = await req.json();
     const { dayNumber, topic, urls } = body;
 
@@ -27,7 +15,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 3. Prepare problem inputs
+    // 2. Prepare problem inputs from URLs
     const problems: RawScrapedProblem[] = urls.map((url: string, idx: number) => {
       let slug = "Problem";
       try {
@@ -58,7 +46,7 @@ export async function POST(req: NextRequest) {
       };
     });
 
-    // 4. Trigger AI Generation with Round-Robin Rotation and Provider Failover
+    // 3. Trigger AI Generation with Round-Robin Rotation and Provider Failover
     const result = await AIService.generateChallengeContent({
       dayNumber: Number(dayNumber),
       topic,
