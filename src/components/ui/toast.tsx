@@ -46,21 +46,21 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             key={toast.id}
             className={cn(
               "pointer-events-auto flex items-start gap-3 rounded-lg border p-4 shadow-lg transition-all animate-in slide-in-from-bottom-5",
-              toast.type === "success" && "border-emerald-800/60 bg-zinc-900 text-emerald-300",
-              toast.type === "error" && "border-rose-800/60 bg-zinc-900 text-rose-300",
-              toast.type === "info" && "border-zinc-800 bg-zinc-900 text-zinc-200"
+              toast.type === "success" && "border-emerald-200 bg-white text-emerald-950 dark:border-emerald-800/60 dark:bg-zinc-900 dark:text-emerald-300",
+              toast.type === "error" && "border-rose-200 bg-white text-rose-950 dark:border-rose-800/60 dark:bg-zinc-900 dark:text-rose-300",
+              toast.type === "info" && "border-zinc-200 bg-white text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200"
             )}
           >
-            {toast.type === "success" && <CheckCircle2 className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" />}
-            {toast.type === "error" && <AlertCircle className="h-4 w-4 text-rose-400 mt-0.5 shrink-0" />}
-            {toast.type === "info" && <Info className="h-4 w-4 text-zinc-400 mt-0.5 shrink-0" />}
+            {toast.type === "success" && <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 mt-0.5 shrink-0" />}
+            {toast.type === "error" && <AlertCircle className="h-4 w-4 text-rose-600 dark:text-rose-400 mt-0.5 shrink-0" />}
+            {toast.type === "info" && <Info className="h-4 w-4 text-zinc-500 dark:text-zinc-400 mt-0.5 shrink-0" />}
             <div className="flex-1">
-              <h4 className="text-xs font-semibold text-zinc-100">{toast.title}</h4>
-              {toast.message && <p className="mt-0.5 text-xs text-zinc-400">{toast.message}</p>}
+              <h4 className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">{toast.title}</h4>
+              {toast.message && <p className="mt-0.5 text-xs text-zinc-600 dark:text-zinc-400">{toast.message}</p>}
             </div>
             <button
               onClick={() => removeToast(toast.id)}
-              className="text-zinc-500 hover:text-zinc-200 cursor-pointer"
+              className="text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-200 cursor-pointer"
             >
               <X className="h-3.5 w-3.5" />
             </button>

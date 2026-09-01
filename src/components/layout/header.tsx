@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Terminal, Shield, Menu, X, BookOpen, Layers } from "lucide-react";
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "../ui/theme-toggle";
 
 export function Header() {
   const pathname = usePathname();
@@ -16,18 +17,18 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-zinc-200/80 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md transition-colors">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
         {/* Brand Logo */}
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-zinc-800 text-zinc-100 border border-zinc-700/60 group-hover:border-zinc-500 transition-colors">
-              <Terminal className="h-4 w-4 text-zinc-200" />
+            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-zinc-900 text-zinc-100 dark:bg-zinc-800 dark:text-zinc-100 border border-zinc-800 dark:border-zinc-700/60 group-hover:border-zinc-600 transition-colors">
+              <Terminal className="h-4 w-4 text-zinc-100 dark:text-zinc-200" />
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-semibold tracking-tight text-zinc-100 flex items-center gap-1.5">
+              <span className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
                 100 Days of Code
-                <span className="text-[10px] uppercase font-mono px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-400 border border-zinc-700/40">
+                <span className="text-[10px] uppercase font-mono px-1.5 py-0.2 rounded bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700/40">
                   DSA
                 </span>
               </span>
@@ -49,8 +50,8 @@ export function Header() {
                   className={cn(
                     "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
                     isActive
-                      ? "bg-zinc-800/80 text-zinc-100 border border-zinc-700/40"
-                      : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900"
+                      ? "bg-zinc-100 dark:bg-zinc-800/80 text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700/40"
+                      : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-100/60 dark:hover:bg-zinc-900"
                   )}
                 >
                   <Icon className="h-3.5 w-3.5" />
@@ -62,13 +63,15 @@ export function Header() {
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <ThemeToggle />
+
           <Link
             href="/admin"
-            className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 px-2.5 py-1.5 rounded-md hover:bg-zinc-900 border border-transparent hover:border-zinc-800 transition-all"
+            className="flex items-center gap-1.5 text-xs text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 px-2.5 py-1.5 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-transparent hover:border-zinc-200 dark:hover:border-zinc-800 transition-all"
             title="Admin Portal"
           >
-            <Shield className="h-3.5 w-3.5 text-zinc-400" />
+            <Shield className="h-3.5 w-3.5 text-zinc-500 dark:text-zinc-400" />
             <span className="hidden sm:inline">Admin Portal</span>
           </Link>
 
@@ -76,7 +79,7 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden rounded-md p-1.5 text-zinc-400 hover:bg-zinc-900 hover:text-zinc-100"
+            className="md:hidden rounded-md p-1.5 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:text-zinc-900 dark:hover:text-zinc-100"
             aria-label="Toggle Menu"
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -86,7 +89,7 @@ export function Header() {
 
       {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-zinc-800 bg-zinc-950 px-4 py-3 space-y-1">
+        <div className="md:hidden border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 py-3 space-y-1">
           {navLinks.map((link) => {
             const Icon = link.icon;
             const isActive =
@@ -101,8 +104,8 @@ export function Header() {
                 className={cn(
                   "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium",
                   isActive
-                    ? "bg-zinc-800 text-zinc-100"
-                    : "text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200"
+                    ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                    : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:text-zinc-900 dark:hover:text-zinc-200"
                 )}
               >
                 <Icon className="h-4 w-4" />
@@ -113,7 +116,7 @@ export function Header() {
           <Link
             href="/admin"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200"
+            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:text-zinc-900 dark:hover:text-zinc-200"
           >
             <Shield className="h-4 w-4" />
             Admin Studio
