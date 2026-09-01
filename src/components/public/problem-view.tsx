@@ -166,6 +166,13 @@ export function ProblemView({
               message: "Please install the GitHub App to allow auto-commits to your profile.",
             });
             window.open(commitData.installUrl || "https://github.com/apps/100-days-of-code-dsa/installations/new", "_blank");
+          } else if (commitData.requiresRepoCreation) {
+            showToast({
+              type: "info",
+              title: "1-Click Step: Create 100-days-of-code Repository",
+              message: "Opening GitHub to create your repository. Once created, all future solutions auto-commit seamlessly!",
+            });
+            window.open(commitData.createRepoUrl || `https://github.com/new?name=100-days-of-code&description=100+Days+of+Code+DSA+Portfolio&auto_init=true`, "_blank");
           } else {
             gitCommitUrl = commitData.commitUrl || gitCommitUrl;
             gitCommitSha = commitData.commitSha || "";
