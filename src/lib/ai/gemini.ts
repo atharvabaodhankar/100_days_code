@@ -5,6 +5,8 @@ import { buildSystemPrompt, buildUserPrompt, RawScrapedProblem } from "./prompts
 // Verified active free tier Gemini model
 const GEMINI_MODEL = "gemini-2.5-flash";
 
+const geminiRotator = new KeyRotator("Gemini", []);
+
 export async function generateWithGemini(params: {
   dayNumber: number;
   topic: string;
@@ -22,7 +24,7 @@ export async function generateWithGemini(params: {
     throw new Error("GEMINI_API_KEY environment variable is not configured.");
   }
 
-  const geminiRotator = new KeyRotator("Gemini", keys);
+  geminiRotator.setKeys(keys);
 
   const rawJsonText = await geminiRotator.executeWithRotation(async (apiKey) => {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;

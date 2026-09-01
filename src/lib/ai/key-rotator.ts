@@ -1,17 +1,24 @@
 /**
- * Round-Robin API Key Rotator with Failure Tracking
+ * Round-Robin API Key Rotator with Failure Tracking & Dynamic Sync
  */
 
 export class KeyRotator {
-  private keys: string[];
+  private keys: string[] = [];
   private currentIndex: number = 0;
   private name: string;
 
   constructor(name: string, keys: string[]) {
     this.name = name;
-    this.keys = keys.filter(Boolean);
-    if (this.keys.length === 0) {
-      console.warn(`[KeyRotator] No keys provided for ${name}`);
+    this.setKeys(keys);
+  }
+
+  /**
+   * Updates keys dynamically while preserving round-robin pointer.
+   */
+  setKeys(keys: string[]) {
+    this.keys = keys.map((k) => k.trim()).filter(Boolean);
+    if (this.currentIndex >= this.keys.length) {
+      this.currentIndex = 0;
     }
   }
 
