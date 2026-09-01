@@ -1,13 +1,94 @@
 "use client";
 
 import * as React from "react";
-import { ExternalLink, Lightbulb, Compass, Cpu, CheckCircle, Clock, Database, Tag } from "lucide-react";
+import {
+  ExternalLink,
+  Lightbulb,
+  Compass,
+  Cpu,
+  CheckCircle,
+  Clock,
+  Database,
+  Tag,
+  Code2,
+  Send,
+  Flame,
+  CheckCircle2,
+} from "lucide-react";
 import { Problem } from "@/types";
 import { DifficultyBadge } from "../ui/badge";
 import { CodeBlock } from "../ui/code-block";
+import { Button } from "../ui/button";
+import { GitHubIcon } from "../ui/icons";
+import { useAuth } from "@/lib/firebase/auth";
+import { recordStudentSubmission } from "@/lib/firebase/gamification";
+import { useToast } from "../ui/toast";
 
-export function ProblemView({ problem }: { problem: Problem }) {
+export function ProblemView({
+  problem,
+  dayNumber = 1,
+}: {
+  problem: Problem;
+  dayNumber?: number;
+}) {
+  const { user, signInWithGithub } = useAuth();
+  const { showToast } = useToast();
+
   const [activeLang, setActiveLang] = React.useState<"cpp" | "python" | "java">("cpp");
+  const [userCodeLang, setUserCodeLang] = React.useState<"cpp" | "python" | "java">("cpp");
+  const [userCode, setUserCode] = React.useState("");
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [submittedStreak, setSubmittedStreak] = React.useState<number | null>(null);
+
+  const handleSubmitCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) {
+      showToast({
+        type: "error",
+        title: "Sign In Required",
+        message: "Please sign in with GitHub to save your solution and track your streak.",
+      });
+      return;
+    }
+
+    if (!userCode.trim()) {
+      showToast({
+        type: "error",
+        title: "Empty Solution",
+        message: "Please write or paste your solution before saving.",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const res = await recordStudentSubmission({
+        uid: user.uid,
+        displayName: user.displayName || user.githubUsername || "Student",
+        githubUsername: user.githubUsername,
+        avatarUrl: user.photoURL || undefined,
+        dayNumber,
+        problemOrder: problem.order,
+        language: userCodeLang,
+        code: userCode,
+      });
+
+      setSubmittedStreak(res.streak);
+      showToast({
+        type: "success",
+        title: "Solution Saved!",
+        message: `Challenge solution logged. Current Streak: ${res.streak} Days 🔥`,
+      });
+    } catch (err: any) {
+      showToast({
+        type: "error",
+        title: "Submission Error",
+        message: err?.message || "Failed to record your solution.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -238,6 +319,114 @@ export function ProblemView({ problem }: { problem: Problem }) {
         {activeLang === "java" && problem.solutions.java && (
           <CodeBlock code={problem.solutions.java} language="java" />
         )}
+      </section>
+
+      {/* STUDENT CODE SUBMISSION & WORKSPACE */}
+      <section className="rounded-xl border border-emerald-200 dark:border-emerald-900/50 bg-emerald-50/30 dark:bg-emerald-950/10 p-5 space-y-4 shadow-xs mt-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-emerald-100 dark:border-emerald-900/30">
+          <div className="flex items-center gap-2">
+            <div className="flex h-6 w-6 items-center justify-center rounded bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300">
+              <Code2 className="h-3.5 w-3.5" />
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                Your Solution Workspace
+              </h3>
+              <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                Paste or write your verified code to log your progress & maintain your streak.
+              </p>
+            </div>
+          </div>
+
+          {/* Student Language Picker */}
+          <div className="flex items-center gap-1 bg-white dark:bg-zinc-900 p-1 rounded-md border border-zinc-200 dark:border-zinc-800 self-start sm:self-center">
+            <button
+              type="button"
+              onClick={() => setUserCodeLang("cpp")}
+              className={`px-2 py-0.5 text-xs font-mono rounded transition-colors ${
+                userCodeLang === "cpp"
+                  ? "bg-zinc-900 text-white dark:bg-zinc-700 dark:text-zinc-100"
+                  : "text-zinc-600 dark:text-zinc-400"
+              }`}
+            >
+              C++
+            </button>
+            <button
+              type="button"
+              onClick={() => setUserCodeLang("python")}
+              className={`px-2 py-0.5 text-xs font-mono rounded transition-colors ${
+                userCodeLang === "python"
+                  ? "bg-zinc-900 text-white dark:bg-zinc-700 dark:text-zinc-100"
+                  : "text-zinc-600 dark:text-zinc-400"
+              }`}
+            >
+              Python
+            </button>
+            <button
+              type="button"
+              onClick={() => setUserCodeLang("java")}
+              className={`px-2 py-0.5 text-xs font-mono rounded transition-colors ${
+                userCodeLang === "java"
+                  ? "bg-zinc-900 text-white dark:bg-zinc-700 dark:text-zinc-100"
+                  : "text-zinc-600 dark:text-zinc-400"
+              }`}
+            >
+              Java
+            </button>
+          </div>
+        </div>
+
+        {/* Code Input Form */}
+        <form onSubmit={handleSubmitCode} className="space-y-4">
+          <div className="relative">
+            <textarea
+              rows={8}
+              value={userCode}
+              onChange={(e) => setUserCode(e.target.value)}
+              placeholder={`// Paste your solved ${userCodeLang.toUpperCase()} code here...\n// e.g. class Solution {\n//   public int search(...) {\n//     ...\n//   }\n// }`}
+              className="w-full rounded-lg border border-zinc-300 dark:border-zinc-800 bg-white dark:bg-zinc-950/80 p-3.5 text-xs font-mono text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-emerald-500 shadow-inner"
+              spellCheck={false}
+            />
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            {submittedStreak !== null ? (
+              <div className="inline-flex items-center gap-2 text-xs text-emerald-700 dark:text-emerald-400 font-medium">
+                <CheckCircle2 className="h-4 w-4" />
+                <span>Solved for Day {dayNumber}! Streak maintained at {submittedStreak} days.</span>
+              </div>
+            ) : (
+              <div className="text-[11px] text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5">
+                <Flame className="h-3.5 w-3.5 text-amber-500" />
+                <span>Completing 1 problem marks Day {dayNumber} as completed for your streak.</span>
+              </div>
+            )}
+
+            {user ? (
+              <Button
+                type="submit"
+                variant="default"
+                size="sm"
+                isLoading={isSubmitting}
+                className="font-semibold bg-emerald-600 hover:bg-emerald-700 text-white dark:bg-emerald-500 dark:hover:bg-emerald-600 dark:text-zinc-950 self-end sm:self-center"
+              >
+                <Send className="h-3.5 w-3.5 mr-1.5" />
+                Save Solution & Track Streak
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={signInWithGithub}
+                className="font-semibold text-xs self-end sm:self-center"
+              >
+                <GitHubIcon className="h-3.5 w-3.5 mr-1.5" />
+                Sign in with GitHub to Save
+              </Button>
+            )}
+          </div>
+        </form>
       </section>
     </div>
   );

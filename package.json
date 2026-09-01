@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@aws-sdk/client-lambda": "^3.1123.0",
+    "@aws-sdk/client-sts": "^3.1123.0",
     "clsx": "^2.1.1",
     "firebase": "^12.18.0",
     "lucide-react": "^1.39.0",

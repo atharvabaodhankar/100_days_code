@@ -1,5 +1,6 @@
 /**
  * Centralized Environment Configuration
+ * Sensitive keys (AWS, Admin, AI) must only be accessed on the server.
  */
 
 export const env = {
@@ -26,6 +27,13 @@ export const env = {
     messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "",
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "",
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "",
+  },
+
+  // AWS Backend Credentials (Server-Side Only)
+  aws: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
+    region: process.env.AWS_REGION || "ap-south-1",
   },
 
   // Public Configuration

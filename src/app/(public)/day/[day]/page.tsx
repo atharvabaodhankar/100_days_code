@@ -157,7 +157,9 @@ export default function DayDetailPage() {
         </div>
 
         {/* Active Problem View */}
-        {activeProblem && <ProblemView problem={activeProblem} />}
+        {activeProblem && (
+          <ProblemView problem={activeProblem} dayNumber={day.dayNumber} />
+        )}
       </div>
     </div>
   );

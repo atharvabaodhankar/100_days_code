@@ -2,19 +2,71 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Terminal, Shield, Menu, X, BookOpen, Layers } from "lucide-react";
+import {
+  Terminal,
+  Shield,
+  Menu,
+  X,
+  BookOpen,
+  Layers,
+  Trophy,
+  LogOut,
+  User,
+  Loader2,
+} from "lucide-react";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "../ui/theme-toggle";
+import { GitHubIcon } from "../ui/icons";
+import { useAuth } from "@/lib/firebase/auth";
+import { useToast } from "../ui/toast";
+import { Button } from "../ui/button";
 
 export function Header() {
   const pathname = usePathname();
+  const { user, loading, signInWithGithub, signOut } = useAuth();
+  const { showToast } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [authLoading, setAuthLoading] = React.useState(false);
 
   const navLinks = [
     { href: "/", label: "Overview", icon: Layers },
     { href: "/days", label: "Challenges Archive", icon: BookOpen },
+    { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
   ];
+
+  const handleSignIn = async () => {
+    setAuthLoading(true);
+    try {
+      await signInWithGithub();
+      showToast({
+        type: "success",
+        title: "Signed In with GitHub",
+        message: "Welcome! Your 100 Days profile is connected.",
+      });
+    } catch (err: any) {
+      showToast({
+        type: "error",
+        title: "Sign In Failed",
+        message: err?.message || "Could not complete GitHub sign-in.",
+      });
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      showToast({
+        type: "info",
+        title: "Signed Out",
+        message: "You have been logged out.",
+      });
+    } catch (err: any) {
+      console.error("Sign out error:", err);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-zinc-200/80 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md transition-colors">
@@ -63,16 +115,58 @@ export function Header() {
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <div className="flex items-center gap-2 sm:gap-3">
           <ThemeToggle />
 
+          {/* Student Auth Section */}
+          {loading ? (
+            <div className="h-8 w-8 flex items-center justify-center">
+              <Loader2 className="h-4 w-4 animate-spin text-zinc-400" />
+            </div>
+          ) : user ? (
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 pl-2 pr-2.5 py-1 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 text-xs shadow-xs">
+                {user.photoURL ? (
+                  <img
+                    src={user.photoURL}
+                    alt={user.displayName || "Student"}
+                    className="h-5 w-5 rounded-full ring-1 ring-zinc-200 dark:ring-zinc-700"
+                  />
+                ) : (
+                  <User className="h-4 w-4 text-zinc-500" />
+                )}
+                <span className="font-medium text-zinc-800 dark:text-zinc-200 truncate max-w-[100px] hidden sm:inline">
+                  {user.githubUsername || user.displayName || "Student"}
+                </span>
+                <button
+                  onClick={handleSignOut}
+                  className="text-zinc-400 hover:text-rose-600 dark:text-zinc-500 dark:hover:text-rose-400 p-0.5 cursor-pointer"
+                  title="Sign Out"
+                >
+                  <LogOut className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleSignIn}
+              isLoading={authLoading}
+              className="text-xs font-semibold h-8 px-2.5"
+            >
+              <GitHubIcon className="h-3.5 w-3.5 mr-1.5" />
+              <span>Sign In</span>
+            </Button>
+          )}
+
+          {/* Admin link */}
           <Link
             href="/admin"
-            className="flex items-center gap-1.5 text-xs text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 px-2.5 py-1.5 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-transparent hover:border-zinc-200 dark:hover:border-zinc-800 transition-all"
+            className="flex items-center gap-1.5 text-xs text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 px-2.5 py-1.5 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
             title="Admin Portal"
           >
             <Shield className="h-3.5 w-3.5 text-zinc-500 dark:text-zinc-400" />
-            <span className="hidden sm:inline">Admin Portal</span>
           </Link>
 
           {/* Mobile Menu Toggle */}
@@ -113,14 +207,6 @@ export function Header() {
               </Link>
             );
           })}
-          <Link
-            href="/admin"
-            onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:text-zinc-900 dark:hover:text-zinc-200"
-          >
-            <Shield className="h-4 w-4" />
-            Admin Studio
-          </Link>
         </div>
       )}
     </header>
