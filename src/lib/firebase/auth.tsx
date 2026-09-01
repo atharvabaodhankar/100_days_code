@@ -8,10 +8,19 @@ import {
   GithubAuthProvider,
   GoogleAuthProvider,
   User as FirebaseUser,
+  getAuth,
 } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  deleteDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { app, db } from "./client";
-import { getAuth } from "firebase/auth";
 import { env } from "../env";
 
 export interface StudentUser {
@@ -32,6 +41,7 @@ interface AuthContextType {
   signInWithGithub: () => Promise<void>;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
+  deleteAccount: () => Promise<void>;
 }
 
 const AuthContext = React.createContext<AuthContextType>({
@@ -42,6 +52,7 @@ const AuthContext = React.createContext<AuthContextType>({
   signInWithGithub: async () => {},
   signInWithGoogle: async () => {},
   signOut: async () => {},
+  deleteAccount: async () => {},
 });
 
 const auth = getAuth(app);
@@ -168,6 +179,53 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setFirebaseUser(null);
   };
 
+  const deleteAccount = async () => {
+    const currentFbUser = auth.currentUser;
+    if (!currentFbUser) {
+      throw new Error("No active user session found.");
+    }
+    const uid = currentFbUser.uid;
+
+    // 1. Delete Firestore User Document
+    try {
+      await deleteDoc(doc(db, "users", uid));
+    } catch (e) {
+      console.warn("Could not delete user doc:", e);
+    }
+
+    // 2. Delete Leaderboard Entry
+    try {
+      await deleteDoc(doc(db, "leaderboard", uid));
+    } catch (e) {
+      console.warn("Could not delete leaderboard doc:", e);
+    }
+
+    // 3. Delete Streaks Document
+    try {
+      await deleteDoc(doc(db, "streaks", uid));
+    } catch (e) {
+      console.warn("Could not delete streak doc:", e);
+    }
+
+    // 4. Delete All Submissions of this user
+    try {
+      const subsQuery = query(collection(db, "submissions"), where("uid", "==", uid));
+      const subsSnap = await getDocs(subsQuery);
+      for (const d of subsSnap.docs) {
+        await deleteDoc(d.ref);
+      }
+    } catch (e) {
+      console.warn("Could not delete submissions:", e);
+    }
+
+    // 5. Delete Firebase Auth User
+    await currentFbUser.delete();
+
+    // 6. Reset local state
+    setUser(null);
+    setFirebaseUser(null);
+  };
+
   const isAdmin = checkIsAdmin(user?.email);
 
   return (
@@ -180,6 +238,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signInWithGithub,
         signInWithGoogle,
         signOut,
+        deleteAccount,
       }}
     >
       {children}
