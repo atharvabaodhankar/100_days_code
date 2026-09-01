@@ -1,16 +1,18 @@
 "use client";
 
 import * as React from "react";
-import { Plus, Trash2, Globe, Sparkles, AlertCircle } from "lucide-react";
+import { Plus, Trash2, Globe, Sparkles, AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Badge } from "../ui/badge";
+import { useToast } from "../ui/toast";
 
 export function UrlInputForm({
   onSubmit,
 }: {
-  onSubmit?: (data: { dayNumber: number; topic: string; urls: string[] }) => void;
+  onSubmit?: (data: { dayNumber: number; topic: string; urls: string[]; generatedDay?: any }) => void;
 }) {
+  const { showToast } = useToast();
   const [dayNumber, setDayNumber] = React.useState<number>(27);
   const [topic, setTopic] = React.useState<string>("Binary Search & Lower Bound");
   const [urls, setUrls] = React.useState<string[]>([
@@ -18,6 +20,7 @@ export function UrlInputForm({
     "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/",
   ]);
   const [isProcessing, setIsProcessing] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   const detectSource = (url: string) => {
     if (url.includes("takeuforward.org")) return "TakeUForward";
@@ -45,17 +48,63 @@ export function UrlInputForm({
     setUrls(updated);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
-    setTimeout(() => {
+    setErrorMessage("");
+
+    try {
+      const validUrls = urls.filter((u) => u.trim().length > 0);
+      const res = await fetch("/api/admin/pipeline", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          dayNumber,
+          topic,
+          urls: validUrls,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Generation pipeline failed.");
+      }
+
+      showToast({
+        type: "success",
+        title: "AI Generation Complete",
+        message: `Generated with ${data.providerUsed} (${data.latencyMs}ms). Opening review studio.`,
+      });
+
+      onSubmit?.({
+        dayNumber,
+        topic,
+        urls: validUrls,
+        generatedDay: data.day,
+      });
+    } catch (err: any) {
+      console.error("Pipeline submission error:", err);
+      setErrorMessage(err.message || "Failed to trigger generation pipeline.");
+      showToast({
+        type: "error",
+        title: "Pipeline Error",
+        message: err.message || "Failed to generate AI content.",
+      });
+    } finally {
       setIsProcessing(false);
-      onSubmit?.({ dayNumber, topic, urls });
-    }, 1200);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {errorMessage && (
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/50 text-xs text-rose-700 dark:text-rose-300">
+          <AlertCircle className="h-4 w-4 shrink-0 text-rose-600 dark:text-rose-400" />
+          <span>{errorMessage}</span>
+        </div>
+      )}
+
       {/* Day Metadata */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
@@ -154,7 +203,7 @@ export function UrlInputForm({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-zinc-200 dark:border-zinc-800">
         <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
           <AlertCircle className="h-3.5 w-3.5 text-zinc-400 dark:text-zinc-500 shrink-0" />
-          <span>Scraper will extract problem data and trigger AI generation.</span>
+          <span>Gemini 1.5 Flash (Primary) → Groq Llama-3 (Fallback) with round-robin key rotation.</span>
         </div>
 
         <Button
