@@ -9,8 +9,9 @@ import {
   Send,
   Eye,
   Loader2,
+  Trash2,
 } from "lucide-react";
-import { getAdminDayByNumber, saveAdminDraft, publishDay } from "@/lib/firebase/firestore";
+import { getAdminDayByNumber, saveAdminDraft, publishDay, deleteDay } from "@/lib/firebase/firestore";
 import { AdminDay, Problem } from "@/types";
 import { ProblemEditor } from "@/components/admin/problem-editor";
 import { WhatsAppPreview } from "@/components/admin/whatsapp-preview";
@@ -33,6 +34,7 @@ export default function AdminDayReviewPage() {
   const [selectedProblemIndex, setSelectedProblemIndex] = React.useState(0);
   const [isSaving, setIsSaving] = React.useState(false);
   const [isPublishing, setIsPublishing] = React.useState(false);
+  const [isDeleting, setIsDeleting] = React.useState(false);
 
   React.useEffect(() => {
     async function loadDay() {
@@ -121,6 +123,30 @@ export default function AdminDayReviewPage() {
     }
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm(`Are you sure you want to permanently delete Day ${dayData.dayNumber} from Firestore? This action cannot be undone.`)) {
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      await deleteDay(dayData.dayNumber);
+      showToast({
+        type: "success",
+        title: "Day Deleted",
+        message: `Day ${dayData.dayNumber} was permanently removed from Firestore.`,
+      });
+      router.push("/admin");
+    } catch (err: any) {
+      showToast({
+        type: "error",
+        title: "Deletion Failed",
+        message: err?.message || "Could not delete day from Firestore.",
+      });
+      setIsDeleting(false);
+    }
+  };
+
   const activeProblem = dayData.problems[selectedProblemIndex] || dayData.problems[0];
 
   return (
@@ -165,6 +191,18 @@ export default function AdminDayReviewPage() {
             <Send className="h-3.5 w-3.5 mr-1.5" />
             {dayData.status === "published" ? "Update Published Day" : "Publish Day to Live Site"}
           </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleDelete}
+            isLoading={isDeleting}
+            className="text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 border-rose-200 dark:border-rose-900/50"
+            title="Delete Day"
+          >
+            <Trash2 className="h-3.5 w-3.5 mr-1" />
+            Delete Day
+          </Button>
         </div>
       </div>
 
@@ -179,94 +217,75 @@ export default function AdminDayReviewPage() {
               Day {dayData.dayNumber} Editor
             </span>
             <Badge variant={dayData.status === "published" ? "published" : "draft"}>
-              {dayData.status === "published" ? "Published Live" : "Draft (Admin Only)"}
+              {dayData.status === "published" ? "Published Live" : "Draft Mode"}
             </Badge>
-          </div>
-
-          <div className="text-xs font-mono text-zinc-500 dark:text-zinc-400">
-            Provider: {dayData.generationMetadata?.providerUsed || "Gemini"} • {dayData.problemCount} Problems • Firestore Linked
           </div>
         </div>
 
-        {/* Day Metadata Input */}
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-          <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+              Topic Title
+            </label>
             <Input
-              label="Day Number"
+              value={dayData.topic}
+              onChange={(e) => setDayData({ ...dayData, topic: e.target.value })}
+              className="font-medium"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+              Day Number
+            </label>
+            <Input
               type="number"
               value={dayData.dayNumber}
               onChange={(e) =>
                 setDayData({
                   ...dayData,
-                  dayNumber: parseInt(e.target.value) || 1,
+                  dayNumber: parseInt(e.target.value, 10) || dayData.dayNumber,
                 })
               }
-            />
-          </div>
-          <div className="sm:col-span-3">
-            <Input
-              label="Challenge Topic Title"
-              value={dayData.topic}
-              onChange={(e) =>
-                setDayData({ ...dayData, topic: e.target.value })
-              }
+              className="font-mono"
             />
           </div>
         </div>
       </section>
 
-      {/* Problem Review & Inline Editing Section */}
+      {/* WhatsApp Message Preview */}
+      <WhatsAppPreview
+        message={dayData.whatsappMessage}
+        dayNumber={dayData.dayNumber}
+      />
+
+      {/* Problem Selection & Editor */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-            Problem Breakdown & Code Review
+            Problems ({dayData.problems.length})
           </h2>
-          <span className="text-xs text-zinc-500 dark:text-zinc-400 font-mono">
-            {dayData.problems.length} problems in this challenge
-          </span>
-        </div>
-
-        {/* Problem Selector Buttons */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1">
-          {dayData.problems.map((prob, idx) => {
-            const isSelected = idx === selectedProblemIndex;
-            return (
-              <button
-                key={prob.id}
+          <div className="flex items-center gap-1.5">
+            {dayData.problems.map((p, idx) => (
+              <Button
+                key={p.id || idx}
+                variant={selectedProblemIndex === idx ? "default" : "secondary"}
+                size="sm"
+                className="font-mono text-xs"
                 onClick={() => setSelectedProblemIndex(idx)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium border transition-all cursor-pointer ${
-                  isSelected
-                    ? "bg-white text-zinc-950 shadow-xs dark:bg-zinc-800 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700"
-                    : "bg-zinc-100/60 dark:bg-zinc-900/40 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-850 hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:text-zinc-900 dark:hover:text-zinc-200"
-                }`}
               >
-                <span className="font-mono text-zinc-400 dark:text-zinc-500">#{idx + 1}</span>
-                <span className="font-semibold">{prob.title}</span>
-                <span className="text-[10px] text-zinc-500 dark:text-zinc-400">({prob.difficulty})</span>
-              </button>
-            );
-          })}
+                P{idx + 1}: {p.title.slice(0, 15)}...
+              </Button>
+            ))}
+          </div>
         </div>
 
-        {/* Active Problem Editor */}
         {activeProblem && (
           <ProblemEditor
-            key={activeProblem.id}
             problem={activeProblem}
             onUpdate={handleProblemUpdate}
           />
         )}
-      </section>
-
-      {/* PRIVATE ADMIN CONTENT: WhatsApp Announcement */}
-      <section className="space-y-3 pt-2">
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-          WhatsApp Community Announcement
-        </h2>
-        <WhatsAppPreview
-          message={dayData.whatsappMessage}
-          dayNumber={dayData.dayNumber}
-        />
       </section>
     </div>
   );

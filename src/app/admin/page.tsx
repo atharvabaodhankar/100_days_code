@@ -11,8 +11,9 @@ import {
   CheckCircle2,
   PlusCircle,
   Loader2,
+  Trash2,
 } from "lucide-react";
-import { getAllAdminDays, saveAdminDraft } from "@/lib/firebase/firestore";
+import { getAllAdminDays, saveAdminDraft, deleteDay } from "@/lib/firebase/firestore";
 import { AdminDay } from "@/types";
 import { WorkflowStepper } from "@/components/admin/workflow-stepper";
 import { UrlInputForm } from "@/components/admin/url-input-form";
@@ -28,6 +29,7 @@ export default function AdminDashboardPage() {
   const [days, setDays] = React.useState<AdminDay[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [activeTab, setActiveTab] = React.useState<"new" | "drafts" | "published">("new");
+  const [deletingDayNum, setDeletingDayNum] = React.useState<number | null>(null);
 
   const loadDays = React.useCallback(async () => {
     try {
@@ -66,6 +68,31 @@ export default function AdminDashboardPage() {
       message: `Day ${data.dayNumber} ready for editorial review.`,
     });
     router.push(`/admin/days/${data.dayNumber}`);
+  };
+
+  const handleDelete = async (dayNumber: number, title: string) => {
+    if (!window.confirm(`Are you sure you want to permanently delete Day ${dayNumber} ("${title}") from Firestore?`)) {
+      return;
+    }
+
+    setDeletingDayNum(dayNumber);
+    try {
+      await deleteDay(dayNumber);
+      setDays((prev) => prev.filter((d) => d.dayNumber !== dayNumber));
+      showToast({
+        type: "success",
+        title: "Day Deleted",
+        message: `Day ${dayNumber} was permanently removed from Firestore.`,
+      });
+    } catch (err: any) {
+      showToast({
+        type: "error",
+        title: "Deletion Failed",
+        message: err?.message || "Could not delete day from Firestore.",
+      });
+    } finally {
+      setDeletingDayNum(null);
+    }
   };
 
   return (
@@ -160,6 +187,16 @@ export default function AdminDashboardPage() {
                       Review & Publish
                     </Button>
                   </Link>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 border-rose-200 dark:border-rose-900/50"
+                    isLoading={deletingDayNum === draft.dayNumber}
+                    onClick={() => handleDelete(draft.dayNumber, draft.topic)}
+                    title="Delete Draft"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </Button>
                 </div>
               </div>
             ))}
@@ -185,6 +222,10 @@ export default function AdminDashboardPage() {
             <Loader2 className="h-4 w-4 animate-spin" />
             <span>Loading published days from Firestore...</span>
           </div>
+        ) : published.length === 0 ? (
+          <div className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/20 text-center text-xs text-zinc-500 dark:text-zinc-400 shadow-xs">
+            No published days yet.
+          </div>
         ) : (
           <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/30 divide-y divide-zinc-100 dark:divide-zinc-800 overflow-hidden shadow-xs">
             {published.map((day) => (
@@ -205,6 +246,9 @@ export default function AdminDashboardPage() {
                   <h3 className="text-sm font-medium text-zinc-900 dark:text-zinc-200">
                     {day.topic}
                   </h3>
+                  <p className="text-[11px] text-zinc-400 dark:text-zinc-500">
+                    Published: {formatDate(day.publishedAt || day.updatedAt)}
+                  </p>
                 </div>
 
                 <div className="flex items-center gap-2 self-end sm:self-center">
@@ -220,6 +264,16 @@ export default function AdminDashboardPage() {
                       Edit
                     </Button>
                   </Link>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 border-rose-200 dark:border-rose-900/50 text-xs"
+                    isLoading={deletingDayNum === day.dayNumber}
+                    onClick={() => handleDelete(day.dayNumber, day.topic)}
+                    title="Delete Published Day"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </Button>
                 </div>
               </div>
             ))}

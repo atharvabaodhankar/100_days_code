@@ -16,6 +16,7 @@ const ADMIN_DAYS_COLLECTION = "adminDays";
 
 /**
  * Fetch all published days directly from Firestore.
+ * Sorts by publishedAt descending, then dayNumber descending so latest is always first.
  */
 export async function getPublishedDays(): Promise<PublicDay[]> {
   try {
@@ -25,7 +26,12 @@ export async function getPublishedDays(): Promise<PublicDay[]> {
 
     if (!snapshot.empty) {
       const days = snapshot.docs.map((docSnap) => docSnap.data() as PublicDay);
-      return days.sort((a, b) => b.dayNumber - a.dayNumber);
+      return days.sort((a, b) => {
+        const timeA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+        const timeB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+        if (timeB !== timeA) return timeB - timeA;
+        return b.dayNumber - a.dayNumber;
+      });
     }
   } catch (err) {
     console.error("[Firestore] Failed to query published days:", err);
@@ -57,6 +63,7 @@ export async function getPublishedDayByNumber(dayNumber: number): Promise<Public
 
 /**
  * Fetch all days (drafts + published) directly from Firestore for Admin Studio.
+ * Sorts by latest updated / created first.
  */
 export async function getAllAdminDays(): Promise<AdminDay[]> {
   try {
@@ -65,7 +72,12 @@ export async function getAllAdminDays(): Promise<AdminDay[]> {
 
     if (!snapshot.empty) {
       const days = snapshot.docs.map((docSnap) => docSnap.data() as AdminDay);
-      return days.sort((a, b) => b.dayNumber - a.dayNumber);
+      return days.sort((a, b) => {
+        const timeA = new Date(a.updatedAt || a.createdAt || 0).getTime();
+        const timeB = new Date(b.updatedAt || b.createdAt || 0).getTime();
+        if (timeB !== timeA) return timeB - timeA;
+        return b.dayNumber - a.dayNumber;
+      });
     }
   } catch (err) {
     console.error("[Firestore] Failed to query admin days:", err);
