@@ -1,0 +1,234 @@
+"use client";
+
+import * as React from "react";
+import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
+import {
+  ArrowLeft,
+  Save,
+  Send,
+  Sparkles,
+  RefreshCw,
+  Eye,
+  CheckCircle,
+  Clock,
+  Layers,
+} from "lucide-react";
+import { getAdminDayByNumber } from "@/lib/mock-data";
+import { AdminDay, Problem } from "@/types";
+import { ProblemEditor } from "@/components/admin/problem-editor";
+import { WhatsAppPreview } from "@/components/admin/whatsapp-preview";
+import { WorkflowStepper } from "@/components/admin/workflow-stepper";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/components/ui/toast";
+import { EmptyState } from "@/components/ui/empty-state";
+
+export default function AdminDayReviewPage() {
+  const params = useParams();
+  const router = useRouter();
+  const { showToast } = useToast();
+  const dayParam = params?.day as string;
+  const dayNumber = parseInt(dayParam, 10);
+
+  const initialDay = getAdminDayByNumber(dayNumber);
+  const [dayData, setDayData] = React.useState<AdminDay | undefined>(initialDay);
+  const [selectedProblemIndex, setSelectedProblemIndex] = React.useState(0);
+  const [isSaving, setIsSaving] = React.useState(false);
+  const [isPublishing, setIsPublishing] = React.useState(false);
+
+  if (!dayData) {
+    return (
+      <div className="py-12">
+        <EmptyState
+          title={`Day ${dayParam} Not Found`}
+          description="Could not locate draft or published day record with this identifier."
+          actionLabel="Back to Dashboard"
+          onAction={() => router.push("/admin")}
+        />
+      </div>
+    );
+  }
+
+  const handleProblemUpdate = (updatedProblem: Problem) => {
+    const updatedProblems = [...dayData.problems];
+    updatedProblems[selectedProblemIndex] = updatedProblem;
+    setDayData({ ...dayData, problems: updatedProblems });
+  };
+
+  const handleSaveDraft = () => {
+    setIsSaving(true);
+    setTimeout(() => {
+      setIsSaving(false);
+      showToast({
+        type: "success",
+        title: "Draft Saved",
+        message: `Changes for Day ${dayData.dayNumber} saved successfully.`,
+      });
+    }, 600);
+  };
+
+  const handlePublish = () => {
+    setIsPublishing(true);
+    setTimeout(() => {
+      setIsPublishing(false);
+      setDayData({ ...dayData, status: "published" });
+      showToast({
+        type: "success",
+        title: "Day Published!",
+        message: `Day ${dayData.dayNumber} is now live for students at /day/${dayData.dayNumber}.`,
+      });
+    }, 800);
+  };
+
+  const activeProblem = dayData.problems[selectedProblemIndex] || dayData.problems[0];
+
+  return (
+    <div className="space-y-8 pb-16">
+      {/* Top Breadcrumbs & Action Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <Link
+          href="/admin"
+          className="inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 transition-colors w-fit"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          <span>Admin Dashboard</span>
+        </Link>
+
+        <div className="flex flex-wrap items-center gap-2">
+          {dayData.status === "published" && (
+            <Link href={`/day/${dayData.dayNumber}`} target="_blank">
+              <Button variant="ghost" size="sm" className="text-xs">
+                <Eye className="h-3.5 w-3.5 mr-1" />
+                Live Student Page
+              </Button>
+            </Link>
+          )}
+
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleSaveDraft}
+            isLoading={isSaving}
+          >
+            <Save className="h-3.5 w-3.5 mr-1.5" />
+            Save Draft
+          </Button>
+
+          <Button
+            variant="default"
+            size="sm"
+            onClick={handlePublish}
+            isLoading={isPublishing}
+            className="font-semibold bg-emerald-500 hover:bg-emerald-600 text-zinc-950"
+          >
+            <Send className="h-3.5 w-3.5 mr-1.5 text-zinc-950" />
+            {dayData.status === "published" ? "Update Published Day" : "Publish Day to Live Site"}
+          </Button>
+        </div>
+      </div>
+
+      {/* Workflow Stage */}
+      <WorkflowStepper currentStepIndex={dayData.status === "published" ? 5 : 3} />
+
+      {/* Day Overview Header Card */}
+      <section className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-6 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-zinc-800">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs font-semibold bg-zinc-800 px-2.5 py-1 rounded text-zinc-200">
+              Day {dayData.dayNumber} Editor
+            </span>
+            <Badge variant={dayData.status === "published" ? "published" : "draft"}>
+              {dayData.status === "published" ? "Published Live" : "Draft (Admin Only)"}
+            </Badge>
+          </div>
+
+          <div className="text-xs font-mono text-zinc-400">
+            Provider: {dayData.generationMetadata?.providerUsed || "Gemini"} • {dayData.problemCount} Problems
+          </div>
+        </div>
+
+        {/* Day Metadata Input */}
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+          <div>
+            <Input
+              label="Day Number"
+              type="number"
+              value={dayData.dayNumber}
+              onChange={(e) =>
+                setDayData({
+                  ...dayData,
+                  dayNumber: parseInt(e.target.value) || 1,
+                })
+              }
+            />
+          </div>
+          <div className="sm:col-span-3">
+            <Input
+              label="Challenge Topic Title"
+              value={dayData.topic}
+              onChange={(e) =>
+                setDayData({ ...dayData, topic: e.target.value })
+              }
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Problem Review & Inline Editing Section */}
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+            Problem Breakdown & Code Review
+          </h2>
+          <span className="text-xs text-zinc-400 font-mono">
+            {dayData.problems.length} problems in this challenge
+          </span>
+        </div>
+
+        {/* Problem Selector Buttons */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1">
+          {dayData.problems.map((prob, idx) => {
+            const isSelected = idx === selectedProblemIndex;
+            return (
+              <button
+                key={prob.id}
+                onClick={() => setSelectedProblemIndex(idx)}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium border transition-all cursor-pointer ${
+                  isSelected
+                    ? "bg-zinc-800 text-zinc-100 border-zinc-700 shadow-xs"
+                    : "bg-zinc-900/40 text-zinc-400 border-zinc-850 hover:bg-zinc-900 hover:text-zinc-200"
+                }`}
+              >
+                <span className="font-mono text-zinc-500">#{idx + 1}</span>
+                <span className="font-semibold">{prob.title}</span>
+                <span className="text-[10px] text-zinc-400">({prob.difficulty})</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Active Problem Editor */}
+        {activeProblem && (
+          <ProblemEditor
+            key={activeProblem.id}
+            problem={activeProblem}
+            onUpdate={handleProblemUpdate}
+          />
+        )}
+      </section>
+
+      {/* PRIVATE ADMIN CONTENT: WhatsApp Announcement */}
+      <section className="space-y-3 pt-2">
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+          WhatsApp Community Announcement
+        </h2>
+        <WhatsAppPreview
+          message={dayData.whatsappMessage}
+          dayNumber={dayData.dayNumber}
+        />
+      </section>
+    </div>
+  );
+}
