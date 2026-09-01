@@ -37,7 +37,13 @@ export const env = {
     region: process.env.AWS_REGION || "ap-south-1",
   },
 
-  // Dynamic App URL (Supports custom domain, any vercel.app URL, or localhost seamlessly)
+  // Allowed Allowed Production Domains (Custom Domain & Specific Vercel Domain)
+  ALLOWED_DOMAINS: [
+    "https://challenge.atharvabaodhankar.me",
+    "https://100dayscode-gamma.vercel.app",
+  ],
+
+  // Dynamic App URL resolution (Custom domain, 100dayscode-gamma.vercel.app, or localhost)
   get NEXT_PUBLIC_APP_URL(): string {
     if (typeof window !== "undefined") {
       return window.location.origin;
@@ -48,7 +54,7 @@ export const env = {
     if (process.env.VERCEL_URL) {
       return `https://${process.env.VERCEL_URL}`;
     }
-    return "http://localhost:3000";
+    return "https://100dayscode-gamma.vercel.app";
   },
 
   isProduction: process.env.NODE_ENV === "production",
