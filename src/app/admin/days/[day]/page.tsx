@@ -7,12 +7,7 @@ import {
   ArrowLeft,
   Save,
   Send,
-  Sparkles,
-  RefreshCw,
   Eye,
-  CheckCircle,
-  Clock,
-  Layers,
 } from "lucide-react";
 import { getAdminDayByNumber } from "@/lib/mock-data";
 import { AdminDay, Problem } from "@/types";
@@ -90,7 +85,7 @@ export default function AdminDayReviewPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <Link
           href="/admin"
-          className="inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 transition-colors w-fit"
+          className="inline-flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors w-fit"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Admin Dashboard</span>
@@ -121,9 +116,9 @@ export default function AdminDayReviewPage() {
             size="sm"
             onClick={handlePublish}
             isLoading={isPublishing}
-            className="font-semibold bg-emerald-500 hover:bg-emerald-600 text-zinc-950"
+            className="font-semibold bg-emerald-600 hover:bg-emerald-700 text-white dark:bg-emerald-500 dark:hover:bg-emerald-600 dark:text-zinc-950"
           >
-            <Send className="h-3.5 w-3.5 mr-1.5 text-zinc-950" />
+            <Send className="h-3.5 w-3.5 mr-1.5" />
             {dayData.status === "published" ? "Update Published Day" : "Publish Day to Live Site"}
           </Button>
         </div>
@@ -133,10 +128,10 @@ export default function AdminDayReviewPage() {
       <WorkflowStepper currentStepIndex={dayData.status === "published" ? 5 : 3} />
 
       {/* Day Overview Header Card */}
-      <section className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-6 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-zinc-800">
+      <section className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 p-6 space-y-4 shadow-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-zinc-200 dark:border-zinc-800">
           <div className="flex items-center gap-2">
-            <span className="font-mono text-xs font-semibold bg-zinc-800 px-2.5 py-1 rounded text-zinc-200">
+            <span className="font-mono text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700/50">
               Day {dayData.dayNumber} Editor
             </span>
             <Badge variant={dayData.status === "published" ? "published" : "draft"}>
@@ -144,7 +139,7 @@ export default function AdminDayReviewPage() {
             </Badge>
           </div>
 
-          <div className="text-xs font-mono text-zinc-400">
+          <div className="text-xs font-mono text-zinc-500 dark:text-zinc-400">
             Provider: {dayData.generationMetadata?.providerUsed || "Gemini"} • {dayData.problemCount} Problems
           </div>
         </div>
@@ -179,10 +174,10 @@ export default function AdminDayReviewPage() {
       {/* Problem Review & Inline Editing Section */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
             Problem Breakdown & Code Review
           </h2>
-          <span className="text-xs text-zinc-400 font-mono">
+          <span className="text-xs text-zinc-500 dark:text-zinc-400 font-mono">
             {dayData.problems.length} problems in this challenge
           </span>
         </div>
@@ -197,13 +192,13 @@ export default function AdminDayReviewPage() {
                 onClick={() => setSelectedProblemIndex(idx)}
                 className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium border transition-all cursor-pointer ${
                   isSelected
-                    ? "bg-zinc-800 text-zinc-100 border-zinc-700 shadow-xs"
-                    : "bg-zinc-900/40 text-zinc-400 border-zinc-850 hover:bg-zinc-900 hover:text-zinc-200"
+                    ? "bg-white text-zinc-950 shadow-xs dark:bg-zinc-800 dark:text-zinc-100 border-zinc-300 dark:border-zinc-700"
+                    : "bg-zinc-100/60 dark:bg-zinc-900/40 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-850 hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:text-zinc-900 dark:hover:text-zinc-200"
                 }`}
               >
-                <span className="font-mono text-zinc-500">#{idx + 1}</span>
+                <span className="font-mono text-zinc-400 dark:text-zinc-500">#{idx + 1}</span>
                 <span className="font-semibold">{prob.title}</span>
-                <span className="text-[10px] text-zinc-400">({prob.difficulty})</span>
+                <span className="text-[10px] text-zinc-500 dark:text-zinc-400">({prob.difficulty})</span>
               </button>
             );
           })}
@@ -221,7 +216,7 @@ export default function AdminDayReviewPage() {
 
       {/* PRIVATE ADMIN CONTENT: WhatsApp Announcement */}
       <section className="space-y-3 pt-2">
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
           WhatsApp Community Announcement
         </h2>
         <WhatsAppPreview
