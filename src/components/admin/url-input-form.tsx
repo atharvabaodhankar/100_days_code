@@ -83,10 +83,10 @@ export function UrlInputForm({
       {/* URL Inputs */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <label className="text-xs font-medium text-zinc-300">
+          <label className="text-xs font-medium text-zinc-700 dark:text-zinc-300">
             Problem URLs (1 to 3 URLs)
           </label>
-          <span className="text-xs text-zinc-400 font-mono">
+          <span className="text-xs text-zinc-500 dark:text-zinc-400 font-mono">
             {urls.length}/3 URLs added
           </span>
         </div>
@@ -97,9 +97,9 @@ export function UrlInputForm({
             return (
               <div
                 key={index}
-                className="flex items-center gap-2 p-2 rounded-lg border border-zinc-800 bg-zinc-900/30"
+                className="flex items-center gap-2 p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/30"
               >
-                <span className="text-xs font-mono text-zinc-400 w-6 text-center shrink-0">
+                <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400 w-6 text-center shrink-0">
                   #{index + 1}
                 </span>
 
@@ -109,13 +109,13 @@ export function UrlInputForm({
                     placeholder="https://takeuforward.org/... or https://leetcode.com/..."
                     value={url}
                     onChange={(e) => handleUrlChange(index, e.target.value)}
-                    className="flex-1 bg-transparent text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none font-mono"
+                    className="flex-1 bg-transparent text-xs text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none font-mono"
                     required
                   />
 
                   {detectedSource && (
                     <Badge variant="outline" className="text-[10px] shrink-0 w-fit">
-                      <Globe className="h-2.5 w-2.5 mr-1 text-zinc-400" />
+                      <Globe className="h-2.5 w-2.5 mr-1 text-zinc-500 dark:text-zinc-400" />
                       {detectedSource}
                     </Badge>
                   )}
@@ -125,7 +125,7 @@ export function UrlInputForm({
                   <button
                     type="button"
                     onClick={() => handleRemoveUrl(index)}
-                    className="p-1.5 text-zinc-500 hover:text-rose-400 transition-colors cursor-pointer rounded"
+                    className="p-1.5 text-zinc-400 hover:text-rose-600 dark:text-zinc-500 dark:hover:text-rose-400 transition-colors cursor-pointer rounded"
                     title="Remove URL"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
@@ -142,7 +142,7 @@ export function UrlInputForm({
             variant="outline"
             size="sm"
             onClick={handleAddUrl}
-            className="w-full text-xs border-dashed text-zinc-400 hover:text-zinc-200"
+            className="w-full text-xs border-dashed text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
           >
             <Plus className="h-3.5 w-3.5 mr-1" />
             Add Another Problem URL ({urls.length}/3)
@@ -151,9 +151,9 @@ export function UrlInputForm({
       </div>
 
       {/* Action Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-zinc-800">
-        <div className="flex items-center gap-2 text-xs text-zinc-400">
-          <AlertCircle className="h-3.5 w-3.5 text-zinc-400 shrink-0" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-zinc-200 dark:border-zinc-800">
+        <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+          <AlertCircle className="h-3.5 w-3.5 text-zinc-400 dark:text-zinc-500 shrink-0" />
           <span>Scraper will extract problem data and trigger AI generation.</span>
         </div>
 
@@ -163,7 +163,7 @@ export function UrlInputForm({
           isLoading={isProcessing}
           className="font-semibold"
         >
-          <Sparkles className="h-3.5 w-3.5 mr-1.5 text-zinc-900" />
+          <Sparkles className="h-3.5 w-3.5 mr-1.5" />
           Fetch & Generate AI Content
         </Button>
       </div>
