@@ -26,6 +26,75 @@ import { useAuth } from "@/lib/firebase/auth";
 import { recordStudentSubmission } from "@/lib/firebase/gamification";
 import { useToast } from "../ui/toast";
 
+/**
+ * Parses inline markdown tokens (e.g. `code`, **bold**, etc.) into React elements.
+ */
+function parseInlineMarkdown(text: string): React.ReactNode {
+  const parts = text.split(/(\*\*.*?\*\*|`.*?`)/g);
+
+  return parts.map((part, idx) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return (
+        <strong key={idx} className="font-bold text-zinc-950 dark:text-zinc-100">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    if (part.startsWith("`") && part.endsWith("`")) {
+      return (
+        <code
+          key={idx}
+          className="font-mono text-[11px] sm:text-xs bg-zinc-200/70 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 px-1.5 py-0.5 rounded border border-zinc-300/60 dark:border-zinc-700/60"
+        >
+          {part.slice(1, -1)}
+        </code>
+      );
+    }
+    return part;
+  });
+}
+
+/**
+ * Formats dry run walkthrough strings into clean dual-theme step cards.
+ */
+function DryRunFormatted({ text }: { text: string }) {
+  const lines = text.split("\n");
+
+  return (
+    <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-950/70 p-4 sm:p-5 text-xs sm:text-[13px] text-zinc-800 dark:text-zinc-200 font-sans leading-relaxed space-y-2 shadow-xs transition-colors">
+      {lines.map((line, idx) => {
+        const trimmed = line.trim();
+        if (!trimmed) return <div key={idx} className="h-1.5" />;
+
+        // Header lines like **i = 0**:
+        if (trimmed.startsWith("**") || trimmed.startsWith("Let's trace")) {
+          return (
+            <div
+              key={idx}
+              className="pt-2 first:pt-0 font-semibold text-zinc-950 dark:text-zinc-100 border-t border-zinc-200/80 dark:border-zinc-800/80 first:border-t-0"
+            >
+              {parseInlineMarkdown(trimmed)}
+            </div>
+          );
+        }
+
+        // Bullet point lines (* or -)
+        if (trimmed.startsWith("*") || trimmed.startsWith("-")) {
+          const content = trimmed.replace(/^[*-\s]+/, "");
+          return (
+            <div key={idx} className="flex items-start gap-2 pl-3">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 mt-2 shrink-0"></span>
+              <span className="flex-1">{parseInlineMarkdown(content)}</span>
+            </div>
+          );
+        }
+
+        return <div key={idx}>{parseInlineMarkdown(trimmed)}</div>;
+      })}
+    </div>
+  );
+}
+
 export function ProblemView({
   problem,
   dayNumber = 1,
@@ -65,7 +134,6 @@ export function ProblemView({
 
     setIsSubmitting(true);
     try {
-      // 1. Trigger GitHub Commit Engine API
       let gitCommitUrl = `https://github.com/${user.githubUsername || "student"}/100-days-of-code`;
       let gitCommitSha = "";
 
@@ -99,7 +167,6 @@ export function ProblemView({
         console.warn("GitHub commit API attempt:", e);
       }
 
-      // 2. Record Submission in Firestore & Calculate Gamified Streaks
       const res = await recordStudentSubmission({
         uid: user.uid,
         displayName: user.displayName || user.githubUsername || "Student",
@@ -262,7 +329,7 @@ export function ProblemView({
         </div>
       </section>
 
-      {/* Dry Run */}
+      {/* Dry Run (Rendered with Clean Dual-Theme Format) */}
       {problem.dryRun && (
         <section className="rounded-xl border border-zinc-200 dark:border-zinc-800/80 bg-white dark:bg-zinc-900/40 p-5 space-y-3 shadow-xs">
           <div className="flex items-center gap-2 text-zinc-800 dark:text-zinc-200">
@@ -271,9 +338,7 @@ export function ProblemView({
               Dry Run & State Walkthrough
             </h3>
           </div>
-          <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-900 dark:bg-[#0d0d11] p-3.5 text-xs font-mono text-zinc-100 overflow-x-auto whitespace-pre leading-relaxed shadow-inner">
-            {problem.dryRun}
-          </div>
+          <DryRunFormatted text={problem.dryRun} />
         </section>
       )}
 
