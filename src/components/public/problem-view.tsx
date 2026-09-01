@@ -159,9 +159,18 @@ export function ProblemView({
 
         if (commitRes.ok) {
           const commitData = await commitRes.json();
-          gitCommitUrl = commitData.commitUrl || gitCommitUrl;
-          gitCommitSha = commitData.commitSha || "";
-          setCommitUrl(gitCommitUrl);
+          if (commitData.requiresInstallation) {
+            showToast({
+              type: "info",
+              title: "1-Click GitHub App Setup Required",
+              message: "Please install the GitHub App to allow auto-commits to your profile.",
+            });
+            window.open(commitData.installUrl || "https://github.com/apps/100-days-of-code-dsa/installations/new", "_blank");
+          } else {
+            gitCommitUrl = commitData.commitUrl || gitCommitUrl;
+            gitCommitSha = commitData.commitSha || "";
+            setCommitUrl(gitCommitUrl);
+          }
         }
       } catch (e) {
         console.warn("GitHub commit API attempt:", e);

@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { env } from "@/lib/env";
-import { getInstallationAccessToken, commitFileToRepo } from "@/lib/github/app";
+import {
+  getUserInstallationId,
+  getInstallationAccessToken,
+  ensureStudentRepository,
+  commitFileToRepo,
+} from "@/lib/github/app";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const {
       githubUsername,
-      installationId,
       dayNumber,
       problemOrder,
       problemTitle,
@@ -40,31 +44,49 @@ export async function POST(req: NextRequest) {
     const readmeFilePath = `${folderPath}/README.md`;
 
     let commitUrl = `https://github.com/${githubUsername}/100-days-of-code/tree/main/${folderPath}`;
-    let commitSha = "local-commit-sha";
+    let commitSha = "";
+    let requiresInstallation = false;
+    let installUrl = `https://github.com/apps/${env.github.appSlug || "100-days-of-code-dsa"}/installations/new`;
 
-    // If GitHub App credentials & installation are available
-    if (env.github.appId && env.github.privateKey && installationId) {
-      const token = await getInstallationAccessToken(
+    // 1. Check if GitHub App keys are configured
+    if (env.github.appId && env.github.privateKey) {
+      // Find the installation ID for this student
+      const installationId = await getUserInstallationId(
         env.github.appId,
         env.github.privateKey,
-        installationId
+        githubUsername
       );
 
-      // 1. Commit the Solution File
-      const codeCommit = await commitFileToRepo({
-        installationToken: token,
-        owner: githubUsername,
-        repo: "100-days-of-code",
-        path: codeFilePath,
-        content: code,
-        commitMessage: `Solve Day ${dayNumber} Problem ${problemOrder}: ${problemTitle || "Challenge"} (${language.toUpperCase()})`,
-      });
+      if (installationId) {
+        console.log(`[GitHub Commit] Found installation ${installationId} for @${githubUsername}`);
+        const token = await getInstallationAccessToken(
+          env.github.appId,
+          env.github.privateKey,
+          installationId
+        );
 
-      commitUrl = codeCommit.commitUrl;
-      commitSha = codeCommit.commitSha;
+        // 2. Ensure the 100-days-of-code repository exists
+        await ensureStudentRepository({
+          installationToken: token,
+          owner: githubUsername,
+          repoName: "100-days-of-code",
+        });
 
-      // 2. Commit the Problem Pedagogical README.md
-      const problemReadme = `# ${problemTitle || "DSA Challenge"} — Day ${dayNumber}
+        // 3. Commit the Solution File
+        const codeCommit = await commitFileToRepo({
+          installationToken: token,
+          owner: githubUsername,
+          repo: "100-days-of-code",
+          path: codeFilePath,
+          content: code,
+          commitMessage: `Solve Day ${dayNumber} Problem ${problemOrder}: ${problemTitle || "Challenge"} (${language.toUpperCase()})`,
+        });
+
+        commitUrl = codeCommit.commitUrl;
+        commitSha = codeCommit.commitSha;
+
+        // 4. Commit the Problem Pedagogical README.md
+        const problemReadme = `# ${problemTitle || "DSA Challenge"} — Day ${dayNumber}
 
 - **Topic:** ${topic || "Data Structures & Algorithms"}
 - **Difficulty:** ${difficulty || "Medium"}
@@ -94,14 +116,18 @@ ${logic || "Optimal traversal / two-pointer / divide-and-conquer strategy."}
 *Auto-synced via [100 Days of Code Platform](${env.NEXT_PUBLIC_APP_URL})*
 `;
 
-      await commitFileToRepo({
-        installationToken: token,
-        owner: githubUsername,
-        repo: "100-days-of-code",
-        path: readmeFilePath,
-        content: problemReadme,
-        commitMessage: `Add problem notes & README for Day ${dayNumber} Problem ${problemOrder}`,
-      });
+        await commitFileToRepo({
+          installationToken: token,
+          owner: githubUsername,
+          repo: "100-days-of-code",
+          path: readmeFilePath,
+          content: problemReadme,
+          commitMessage: `Add problem notes & README for Day ${dayNumber} Problem ${problemOrder}`,
+        });
+      } else {
+        console.warn(`[GitHub Commit] No GitHub App installation found for @${githubUsername}`);
+        requiresInstallation = true;
+      }
     }
 
     return NextResponse.json({
@@ -109,6 +135,8 @@ ${logic || "Optimal traversal / two-pointer / divide-and-conquer strategy."}
       commitUrl,
       commitSha,
       filePath: codeFilePath,
+      requiresInstallation,
+      installUrl,
     });
   } catch (err: any) {
     console.error("[Commit Solution Error]:", err);

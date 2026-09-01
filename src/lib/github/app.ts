@@ -39,6 +39,58 @@ export function generateGitHubAppJWT(appId: string, privateKey: string): string 
 }
 
 /**
+ * Retrieves the installation ID for a given GitHub username.
+ */
+export async function getUserInstallationId(
+  appId: string,
+  privateKey: string,
+  username: string
+): Promise<number | null> {
+  const jwt = generateGitHubAppJWT(appId, privateKey);
+
+  // First try direct user installation endpoint
+  const userRes = await fetch(`https://api.github.com/users/${username}/installation`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+      Accept: "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+      "User-Agent": "100-Days-Of-Code-Platform",
+    },
+  });
+
+  if (userRes.ok) {
+    const data = await userRes.json();
+    return data.id;
+  }
+
+  // Fallback: search all installations of the app
+  try {
+    const listRes = await fetch("https://api.github.com/app/installations?per_page=100", {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "100-Days-Of-Code-Platform",
+      },
+    });
+
+    if (listRes.ok) {
+      const installations: any[] = await listRes.json();
+      const match = installations.find(
+        (inst) => inst.account?.login?.toLowerCase() === username.toLowerCase()
+      );
+      if (match) {
+        return match.id;
+      }
+    }
+  } catch (e) {
+    console.warn("Could not list installations:", e);
+  }
+
+  return null;
+}
+
+/**
  * Exchanges GitHub App JWT for a short-lived Installation Access Token (1 hour).
  */
 export async function getInstallationAccessToken(
@@ -130,10 +182,6 @@ Welcome to my 100 Days of Code challenge repository! This repo contains daily Da
 
 ## 📊 Challenge Progress
 Track my daily solutions and streak live on [100 Days of Code Platform](https://100dayscode-gamma.vercel.app).
-
-| Day | Topic | Problems Solved | Status |
-| :---: | :--- | :---: | :---: |
-| **Day 01** | Arrays & Hashing | Solved | ✅ |
 
 ---
 *Auto-synced via [100 Days of Code](https://100dayscode-gamma.vercel.app)*
