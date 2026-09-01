@@ -282,6 +282,7 @@ export default function AdminDayReviewPage() {
 
         {activeProblem && (
           <ProblemEditor
+            key={activeProblem.id || `problem-${selectedProblemIndex}`}
             problem={activeProblem}
             onUpdate={handleProblemUpdate}
           />

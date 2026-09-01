@@ -17,6 +17,11 @@ export function ProblemEditor({
 }) {
   const [current, setCurrent] = React.useState<Problem>(problem);
 
+  // Sync internal state whenever the active problem prop changes
+  React.useEffect(() => {
+    setCurrent(problem);
+  }, [problem]);
+
   const handleChange = <K extends keyof Problem>(key: K, val: Problem[K]) => {
     const updated = { ...current, [key]: val };
     setCurrent(updated);
@@ -69,97 +74,86 @@ export function ProblemEditor({
       </div>
 
       {/* Statement */}
-      <div>
+      <Textarea
+        label="Problem Statement"
+        rows={4}
+        value={current.statement}
+        onChange={(e) => handleChange("statement", e.target.value)}
+        className="font-mono text-xs"
+      />
+
+      {/* Pedagogical Breakdown */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Textarea
-          label="Problem Statement"
-          rows={3}
-          value={current.statement}
-          onChange={(e) => handleChange("statement", e.target.value)}
+          label="Intuition & Observation"
+          rows={4}
+          value={current.observation}
+          onChange={(e) => handleChange("observation", e.target.value)}
+          className="font-mono text-xs"
+        />
+        <Textarea
+          label="Step-by-Step Logic"
+          rows={4}
+          value={current.logic}
+          onChange={(e) => handleChange("logic", e.target.value)}
+          className="font-mono text-xs"
         />
       </div>
 
-      {/* Observation & Logic */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <Textarea
-            label="Intuition & Observation"
-            rows={4}
-            value={current.observation}
-            onChange={(e) => handleChange("observation", e.target.value)}
-          />
-        </div>
-        <div>
-          <Textarea
-            label="Step-by-Step Logic"
-            rows={4}
-            value={current.logic}
-            onChange={(e) => handleChange("logic", e.target.value)}
-          />
-        </div>
-      </div>
-
-      {/* Approach & Dry Run */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <Textarea
-            label="Approach Details"
-            rows={4}
-            value={current.approach}
-            onChange={(e) => handleChange("approach", e.target.value)}
-          />
-        </div>
-        <div>
-          <Textarea
-            label="Dry Run & State Trace"
-            rows={4}
-            value={current.dryRun}
-            onChange={(e) => handleChange("dryRun", e.target.value)}
-          />
-        </div>
+        <Textarea
+          label="Approach Details"
+          rows={3}
+          value={current.approach}
+          onChange={(e) => handleChange("approach", e.target.value)}
+          className="font-mono text-xs"
+        />
+        <Textarea
+          label="Dry Run & State Trace"
+          rows={3}
+          value={current.dryRun || ""}
+          onChange={(e) => handleChange("dryRun", e.target.value)}
+          className="font-mono text-xs"
+        />
       </div>
 
       {/* Complexity */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <Input
-            label="Time Complexity"
-            value={current.complexity.time}
-            onChange={(e) =>
-              handleChange("complexity", {
-                ...current.complexity,
-                time: e.target.value,
-              })
-            }
-          />
-        </div>
-        <div>
-          <Input
-            label="Space Complexity"
-            value={current.complexity.space}
-            onChange={(e) =>
-              handleChange("complexity", {
-                ...current.complexity,
-                space: e.target.value,
-              })
-            }
-          />
-        </div>
+        <Input
+          label="Time Complexity"
+          value={current.complexity.time}
+          onChange={(e) =>
+            handleChange("complexity", {
+              ...current.complexity,
+              time: e.target.value,
+            })
+          }
+          className="font-mono"
+        />
+        <Input
+          label="Space Complexity"
+          value={current.complexity.space}
+          onChange={(e) =>
+            handleChange("complexity", {
+              ...current.complexity,
+              space: e.target.value,
+            })
+          }
+          className="font-mono"
+        />
       </div>
 
-      {/* Code Solutions Editor */}
-      <div className="space-y-3 pt-2">
-        <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block">
-          Reference Code Implementation
+      {/* Reference Solutions Tabs */}
+      <div className="space-y-2">
+        <label className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+          Reference Solutions
         </label>
-        <Tabs defaultValue="cpp">
+        <Tabs defaultValue="cpp" className="w-full">
           <TabsList>
-            <TabsTrigger value="cpp">C++ Solution</TabsTrigger>
-            <TabsTrigger value="python">Python Solution</TabsTrigger>
-            {current.solutions.java && (
-              <TabsTrigger value="java">Java Solution</TabsTrigger>
-            )}
+            <TabsTrigger value="cpp">C++</TabsTrigger>
+            <TabsTrigger value="python">Python</TabsTrigger>
+            <TabsTrigger value="java">Java</TabsTrigger>
           </TabsList>
-
           <TabsContent value="cpp">
             <Textarea
               rows={8}
@@ -170,9 +164,9 @@ export function ProblemEditor({
                   cpp: e.target.value,
                 })
               }
+              className="font-mono text-xs bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100"
             />
           </TabsContent>
-
           <TabsContent value="python">
             <Textarea
               rows={8}
@@ -183,23 +177,22 @@ export function ProblemEditor({
                   python: e.target.value,
                 })
               }
+              className="font-mono text-xs bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100"
             />
           </TabsContent>
-
-          {current.solutions.java && (
-            <TabsContent value="java">
-              <Textarea
-                rows={8}
-                value={current.solutions.java}
-                onChange={(e) =>
-                  handleChange("solutions", {
-                    ...current.solutions,
-                    java: e.target.value,
-                  })
-                }
-              />
-            </TabsContent>
-          )}
+          <TabsContent value="java">
+            <Textarea
+              rows={8}
+              value={current.solutions.java || ""}
+              onChange={(e) =>
+                handleChange("solutions", {
+                  ...current.solutions,
+                  java: e.target.value,
+                })
+              }
+              className="font-mono text-xs bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100"
+            />
+          </TabsContent>
         </Tabs>
       </div>
     </div>
