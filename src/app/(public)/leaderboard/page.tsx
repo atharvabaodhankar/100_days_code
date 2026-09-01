@@ -10,6 +10,7 @@ import {
   Loader2,
   Sparkles,
   User,
+  Medal,
 } from "lucide-react";
 import { getLeaderboard, getStudentStreak, StudentStreakData } from "@/lib/firebase/gamification";
 import { LeaderboardRankable } from "@/lib/gamification/streaks";
@@ -135,6 +136,25 @@ export default function LeaderboardPage() {
           <div className="p-12 text-center flex items-center justify-center gap-2 text-xs text-zinc-400">
             <Loader2 className="h-5 w-5 animate-spin" />
             <span>Loading leaderboard rankings...</span>
+          </div>
+        ) : entries.length === 0 ? (
+          <div className="p-12 text-center space-y-3">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/50 text-amber-600 dark:text-amber-400">
+              <Medal className="h-6 w-6" />
+            </div>
+            <div className="space-y-1">
+              <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                No submissions on the leaderboard yet!
+              </h3>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 max-w-sm mx-auto">
+                Be the first student to solve a problem and save your solution to claim the #1 ranking.
+              </p>
+            </div>
+            <Link href="/days" className="inline-block pt-2">
+              <Button size="sm" variant="outline" className="text-xs font-semibold">
+                Explore Today's Challenge
+              </Button>
+            </Link>
           </div>
         ) : (
           <div className="overflow-x-auto">

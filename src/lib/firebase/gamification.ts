@@ -4,10 +4,7 @@ import {
   getDoc,
   getDocs,
   setDoc,
-  updateDoc,
   query,
-  orderBy,
-  limit,
 } from "firebase/firestore";
 import { db } from "./client";
 import { calculateNewStreak, sortLeaderboard, LeaderboardRankable } from "../gamification/streaks";
@@ -25,62 +22,12 @@ const LEADERBOARD_COLLECTION = "leaderboard";
 const STREAKS_COLLECTION = "streaks";
 const SUBMISSIONS_COLLECTION = "submissions";
 
-// Mock seed leaderboard for initial display when Firestore is empty
-const MOCK_LEADERBOARD: LeaderboardRankable[] = [
-  {
-    uid: "seed-1",
-    displayName: "Atharva Baodhankar",
-    githubUsername: "atharvabaodhankar",
-    avatarUrl: "https://avatars.githubusercontent.com/u/1024025?v=4",
-    daysCompleted: 25,
-    problemsSolved: 48,
-    currentStreak: 25,
-    lastActiveAt: new Date().toISOString(),
-  },
-  {
-    uid: "seed-2",
-    displayName: "Tejas Patil",
-    githubUsername: "tejaspatil",
-    daysCompleted: 24,
-    problemsSolved: 45,
-    currentStreak: 24,
-    lastActiveAt: new Date(Date.now() - 3600000).toISOString(),
-  },
-  {
-    uid: "seed-3",
-    displayName: "Riya Sharma",
-    githubUsername: "riyasharma",
-    daysCompleted: 22,
-    problemsSolved: 40,
-    currentStreak: 19,
-    lastActiveAt: new Date(Date.now() - 7200000).toISOString(),
-  },
-  {
-    uid: "seed-4",
-    displayName: "Aditya Verma",
-    githubUsername: "adityaverma",
-    daysCompleted: 20,
-    problemsSolved: 38,
-    currentStreak: 14,
-    lastActiveAt: new Date(Date.now() - 14400000).toISOString(),
-  },
-  {
-    uid: "seed-5",
-    displayName: "Sarah Jenkins",
-    githubUsername: "sarahj",
-    daysCompleted: 19,
-    problemsSolved: 35,
-    currentStreak: 12,
-    lastActiveAt: new Date(Date.now() - 28800000).toISOString(),
-  },
-];
-
 /**
- * Fetch leaderboard entries sorted by ranking priority.
+ * Fetch real leaderboard entries directly from Firestore.
  */
 export async function getLeaderboard(): Promise<(LeaderboardRankable & { rank: number })[]> {
   try {
-    const q = query(collection(db, LEADERBOARD_COLLECTION), orderBy("daysCompleted", "desc"), limit(100));
+    const q = query(collection(db, LEADERBOARD_COLLECTION));
     const snapshot = await getDocs(q);
 
     if (!snapshot.empty) {
@@ -88,10 +35,10 @@ export async function getLeaderboard(): Promise<(LeaderboardRankable & { rank: n
       return sortLeaderboard(list);
     }
   } catch (err) {
-    console.warn("[Firestore] Failed to query leaderboard, using seed data:", err);
+    console.warn("[Firestore] Query leaderboard error:", err);
   }
 
-  return sortLeaderboard(MOCK_LEADERBOARD);
+  return [];
 }
 
 /**
@@ -182,7 +129,7 @@ export async function recordStudentSubmission(params: {
     githubUsername: params.githubUsername,
     avatarUrl: params.avatarUrl,
     daysCompleted: updatedCompletedDays.length,
-    problemsSolved: (currentStreakRecord.completedDayNumbers.length * 2) + 1, // approximate
+    problemsSolved: (currentStreakRecord.completedDayNumbers.length * 2) + 1,
     currentStreak: streakCalc.currentStreak,
     lastActiveAt: now,
   };
