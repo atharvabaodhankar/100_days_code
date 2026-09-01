@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Search, Filter, BookOpen } from "lucide-react";
+import { Search } from "lucide-react";
 import { getPublicDays } from "@/lib/mock-data";
 import { DayCard } from "@/components/public/day-card";
 import { Input } from "@/components/ui/input";
@@ -25,10 +25,10 @@ export default function DaysArchivePage() {
     <div className="space-y-8 py-4">
       {/* Page Header */}
       <div className="space-y-2">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-100">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 dark:text-zinc-100">
           Challenges Archive
         </h1>
-        <p className="text-sm text-zinc-400">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">
           Browse all published daily challenges, curated logic breakdowns, and verified solutions.
         </p>
       </div>
@@ -42,10 +42,10 @@ export default function DaysArchivePage() {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9"
           />
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-500" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" />
         </div>
 
-        <div className="text-xs text-zinc-400 font-mono self-end sm:self-center">
+        <div className="text-xs text-zinc-500 dark:text-zinc-400 font-mono self-end sm:self-center">
           Showing {filteredDays.length} of {allDays.length} days
         </div>
       </div>
