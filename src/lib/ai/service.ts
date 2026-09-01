@@ -57,7 +57,8 @@ export interface AIGenerationResult {
 export class AIService {
   /**
    * Generates full challenge breakdown & WhatsApp message.
-   * Runs Gemini primary with Round-Robin key rotation, then falls back to Groq with 5-key Round-Robin rotation.
+   * Runs Gemini primary (gemini-2.5-flash) with Round-Robin key rotation,
+   * then falls back to Groq (qwen3.6-27b) with 5-key Round-Robin rotation.
    */
   static async generateChallengeContent(params: {
     dayNumber: number;
@@ -66,7 +67,7 @@ export class AIService {
   }): Promise<AIGenerationResult> {
     let resultData: any;
     let providerUsed: "gemini" | "groq" = "gemini";
-    let modelUsed: string = "gemini-1.5-flash";
+    let modelUsed: string = "gemini-2.5-flash";
     let latencyMs: number = 0;
 
     // 1. Try Gemini (Primary)
@@ -79,7 +80,7 @@ export class AIService {
       latencyMs = geminiRes.latencyMs;
       console.log(`[AIService] Gemini successfully generated content in ${latencyMs}ms`);
     } catch (geminiError) {
-      console.warn("[AIService] Gemini generation failed. Falling back to Groq Llama-3...", geminiError);
+      console.warn("[AIService] Gemini generation failed. Falling back to Groq...", geminiError);
 
       // 2. Fallback to Groq (Secondary)
       try {

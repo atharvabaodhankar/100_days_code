@@ -3,13 +3,14 @@
 import * as React from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Calendar, ArrowLeft } from "lucide-react";
-import { getPublicDayByNumber, getPublicDays } from "@/lib/mock-data";
+import { ChevronLeft, ChevronRight, Calendar, ArrowLeft, Loader2 } from "lucide-react";
+import { getPublishedDayByNumber, getPublishedDays } from "@/lib/firebase/firestore";
 import { ProblemView } from "@/components/public/problem-view";
 import { DifficultyBadge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
+import { PublicDay } from "@/types";
 
 export default function DayDetailPage() {
   const params = useParams();
@@ -17,17 +18,48 @@ export default function DayDetailPage() {
   const dayParam = params?.day as string;
   const dayNumber = parseInt(dayParam, 10);
 
-  const day = getPublicDayByNumber(dayNumber);
-  const allDays = getPublicDays();
-
+  const [day, setDay] = React.useState<PublicDay | undefined>(undefined);
+  const [allDays, setAllDays] = React.useState<PublicDay[]>([]);
+  const [loading, setLoading] = React.useState(true);
   const [selectedProblemIndex, setSelectedProblemIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    async function load() {
+      if (isNaN(dayNumber)) {
+        setLoading(false);
+        return;
+      }
+      try {
+        const [dayData, daysList] = await Promise.all([
+          getPublishedDayByNumber(dayNumber),
+          getPublishedDays(),
+        ]);
+        setDay(dayData);
+        setAllDays(daysList);
+      } catch (err) {
+        console.error("Failed to fetch day from Firestore:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, [dayNumber]);
+
+  if (loading) {
+    return (
+      <div className="py-20 flex flex-col items-center justify-center space-y-3">
+        <Loader2 className="h-8 w-8 animate-spin text-zinc-500" />
+        <p className="text-sm text-zinc-500">Loading challenge from Firestore...</p>
+      </div>
+    );
+  }
 
   if (!day || isNaN(dayNumber)) {
     return (
       <div className="py-12">
         <EmptyState
           title={`Day ${dayParam} Not Found`}
-          description="This day might not have been published yet or the URL is invalid."
+          description="This challenge day is not published in Firestore yet."
           actionLabel="Back to All Days"
           onAction={() => router.push("/days")}
         />

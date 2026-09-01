@@ -1,11 +1,31 @@
+"use client";
+
+import * as React from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles, Flame, BookOpen } from "lucide-react";
-import { getPublicDays } from "@/lib/mock-data";
+import { ArrowRight, Sparkles, Flame, BookOpen, Loader2 } from "lucide-react";
+import { getPublishedDays } from "@/lib/firebase/firestore";
+import { PublicDay } from "@/types";
 import { DayCard } from "@/components/public/day-card";
 import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
-  const publishedDays = getPublicDays();
+  const [publishedDays, setPublishedDays] = React.useState<PublicDay[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    async function load() {
+      try {
+        const days = await getPublishedDays();
+        setPublishedDays(days);
+      } catch (e) {
+        console.error("Failed to load published days:", e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, []);
+
   const latestDay = publishedDays[0];
 
   const features = [
@@ -61,29 +81,34 @@ export default function HomePage() {
       </section>
 
       {/* Featured / Latest Day Spotlight */}
-      {latestDay && (
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-zinc-500 dark:text-zinc-400" />
-              Latest Released Challenge
-            </h2>
-            <Link
-              href="/days"
-              className="text-xs text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors flex items-center gap-1"
-            >
-              View all days
-              <ArrowRight className="h-3 w-3" />
-            </Link>
-          </div>
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-zinc-500 dark:text-zinc-400" />
+            Latest Released Challenge
+          </h2>
+          <Link
+            href="/days"
+            className="text-xs text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors flex items-center gap-1"
+          >
+            View all days
+            <ArrowRight className="h-3 w-3" />
+          </Link>
+        </div>
 
+        {loading ? (
+          <div className="p-8 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/20 text-center flex items-center justify-center gap-2 text-xs text-zinc-400">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            <span>Loading challenges from Firestore...</span>
+          </div>
+        ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {publishedDays.slice(0, 2).map((day) => (
               <DayCard key={day.id} day={day} />
             ))}
           </div>
-        </section>
-      )}
+        )}
+      </section>
 
       {/* Pillars / Feature Grid */}
       <section className="border-t border-zinc-200 dark:border-zinc-900 pt-12">

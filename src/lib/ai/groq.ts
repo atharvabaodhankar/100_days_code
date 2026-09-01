@@ -4,8 +4,8 @@ import { buildSystemPrompt, buildUserPrompt, RawScrapedProblem } from "./prompts
 
 const groqRotator = new KeyRotator("Groq", env.GROQ_API_KEYS);
 
-// Free tier high-performance models on Groq
-const GROQ_MODEL = "llama-3.3-70b-versatile";
+// Verified active free tier Groq models
+const GROQ_MODEL = "qwen/qwen3.6-27b";
 
 export async function generateWithGroq(params: {
   dayNumber: number;

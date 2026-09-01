@@ -4,8 +4,8 @@ import { buildSystemPrompt, buildUserPrompt, RawScrapedProblem } from "./prompts
 
 const geminiRotator = new KeyRotator("Gemini", env.GEMINI_API_KEYS);
 
-// Free tier model
-const GEMINI_MODEL = "gemini-1.5-flash";
+// Verified active free tier Gemini model
+const GEMINI_MODEL = "gemini-2.5-flash";
 
 export async function generateWithGemini(params: {
   dayNumber: number;

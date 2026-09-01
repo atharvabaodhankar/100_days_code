@@ -8,8 +8,9 @@ import {
   Save,
   Send,
   Eye,
+  Loader2,
 } from "lucide-react";
-import { getAdminDayByNumber } from "@/lib/mock-data";
+import { getAdminDayByNumber, saveAdminDraft, publishDay } from "@/lib/firebase/firestore";
 import { AdminDay, Problem } from "@/types";
 import { ProblemEditor } from "@/components/admin/problem-editor";
 import { WhatsAppPreview } from "@/components/admin/whatsapp-preview";
@@ -27,18 +28,45 @@ export default function AdminDayReviewPage() {
   const dayParam = params?.day as string;
   const dayNumber = parseInt(dayParam, 10);
 
-  const initialDay = getAdminDayByNumber(dayNumber);
-  const [dayData, setDayData] = React.useState<AdminDay | undefined>(initialDay);
+  const [dayData, setDayData] = React.useState<AdminDay | undefined>(undefined);
+  const [loading, setLoading] = React.useState(true);
   const [selectedProblemIndex, setSelectedProblemIndex] = React.useState(0);
   const [isSaving, setIsSaving] = React.useState(false);
   const [isPublishing, setIsPublishing] = React.useState(false);
+
+  React.useEffect(() => {
+    async function loadDay() {
+      if (isNaN(dayNumber)) {
+        setLoading(false);
+        return;
+      }
+      try {
+        const fetched = await getAdminDayByNumber(dayNumber);
+        setDayData(fetched);
+      } catch (err) {
+        console.error("Failed to load admin day:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadDay();
+  }, [dayNumber]);
+
+  if (loading) {
+    return (
+      <div className="py-20 flex flex-col items-center justify-center space-y-3">
+        <Loader2 className="h-8 w-8 animate-spin text-zinc-500" />
+        <p className="text-sm text-zinc-500">Loading day data from Firestore...</p>
+      </div>
+    );
+  }
 
   if (!dayData) {
     return (
       <div className="py-12">
         <EmptyState
           title={`Day ${dayParam} Not Found`}
-          description="Could not locate draft or published day record with this identifier."
+          description="Could not locate draft or published day record with this identifier in Firestore."
           actionLabel="Back to Dashboard"
           onAction={() => router.push("/admin")}
         />
@@ -52,29 +80,45 @@ export default function AdminDayReviewPage() {
     setDayData({ ...dayData, problems: updatedProblems });
   };
 
-  const handleSaveDraft = () => {
+  const handleSaveDraft = async () => {
     setIsSaving(true);
-    setTimeout(() => {
-      setIsSaving(false);
+    try {
+      await saveAdminDraft(dayData);
       showToast({
         type: "success",
-        title: "Draft Saved",
-        message: `Changes for Day ${dayData.dayNumber} saved successfully.`,
+        title: "Draft Saved to Firestore",
+        message: `Day ${dayData.dayNumber} draft updated successfully.`,
       });
-    }, 600);
+    } catch (err: any) {
+      showToast({
+        type: "error",
+        title: "Failed to Save",
+        message: err?.message || "Could not write to Firestore.",
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
-  const handlePublish = () => {
+  const handlePublish = async () => {
     setIsPublishing(true);
-    setTimeout(() => {
-      setIsPublishing(false);
+    try {
+      await publishDay(dayData);
       setDayData({ ...dayData, status: "published" });
       showToast({
         type: "success",
-        title: "Day Published!",
-        message: `Day ${dayData.dayNumber} is now live for students at /day/${dayData.dayNumber}.`,
+        title: "Day Published Live!",
+        message: `Day ${dayData.dayNumber} is now live in Firestore for students at /day/${dayData.dayNumber}.`,
       });
-    }, 800);
+    } catch (err: any) {
+      showToast({
+        type: "error",
+        title: "Publish Failed",
+        message: err?.message || "Could not publish to Firestore.",
+      });
+    } finally {
+      setIsPublishing(false);
+    }
   };
 
   const activeProblem = dayData.problems[selectedProblemIndex] || dayData.problems[0];
@@ -108,7 +152,7 @@ export default function AdminDayReviewPage() {
             isLoading={isSaving}
           >
             <Save className="h-3.5 w-3.5 mr-1.5" />
-            Save Draft
+            Save Draft to Firestore
           </Button>
 
           <Button
@@ -140,7 +184,7 @@ export default function AdminDayReviewPage() {
           </div>
 
           <div className="text-xs font-mono text-zinc-500 dark:text-zinc-400">
-            Provider: {dayData.generationMetadata?.providerUsed || "Gemini"} • {dayData.problemCount} Problems
+            Provider: {dayData.generationMetadata?.providerUsed || "Gemini"} • {dayData.problemCount} Problems • Firestore Linked
           </div>
         </div>
 

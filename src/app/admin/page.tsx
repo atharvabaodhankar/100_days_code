@@ -10,8 +10,10 @@ import {
   Eye,
   CheckCircle2,
   PlusCircle,
+  Loader2,
 } from "lucide-react";
-import { getAllAdminDays } from "@/lib/mock-data";
+import { getAllAdminDays, saveAdminDraft } from "@/lib/firebase/firestore";
+import { AdminDay } from "@/types";
 import { WorkflowStepper } from "@/components/admin/workflow-stepper";
 import { UrlInputForm } from "@/components/admin/url-input-form";
 import { Badge } from "@/components/ui/badge";
@@ -22,18 +24,46 @@ import { useToast } from "@/components/ui/toast";
 export default function AdminDashboardPage() {
   const router = useRouter();
   const { showToast } = useToast();
-  const allDays = getAllAdminDays();
 
+  const [days, setDays] = React.useState<AdminDay[]>([]);
+  const [loading, setLoading] = React.useState(true);
   const [activeTab, setActiveTab] = React.useState<"new" | "drafts" | "published">("new");
 
-  const drafts = allDays.filter((d) => d.status === "draft");
-  const published = allDays.filter((d) => d.status === "published");
+  const loadDays = React.useCallback(async () => {
+    try {
+      const fetched = await getAllAdminDays();
+      setDays(fetched);
+    } catch (err) {
+      console.error("Failed to load admin days:", err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-  const handlePipelineSubmit = (data: { dayNumber: number; topic: string; urls: string[] }) => {
+  React.useEffect(() => {
+    loadDays();
+  }, [loadDays]);
+
+  const drafts = days.filter((d) => d.status === "draft");
+  const published = days.filter((d) => d.status === "published");
+
+  const handlePipelineSubmit = async (data: {
+    dayNumber: number;
+    topic: string;
+    urls: string[];
+    generatedDay?: AdminDay;
+  }) => {
+    if (data.generatedDay) {
+      try {
+        await saveAdminDraft(data.generatedDay);
+      } catch (e) {
+        console.warn("Could not write draft to Firestore directly:", e);
+      }
+    }
     showToast({
       type: "success",
-      title: "AI Generation Complete",
-      message: `Scraped ${data.urls.length} problems & generated Day ${data.dayNumber} draft.`,
+      title: "Draft Created",
+      message: `Day ${data.dayNumber} ready for editorial review.`,
     });
     router.push(`/admin/days/${data.dayNumber}`);
   };
@@ -47,7 +77,7 @@ export default function AdminDashboardPage() {
             Publishing Studio
           </h1>
           <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-            Curate daily DSA problems, orchestrate AI pedagogical generation, and broadcast WhatsApp announcements.
+            Curate daily DSA problems, orchestrate AI pedagogical generation, and broadcast WhatsApp announcements via Firestore.
           </p>
         </div>
 
@@ -93,7 +123,12 @@ export default function AdminDashboardPage() {
           </h2>
         </div>
 
-        {drafts.length > 0 ? (
+        {loading ? (
+          <div className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/20 text-center flex items-center justify-center gap-2 text-xs text-zinc-400">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            <span>Loading drafts from Firestore...</span>
+          </div>
+        ) : drafts.length > 0 ? (
           <div className="grid gap-3">
             {drafts.map((draft) => (
               <div
@@ -145,44 +180,51 @@ export default function AdminDashboardPage() {
           </h2>
         </div>
 
-        <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/30 divide-y divide-zinc-100 dark:divide-zinc-800 overflow-hidden shadow-xs">
-          {published.map((day) => (
-            <div
-              key={day.id}
-              className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 hover:bg-zinc-50 dark:hover:bg-zinc-900/60 transition-colors"
-            >
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs font-semibold text-zinc-800 dark:text-zinc-300">
-                    Day {day.dayNumber}
-                  </span>
-                  <Badge variant="published">Published</Badge>
-                  <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                    {day.problems.length} problems
-                  </span>
+        {loading ? (
+          <div className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/20 text-center flex items-center justify-center gap-2 text-xs text-zinc-400">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            <span>Loading published days from Firestore...</span>
+          </div>
+        ) : (
+          <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/30 divide-y divide-zinc-100 dark:divide-zinc-800 overflow-hidden shadow-xs">
+            {published.map((day) => (
+              <div
+                key={day.id}
+                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 hover:bg-zinc-50 dark:hover:bg-zinc-900/60 transition-colors"
+              >
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-xs font-semibold text-zinc-800 dark:text-zinc-300">
+                      Day {day.dayNumber}
+                    </span>
+                    <Badge variant="published">Published</Badge>
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                      {day.problems.length} problems
+                    </span>
+                  </div>
+                  <h3 className="text-sm font-medium text-zinc-900 dark:text-zinc-200">
+                    {day.topic}
+                  </h3>
                 </div>
-                <h3 className="text-sm font-medium text-zinc-900 dark:text-zinc-200">
-                  {day.topic}
-                </h3>
-              </div>
 
-              <div className="flex items-center gap-2 self-end sm:self-center">
-                <Link href={`/day/${day.dayNumber}`} target="_blank">
-                  <Button variant="ghost" size="sm" className="text-xs text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200">
-                    <Eye className="h-3.5 w-3.5 mr-1" />
-                    Public View
-                  </Button>
-                </Link>
-                <Link href={`/admin/days/${day.dayNumber}`}>
-                  <Button variant="secondary" size="sm" className="text-xs">
-                    <FileEdit className="h-3.5 w-3.5 mr-1" />
-                    Edit
-                  </Button>
-                </Link>
+                <div className="flex items-center gap-2 self-end sm:self-center">
+                  <Link href={`/day/${day.dayNumber}`} target="_blank">
+                    <Button variant="ghost" size="sm" className="text-xs text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200">
+                      <Eye className="h-3.5 w-3.5 mr-1" />
+                      Public View
+                    </Button>
+                  </Link>
+                  <Link href={`/admin/days/${day.dayNumber}`}>
+                    <Button variant="secondary" size="sm" className="text-xs">
+                      <FileEdit className="h-3.5 w-3.5 mr-1" />
+                      Edit
+                    </Button>
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

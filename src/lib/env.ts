@@ -1,6 +1,5 @@
 /**
  * Centralized Environment Configuration
- * Sensitive keys must only be accessed on the server.
  */
 
 export const env = {
@@ -18,10 +17,16 @@ export const env = {
     return raw.split(",").map((k) => k.trim()).filter(Boolean);
   },
 
-  // Firebase Configuration (Server Only)
-  FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID || "",
-  FIREBASE_CLIENT_EMAIL: process.env.FIREBASE_CLIENT_EMAIL || "",
-  FIREBASE_PRIVATE_KEY: process.env.FIREBASE_PRIVATE_KEY || "",
+  // Firebase Client SDK Configuration
+  firebase: {
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "",
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "",
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "challenge-705a4",
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "",
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "",
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "",
+    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "",
+  },
 
   // Public Configuration
   NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",

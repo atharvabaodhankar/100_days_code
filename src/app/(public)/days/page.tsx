@@ -1,15 +1,31 @@
 "use client";
 
 import * as React from "react";
-import { Search } from "lucide-react";
-import { getPublicDays } from "@/lib/mock-data";
+import { Search, Loader2 } from "lucide-react";
+import { getPublishedDays } from "@/lib/firebase/firestore";
+import { PublicDay } from "@/types";
 import { DayCard } from "@/components/public/day-card";
 import { Input } from "@/components/ui/input";
 import { EmptyState } from "@/components/ui/empty-state";
 
 export default function DaysArchivePage() {
   const [searchQuery, setSearchQuery] = React.useState("");
-  const allDays = getPublicDays();
+  const [allDays, setAllDays] = React.useState<PublicDay[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    async function load() {
+      try {
+        const days = await getPublishedDays();
+        setAllDays(days);
+      } catch (err) {
+        console.error("Failed to load archive from Firestore:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, []);
 
   const filteredDays = allDays.filter((d) => {
     const query = searchQuery.toLowerCase();
@@ -51,7 +67,12 @@ export default function DaysArchivePage() {
       </div>
 
       {/* Days Grid */}
-      {filteredDays.length > 0 ? (
+      {loading ? (
+        <div className="p-12 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/20 text-center flex items-center justify-center gap-2 text-xs text-zinc-400">
+          <Loader2 className="h-5 w-5 animate-spin" />
+          <span>Loading challenges from Firestore...</span>
+        </div>
+      ) : filteredDays.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredDays.map((day) => (
             <DayCard key={day.id} day={day} />
