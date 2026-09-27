@@ -95,6 +95,9 @@ export default function AdminDashboardPage() {
     }
   };
 
+  const latestDayNumber = days.length > 0 ? Math.max(...days.map((d) => d.dayNumber)) : 50;
+  const nextDayNumber = latestDayNumber + 1;
+
   return (
     <div className="space-y-8 pb-12">
       {/* Header Overview */}
@@ -137,7 +140,7 @@ export default function AdminDashboardPage() {
               Create Day & Trigger AI Pipeline
             </h3>
           </div>
-          <UrlInputForm onSubmit={handlePipelineSubmit} />
+          <UrlInputForm initialDayNumber={nextDayNumber} onSubmit={handlePipelineSubmit} />
         </section>
       )}
 
