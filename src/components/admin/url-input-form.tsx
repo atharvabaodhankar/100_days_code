@@ -498,7 +498,7 @@ export function UrlInputForm({
                   <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-2">
                     <input
                       type="url"
-                      placeholder="https://takeuforward.org/plus/dsa/problems/... or https://leetcode.com/problems/..."
+                      placeholder="https://takeuforward.org/practice/dsa/... or https://leetcode.com/problems/..."
                       value={url}
                       onChange={(e) => handleUrlChange(index, e.target.value)}
                       className="flex-1 bg-transparent text-xs text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none font-mono"

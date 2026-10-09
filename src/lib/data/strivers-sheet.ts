@@ -16,7 +16,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 1D",
     title: "Binary Search to find X in sorted array",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/binary-search-explained/",
+    tufUrl: "https://takeuforward.org/practice/dsa/binary-search-to-find-x-in-sorted-array",
     leetcodeUrl: "https://leetcode.com/problems/binary-search/",
   },
   {
@@ -25,7 +25,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 1D",
     title: "Implement Lower Bound",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/arrays/implement-lower-bound-bs-2/",
+    tufUrl: "https://takeuforward.org/practice/dsa/implement-lower-bound",
     leetcodeUrl: "https://leetcode.com/problems/search-insert-position/",
   },
   {
@@ -34,7 +34,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 1D",
     title: "Implement Upper Bound",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/arrays/implement-upper-bound/",
+    tufUrl: "https://takeuforward.org/practice/dsa/implement-upper-bound",
     leetcodeUrl: "https://leetcode.com/problems/search-insert-position/",
   },
   {
@@ -43,7 +43,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 1D",
     title: "Search Insert Position",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/plus/dsa/problems/search-insert-position",
+    tufUrl: "https://takeuforward.org/practice/dsa/search-insert-position",
     leetcodeUrl: "https://leetcode.com/problems/search-insert-position/",
   },
   {
@@ -52,7 +52,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 1D",
     title: "Floor and Ceil in Sorted Array",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/arrays/floor-and-ceil-in-sorted-array/",
+    tufUrl: "https://takeuforward.org/practice/dsa/floor-and-ceil-in-sorted-array",
   },
   {
     id: "bs-6",
@@ -60,7 +60,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 1D",
     title: "First and Last Position of Element in Sorted Array",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/first-and-last-occurrences-of-x/",
+    tufUrl: "https://takeuforward.org/practice/dsa/first-and-last-position-of-element-in-sorted-array",
     leetcodeUrl: "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/",
   },
   {
@@ -69,7 +69,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 1D",
     title: "Count Occurrences in Sorted Array",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/count-occurrences-in-sorted-array/",
+    tufUrl: "https://takeuforward.org/practice/dsa/count-occurrences-in-sorted-array",
   },
   {
     id: "bs-8",
@@ -77,7 +77,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 1D",
     title: "Search in Rotated Sorted Array I",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/search-element-in-a-rotated-sorted-array/",
+    tufUrl: "https://takeuforward.org/practice/dsa/search-in-rotated-sorted-array-i",
     leetcodeUrl: "https://leetcode.com/problems/search-in-rotated-sorted-array/",
   },
   {
@@ -86,7 +86,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 1D",
     title: "Search in Rotated Sorted Array II",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/arrays/search-in-a-rotated-sorted-array-ii/",
+    tufUrl: "https://takeuforward.org/practice/dsa/search-in-rotated-sorted-array-ii",
     leetcodeUrl: "https://leetcode.com/problems/search-in-rotated-sorted-array-ii/",
   },
   {
@@ -95,7 +95,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 1D",
     title: "Find Minimum in Rotated Sorted Array",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/minimum-in-rotated-sorted-array/",
+    tufUrl: "https://takeuforward.org/practice/dsa/find-minimum-in-rotated-sorted-array",
     leetcodeUrl: "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/",
   },
   {
@@ -104,7 +104,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 1D",
     title: "Single Element in a Sorted Array",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/search-single-element-in-a-sorted-array/",
+    tufUrl: "https://takeuforward.org/practice/dsa/single-element-in-a-sorted-array",
     leetcodeUrl: "https://leetcode.com/problems/single-element-in-a-sorted-array/",
   },
   {
@@ -113,7 +113,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 1D",
     title: "Find Peak Element in Array",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/find-peak-element/",
+    tufUrl: "https://takeuforward.org/practice/dsa/find-peak-element",
     leetcodeUrl: "https://leetcode.com/problems/find-peak-element/",
   },
 
@@ -124,7 +124,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search on Answers",
     title: "Find square root of a number",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/binary-search/finding-sqrt-of-a-number-using-binary-search/",
+    tufUrl: "https://takeuforward.org/practice/dsa/find-square-root-of-a-number",
     leetcodeUrl: "https://leetcode.com/problems/sqrtx/",
   },
   {
@@ -133,7 +133,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search on Answers",
     title: "Find Nth root of a number",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/nth-root-of-a-number-using-binary-search/",
+    tufUrl: "https://takeuforward.org/practice/dsa/find-nth-root-of-a-number",
   },
   {
     id: "bsa-3",
@@ -141,7 +141,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search on Answers",
     title: "Find the smallest divisor given a threshold",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/arrays/find-the-smallest-divisor-given-a-threshold/",
+    tufUrl: "https://takeuforward.org/practice/dsa/find-the-smallest-divisor-given-a-threshold",
     leetcodeUrl: "https://leetcode.com/problems/find-the-smallest-divisor-given-a-threshold/",
   },
   {
@@ -150,7 +150,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search on Answers",
     title: "Koko eating bananas",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/binary-search/koko-eating-bananas/",
+    tufUrl: "https://takeuforward.org/practice/dsa/koko-eating-bananas",
     leetcodeUrl: "https://leetcode.com/problems/koko-eating-bananas/",
   },
   {
@@ -159,7 +159,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search on Answers",
     title: "Minimum days to make M bouquets",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/arrays/minimum-days-to-make-m-bouquets/",
+    tufUrl: "https://takeuforward.org/practice/dsa/minimum-days-to-make-m-bouquets",
     leetcodeUrl: "https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets/",
   },
   {
@@ -168,7 +168,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search on Answers",
     title: "Capacity to Ship Packages Within D Days",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/arrays/capacity-to-ship-packages-within-d-days/",
+    tufUrl: "https://takeuforward.org/practice/dsa/capacity-to-ship-packages-within-d-days",
     leetcodeUrl: "https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/",
   },
   {
@@ -177,7 +177,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search on Answers",
     title: "Kth Missing Positive Number",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/arrays/kth-missing-positive-number/",
+    tufUrl: "https://takeuforward.org/practice/dsa/kth-missing-positive-number",
     leetcodeUrl: "https://leetcode.com/problems/kth-missing-positive-number/",
   },
   {
@@ -186,7 +186,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search on Answers",
     title: "Painter's Partition Problem",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/arrays/painters-partition-problem/",
+    tufUrl: "https://takeuforward.org/practice/dsa/painters-partition-problem",
   },
   {
     id: "bsa-9",
@@ -194,7 +194,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search on Answers",
     title: "Aggressive Cows",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/aggressive-cows-detailed-solution/",
+    tufUrl: "https://takeuforward.org/practice/dsa/aggressive-cows",
   },
   {
     id: "bsa-10",
@@ -202,7 +202,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search on Answers",
     title: "Book Allocation Problem",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/allocate-minimum-number-of-pages/",
+    tufUrl: "https://takeuforward.org/practice/dsa/book-allocation-problem",
   },
   {
     id: "bsa-11",
@@ -210,7 +210,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search on Answers",
     title: "Median of 2 sorted arrays",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/median-of-two-sorted-arrays-of-different-sizes/",
+    tufUrl: "https://takeuforward.org/practice/dsa/median-of-2-sorted-arrays",
     leetcodeUrl: "https://leetcode.com/problems/median-of-two-sorted-arrays/",
   },
   {
@@ -219,7 +219,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search on Answers",
     title: "Kth element of 2 sorted arrays",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/k-th-element-of-two-sorted-arrays/",
+    tufUrl: "https://takeuforward.org/practice/dsa/kth-element-of-2-sorted-arrays",
   },
   {
     id: "bsa-13",
@@ -227,7 +227,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search on Answers",
     title: "Minimize Max Distance to Gas Station",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/arrays/minimise-maximum-distance-between-gas-stations/",
+    tufUrl: "https://takeuforward.org/practice/dsa/minimize-max-distance-to-gas-station",
     leetcodeUrl: "https://leetcode.com/problems/minimize-max-distance-to-gas-station/",
   },
   {
@@ -236,7 +236,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search on Answers",
     title: "Split array - largest sum",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/arrays/split-array-largest-sum/",
+    tufUrl: "https://takeuforward.org/practice/dsa/split-array-largest-sum",
     leetcodeUrl: "https://leetcode.com/problems/split-array-largest-sum/",
   },
 
@@ -247,7 +247,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 2D Arrays",
     title: "Find the row with maximum number of 1's",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/arrays/find-the-row-with-maximum-number-of-1s/",
+    tufUrl: "https://takeuforward.org/practice/dsa/find-the-row-with-maximum-number-of-1s",
   },
   {
     id: "bs-2d-2",
@@ -255,7 +255,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 2D Arrays",
     title: "Search in a 2D matrix",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/search-in-a-2d-matrix/",
+    tufUrl: "https://takeuforward.org/practice/dsa/search-in-a-2d-matrix",
     leetcodeUrl: "https://leetcode.com/problems/search-a-2d-matrix/",
   },
   {
@@ -264,7 +264,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 2D Arrays",
     title: "Search in a row and column-wise sorted matrix",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/arrays/search-in-a-row-and-column-wise-sorted-matrix/",
+    tufUrl: "https://takeuforward.org/practice/dsa/search-in-a-row-and-column-wise-sorted-matrix",
     leetcodeUrl: "https://leetcode.com/problems/search-a-2d-matrix-ii/",
   },
   {
@@ -273,7 +273,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 2D Arrays",
     title: "Find Peak Element (2D Matrix)",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/arrays/find-peak-element-ii/",
+    tufUrl: "https://takeuforward.org/practice/dsa/find-peak-element-ii",
     leetcodeUrl: "https://leetcode.com/problems/find-a-peak-element-ii/",
   },
   {
@@ -282,7 +282,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search 2D Arrays",
     title: "Matrix Median",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/median-of-row-wise-sorted-matrix/",
+    tufUrl: "https://takeuforward.org/practice/dsa/matrix-median",
   },
 
   // --- Step 5: Strings (Basic and Medium) ---
@@ -292,7 +292,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Strings Basic & Medium",
     title: "Remove outermost Parentheses",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/remove-outermost-parentheses/",
+    tufUrl: "https://takeuforward.org/practice/dsa/remove-outermost-parentheses",
     leetcodeUrl: "https://leetcode.com/problems/remove-outermost-parentheses/",
   },
   {
@@ -301,7 +301,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Strings Basic & Medium",
     title: "Reverse Words in a String",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/reverse-words-in-a-string/",
+    tufUrl: "https://takeuforward.org/practice/dsa/reverse-words-in-a-string",
     leetcodeUrl: "https://leetcode.com/problems/reverse-words-in-a-string/",
   },
   {
@@ -310,7 +310,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Strings Basic & Medium",
     title: "Largest Odd Number in String",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/strings/largest-odd-number-in-a-string/",
+    tufUrl: "https://takeuforward.org/practice/dsa/largest-odd-number-in-string",
     leetcodeUrl: "https://leetcode.com/problems/largest-odd-number-in-string/",
   },
   {
@@ -319,7 +319,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Strings Basic & Medium",
     title: "Longest Common Prefix",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/longest-common-prefix/",
+    tufUrl: "https://takeuforward.org/practice/dsa/longest-common-prefix",
     leetcodeUrl: "https://leetcode.com/problems/longest-common-prefix/",
   },
   {
@@ -328,7 +328,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Strings Basic & Medium",
     title: "Isomorphic Strings",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/strings/isomorphic-strings/",
+    tufUrl: "https://takeuforward.org/practice/dsa/isomorphic-strings",
     leetcodeUrl: "https://leetcode.com/problems/isomorphic-strings/",
   },
   {
@@ -337,7 +337,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Strings Basic & Medium",
     title: "Check whether one string is a rotation of another",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/strings/check-if-one-string-is-a-rotation-of-another/",
+    tufUrl: "https://takeuforward.org/practice/dsa/check-whether-one-string-is-a-rotation-of-another",
     leetcodeUrl: "https://leetcode.com/problems/rotate-string/",
   },
   {
@@ -346,7 +346,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Strings Basic & Medium",
     title: "Check if two Strings are anagrams of each other",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/check-if-two-strings-are-anagrams-of-each-other/",
+    tufUrl: "https://takeuforward.org/practice/dsa/check-if-two-strings-are-anagrams-of-each-other",
     leetcodeUrl: "https://leetcode.com/problems/valid-anagram/",
   },
   {
@@ -355,7 +355,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Strings Basic & Medium",
     title: "Sort Characters By Frequency",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/strings/sort-characters-by-frequency/",
+    tufUrl: "https://takeuforward.org/practice/dsa/sort-characters-by-frequency",
     leetcodeUrl: "https://leetcode.com/problems/sort-characters-by-frequency/",
   },
   {
@@ -364,7 +364,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Strings Basic & Medium",
     title: "Maximum Nesting Depth of Parentheses",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/strings/maximum-nesting-depth-of-the-parentheses/",
+    tufUrl: "https://takeuforward.org/practice/dsa/maximum-nesting-depth-of-parentheses",
     leetcodeUrl: "https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/",
   },
   {
@@ -373,7 +373,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Strings Basic & Medium",
     title: "Roman to Integer",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/strings/roman-to-integer/",
+    tufUrl: "https://takeuforward.org/practice/dsa/roman-to-integer",
     leetcodeUrl: "https://leetcode.com/problems/roman-to-integer/",
   },
   {
@@ -382,7 +382,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Strings Basic & Medium",
     title: "String to Integer (atoi)",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/strings/string-to-integer-atoi/",
+    tufUrl: "https://takeuforward.org/practice/dsa/string-to-integer-atoi",
     leetcodeUrl: "https://leetcode.com/problems/string-to-integer-atoi/",
   },
   {
@@ -391,7 +391,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Strings Basic & Medium",
     title: "Count Number of Substrings with exactly K distinct characters",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/strings/count-number-of-substrings-with-k-distinct-characters/",
+    tufUrl: "https://takeuforward.org/practice/dsa/count-number-of-substrings-with-k-distinct-characters",
   },
   {
     id: "str-13",
@@ -399,7 +399,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Strings Basic & Medium",
     title: "Longest Palindromic Substring",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/strings/longest-palindromic-substring/",
+    tufUrl: "https://takeuforward.org/practice/dsa/longest-palindromic-substring",
     leetcodeUrl: "https://leetcode.com/problems/longest-palindromic-substring/",
   },
   {
@@ -408,7 +408,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Strings Basic & Medium",
     title: "Sum of Beauty of All Substrings",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/strings/sum-of-beauty-of-all-substrings/",
+    tufUrl: "https://takeuforward.org/practice/dsa/sum-of-beauty-of-all-substrings",
     leetcodeUrl: "https://leetcode.com/problems/sum-of-beauty-of-all-substrings/",
   },
 
@@ -419,7 +419,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Linked List Fundamentals",
     title: "Introduction to Linked List",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/introduction-to-linked-list/",
+    tufUrl: "https://takeuforward.org/practice/dsa/introduction-to-linked-list",
   },
   {
     id: "ll-2",
@@ -427,7 +427,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Linked List Fundamentals",
     title: "Inserting a node in Linked List",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/insert-node-at-beginning-of-linked-list/",
+    tufUrl: "https://takeuforward.org/practice/dsa/insert-node-at-beginning-of-linked-list",
   },
   {
     id: "ll-3",
@@ -435,7 +435,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Linked List Fundamentals",
     title: "Deleting a node in Linked List",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/delete-last-node-of-linked-list/",
+    tufUrl: "https://takeuforward.org/practice/dsa/delete-last-node-of-linked-list",
     leetcodeUrl: "https://leetcode.com/problems/delete-node-in-a-linked-list/",
   },
   {
@@ -444,7 +444,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Linked List Fundamentals",
     title: "Find the length of the Linked List",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/find-the-length-of-a-linked-list/",
+    tufUrl: "https://takeuforward.org/practice/dsa/find-the-length-of-a-linked-list",
   },
   {
     id: "ll-5",
@@ -452,7 +452,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Linked List Fundamentals",
     title: "Search an element in the Linked List",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/search-an-element-in-a-linked-list/",
+    tufUrl: "https://takeuforward.org/practice/dsa/search-an-element-in-a-linked-list",
   },
   {
     id: "ll-6",
@@ -460,16 +460,16 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Medium Problems of LL",
     title: "Middle of a Linked List",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/find-middle-element-in-a-linked-list/",
+    tufUrl: "https://takeuforward.org/practice/dsa/middle-of-a-linked-list",
     leetcodeUrl: "https://leetcode.com/problems/middle-of-the-linked-list/",
   },
   {
     id: "ll-7",
     step: "Step 6: Linked List",
     topic: "Medium Problems of LL",
-    title: "Reverse a Linked List (Iterative & Recursive)",
+    title: "Reverse a Linked List",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/reverse-a-linked-list/",
+    tufUrl: "https://takeuforward.org/practice/dsa/reverse-a-linked-list",
     leetcodeUrl: "https://leetcode.com/problems/reverse-linked-list/",
   },
   {
@@ -478,7 +478,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Medium Problems of LL",
     title: "Detect a Loop in Linked List",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/detect-a-cycle-in-a-linked-list/",
+    tufUrl: "https://takeuforward.org/practice/dsa/detect-a-loop-in-linked-list",
     leetcodeUrl: "https://leetcode.com/problems/linked-list-cycle/",
   },
   {
@@ -487,7 +487,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Medium Problems of LL",
     title: "Find starting point of loop in Linked List",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/starting-point-of-loop-in-a-linked-list/",
+    tufUrl: "https://takeuforward.org/practice/dsa/find-starting-point-of-loop-in-linked-list",
     leetcodeUrl: "https://leetcode.com/problems/linked-list-cycle-ii/",
   },
   {
@@ -496,7 +496,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Medium Problems of LL",
     title: "Length of Loop in Linked List",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/find-length-of-loop-in-linked-list/",
+    tufUrl: "https://takeuforward.org/practice/dsa/find-length-of-loop-in-linked-list",
   },
   {
     id: "ll-11",
@@ -504,7 +504,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Medium Problems of LL",
     title: "Check if LL is Palindrome",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/check-if-given-linked-list-is-palindrome/",
+    tufUrl: "https://takeuforward.org/practice/dsa/check-if-linked-list-is-palindrome",
     leetcodeUrl: "https://leetcode.com/problems/palindrome-linked-list/",
   },
   {
@@ -513,7 +513,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Medium Problems of LL",
     title: "Segregate odd and even nodes in LL",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/segregate-even-and-odd-nodes-in-linked-list/",
+    tufUrl: "https://takeuforward.org/practice/dsa/segregate-even-and-odd-nodes-in-linked-list",
     leetcodeUrl: "https://leetcode.com/problems/odd-even-linked-list/",
   },
   {
@@ -522,7 +522,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Medium Problems of LL",
     title: "Remove Nth Node from End of List",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/delete-nth-node-from-end-of-linked-list/",
+    tufUrl: "https://takeuforward.org/practice/dsa/remove-nth-node-from-end-of-list",
     leetcodeUrl: "https://leetcode.com/problems/remove-nth-node-from-end-of-list/",
   },
   {
@@ -531,7 +531,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Medium Problems of LL",
     title: "Delete Middle Node of LL",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/delete-the-middle-node-of-the-linked-list/",
+    tufUrl: "https://takeuforward.org/practice/dsa/delete-the-middle-node-of-the-linked-list",
     leetcodeUrl: "https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/",
   },
 
@@ -542,7 +542,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Recursion & Subsequences",
     title: "Generate all binary strings without consecutive 1s",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/generate-all-binary-strings/",
+    tufUrl: "https://takeuforward.org/practice/dsa/generate-all-binary-strings",
   },
   {
     id: "rec-2",
@@ -550,7 +550,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Recursion & Subsequences",
     title: "Generate Parentheses",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/generate-parentheses/",
+    tufUrl: "https://takeuforward.org/practice/dsa/generate-parentheses",
     leetcodeUrl: "https://leetcode.com/problems/generate-parentheses/",
   },
   {
@@ -559,7 +559,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Recursion & Subsequences",
     title: "Print all subsequences / Power Set",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/power-set-print-all-subsequences/",
+    tufUrl: "https://takeuforward.org/practice/dsa/power-set-print-all-subsequences",
     leetcodeUrl: "https://leetcode.com/problems/subsets/",
   },
   {
@@ -568,7 +568,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Recursion & Subsequences",
     title: "Combination Sum I",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/combination-sum-1/",
+    tufUrl: "https://takeuforward.org/practice/dsa/combination-sum-1",
     leetcodeUrl: "https://leetcode.com/problems/combination-sum/",
   },
   {
@@ -577,7 +577,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Recursion & Subsequences",
     title: "Combination Sum II",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/combination-sum-ii-find-all-unique-combinations/",
+    tufUrl: "https://takeuforward.org/practice/dsa/combination-sum-ii",
     leetcodeUrl: "https://leetcode.com/problems/combination-sum-ii/",
   },
   {
@@ -586,7 +586,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Recursion & Subsequences",
     title: "Subset Sum I",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/subset-sum-sum-of-all-subsets/",
+    tufUrl: "https://takeuforward.org/practice/dsa/subset-sum-1",
   },
   {
     id: "rec-7",
@@ -594,7 +594,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Recursion & Subsequences",
     title: "Subset Sum II",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/subset-ii-print-all-unique-subsets/",
+    tufUrl: "https://takeuforward.org/practice/dsa/subset-sum-ii",
     leetcodeUrl: "https://leetcode.com/problems/subsets-ii/",
   },
   {
@@ -603,7 +603,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Recursion & Subsequences",
     title: "Combination Sum III",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/combination-sum-iii/",
+    tufUrl: "https://takeuforward.org/practice/dsa/combination-sum-iii",
     leetcodeUrl: "https://leetcode.com/problems/combination-sum-iii/",
   },
   {
@@ -612,7 +612,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Hard Recursion",
     title: "Palindromic Partitioning",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/palindrome-partitioning/",
+    tufUrl: "https://takeuforward.org/practice/dsa/palindrome-partitioning",
     leetcodeUrl: "https://leetcode.com/problems/palindrome-partitioning/",
   },
   {
@@ -621,7 +621,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Hard Recursion",
     title: "Word Search",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/word-search-leetcode/",
+    tufUrl: "https://takeuforward.org/practice/dsa/word-search",
     leetcodeUrl: "https://leetcode.com/problems/word-search/",
   },
   {
@@ -630,7 +630,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Hard Recursion",
     title: "N-Queens",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/n-queen-problem-return-all-distinct-solutions-to-the-n-queens-puzzle/",
+    tufUrl: "https://takeuforward.org/practice/dsa/n-queens",
     leetcodeUrl: "https://leetcode.com/problems/n-queens/",
   },
   {
@@ -639,7 +639,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Hard Recursion",
     title: "Rat in a Maze",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/rat-in-a-maze/",
+    tufUrl: "https://takeuforward.org/practice/dsa/rat-in-a-maze",
   },
   {
     id: "rec-13",
@@ -647,7 +647,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Hard Recursion",
     title: "Sudoku Solver",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/sudoku-solver/",
+    tufUrl: "https://takeuforward.org/practice/dsa/sudoku-solver",
     leetcodeUrl: "https://leetcode.com/problems/sudoku-solver/",
   },
 
@@ -658,7 +658,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Bit Manipulation",
     title: "Check if the i-th bit is set or not",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/bit-manipulation/check-if-the-i-th-bit-is-set-or-not/",
+    tufUrl: "https://takeuforward.org/practice/dsa/check-if-the-i-th-bit-is-set-or-not",
   },
   {
     id: "bit-2",
@@ -666,7 +666,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Bit Manipulation",
     title: "Check if a number is odd or not",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/bit-manipulation/check-if-a-number-is-odd-or-not-using-bitwise-operator/",
+    tufUrl: "https://takeuforward.org/practice/dsa/check-if-a-number-is-odd-or-not",
   },
   {
     id: "bit-3",
@@ -674,7 +674,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Bit Manipulation",
     title: "Check if a number is power of 2",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/bit-manipulation/check-if-a-number-is-power-of-2-or-not/",
+    tufUrl: "https://takeuforward.org/practice/dsa/check-if-a-number-is-power-of-2",
     leetcodeUrl: "https://leetcode.com/problems/power-of-two/",
   },
   {
@@ -683,16 +683,16 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Bit Manipulation",
     title: "Count number of set bits",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/bit-manipulation/count-number-of-set-bits/",
+    tufUrl: "https://takeuforward.org/practice/dsa/count-number-of-set-bits",
     leetcodeUrl: "https://leetcode.com/problems/number-of-1-bits/",
   },
   {
     id: "bit-5",
     step: "Step 8: Bit Manipulation",
     topic: "Bit Manipulation",
-    title: "Single Number (Every number appears twice except one)",
+    title: "Single Number",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/arrays/find-the-number-that-appears-once-and-the-other-numbers-twice/",
+    tufUrl: "https://takeuforward.org/practice/dsa/single-number",
     leetcodeUrl: "https://leetcode.com/problems/single-number/",
   },
   {
@@ -701,7 +701,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Bit Manipulation",
     title: "Minimum Bit Flips to Convert Number",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/bit-manipulation/minimum-bit-flips-to-convert-number/",
+    tufUrl: "https://takeuforward.org/practice/dsa/minimum-bit-flips-to-convert-number",
     leetcodeUrl: "https://leetcode.com/problems/minimum-bit-flips-to-convert-number/",
   },
 
@@ -712,7 +712,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Stack and Queue Learning",
     title: "Implement Stack using Array",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/implement-stack-using-array/",
+    tufUrl: "https://takeuforward.org/practice/dsa/implement-stack-using-array",
   },
   {
     id: "sq-2",
@@ -720,7 +720,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Stack and Queue Learning",
     title: "Implement Queue using Array",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/implement-queue-using-array/",
+    tufUrl: "https://takeuforward.org/practice/dsa/implement-queue-using-array",
   },
   {
     id: "sq-3",
@@ -728,7 +728,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Stack and Queue Learning",
     title: "Implement Stack using Queue",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/implement-stack-using-single-queue/",
+    tufUrl: "https://takeuforward.org/practice/dsa/implement-stack-using-queue",
     leetcodeUrl: "https://leetcode.com/problems/implement-stack-using-queues/",
   },
   {
@@ -737,7 +737,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Stack and Queue Learning",
     title: "Implement Queue using Stack",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/implement-queue-using-stack/",
+    tufUrl: "https://takeuforward.org/practice/dsa/implement-queue-using-stack",
     leetcodeUrl: "https://leetcode.com/problems/implement-queue-using-stacks/",
   },
   {
@@ -746,7 +746,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Monotonic Stack / Queue",
     title: "Next Greater Element",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/next-greater-element-using-stack/",
+    tufUrl: "https://takeuforward.org/practice/dsa/next-greater-element",
     leetcodeUrl: "https://leetcode.com/problems/next-greater-element-i/",
   },
   {
@@ -755,16 +755,16 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Monotonic Stack / Queue",
     title: "Next Greater Element II",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/next-greater-element-2/",
+    tufUrl: "https://takeuforward.org/practice/dsa/next-greater-element-ii",
     leetcodeUrl: "https://leetcode.com/problems/next-greater-element-ii/",
   },
   {
     id: "sq-7",
     step: "Step 9: Stack and Queues",
     topic: "Monotonic Stack / Queue",
-    title: "Next Smaller Element / Previous Smaller Element",
+    title: "Next Smaller Element",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/previous-smaller-element/",
+    tufUrl: "https://takeuforward.org/practice/dsa/previous-smaller-element",
   },
   {
     id: "sq-8",
@@ -772,7 +772,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Monotonic Stack / Queue",
     title: "Trapping Rainwater",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/trapping-rainwater/",
+    tufUrl: "https://takeuforward.org/practice/dsa/trapping-rainwater",
     leetcodeUrl: "https://leetcode.com/problems/trapping-rain-water/",
   },
   {
@@ -781,7 +781,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Monotonic Stack / Queue",
     title: "Sum of Subarray Minimums",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/sum-of-subarray-minimums/",
+    tufUrl: "https://takeuforward.org/practice/dsa/sum-of-subarray-minimums",
     leetcodeUrl: "https://leetcode.com/problems/sum-of-subarray-minimums/",
   },
   {
@@ -790,7 +790,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Monotonic Stack / Queue",
     title: "Asteroid Collision",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/asteroid-collision/",
+    tufUrl: "https://takeuforward.org/practice/dsa/asteroid-collision",
     leetcodeUrl: "https://leetcode.com/problems/asteroid-collision/",
   },
   {
@@ -799,7 +799,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Monotonic Stack / Queue",
     title: "Largest Rectangle in Histogram",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/area-of-largest-rectangle-in-histogram/",
+    tufUrl: "https://takeuforward.org/practice/dsa/largest-rectangle-in-histogram",
     leetcodeUrl: "https://leetcode.com/problems/largest-rectangle-in-histogram/",
   },
   {
@@ -808,7 +808,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Monotonic Stack / Queue",
     title: "Sliding Window Maximum",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/sliding-window-maximum/",
+    tufUrl: "https://takeuforward.org/practice/dsa/sliding-window-maximum",
     leetcodeUrl: "https://leetcode.com/problems/sliding-window-maximum/",
   },
 
@@ -819,7 +819,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Sliding Window & Two Pointer",
     title: "Longest Substring Without Repeating Characters",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/length-of-longest-substring-without-any-repeating-characters/",
+    tufUrl: "https://takeuforward.org/practice/dsa/longest-substring-without-repeating-characters",
     leetcodeUrl: "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
   },
   {
@@ -828,7 +828,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Sliding Window & Two Pointer",
     title: "Max Consecutive Ones III",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/max-consecutive-ones-iii/",
+    tufUrl: "https://takeuforward.org/practice/dsa/max-consecutive-ones-iii",
     leetcodeUrl: "https://leetcode.com/problems/max-consecutive-ones-iii/",
   },
   {
@@ -837,7 +837,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Sliding Window & Two Pointer",
     title: "Fruit Into Baskets",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/fruit-into-baskets/",
+    tufUrl: "https://takeuforward.org/practice/dsa/fruit-into-baskets",
     leetcodeUrl: "https://leetcode.com/problems/fruit-into-baskets/",
   },
   {
@@ -846,7 +846,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Sliding Window & Two Pointer",
     title: "Longest Repeating Character Replacement",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/longest-repeating-character-replacement/",
+    tufUrl: "https://takeuforward.org/practice/dsa/longest-repeating-character-replacement",
     leetcodeUrl: "https://leetcode.com/problems/longest-repeating-character-replacement/",
   },
   {
@@ -855,7 +855,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Sliding Window & Two Pointer",
     title: "Binary Subarrays With Sum",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/binary-subarrays-with-sum/",
+    tufUrl: "https://takeuforward.org/practice/dsa/binary-subarrays-with-sum",
     leetcodeUrl: "https://leetcode.com/problems/binary-subarrays-with-sum/",
   },
   {
@@ -864,7 +864,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Sliding Window & Two Pointer",
     title: "Count Number of Nice Subarrays",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/count-number-of-nice-subarrays/",
+    tufUrl: "https://takeuforward.org/practice/dsa/count-number-of-nice-subarrays",
     leetcodeUrl: "https://leetcode.com/problems/count-number-of-nice-subarrays/",
   },
   {
@@ -873,7 +873,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Sliding Window & Two Pointer",
     title: "Number of Substrings Containing All Three Characters",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/number-of-substrings-containing-all-three-characters/",
+    tufUrl: "https://takeuforward.org/practice/dsa/number-of-substrings-containing-all-three-characters",
     leetcodeUrl: "https://leetcode.com/problems/number-of-substrings-containing-all-three-characters/",
   },
   {
@@ -882,7 +882,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Sliding Window & Two Pointer",
     title: "Maximum Points You Can Obtain from Cards",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/maximum-points-you-can-obtain-from-cards/",
+    tufUrl: "https://takeuforward.org/practice/dsa/maximum-points-you-can-obtain-from-cards",
     leetcodeUrl: "https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/",
   },
   {
@@ -891,7 +891,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Sliding Window & Two Pointer",
     title: "Longest Substring with At Most K Distinct Characters",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/longest-substring-with-at-most-k-distinct-characters/",
+    tufUrl: "https://takeuforward.org/practice/dsa/longest-substring-with-at-most-k-distinct-characters",
   },
   {
     id: "sw-10",
@@ -899,7 +899,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Sliding Window & Two Pointer",
     title: "Minimum Window Substring",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/minimum-window-substring/",
+    tufUrl: "https://takeuforward.org/practice/dsa/minimum-window-substring",
     leetcodeUrl: "https://leetcode.com/problems/minimum-window-substring/",
   },
 
@@ -910,7 +910,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Heaps Learning & Medium",
     title: "Kth Largest Element in an Array",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/kth-largest-smallest-element-in-an-array/",
+    tufUrl: "https://takeuforward.org/practice/dsa/kth-largest-element-in-an-array",
     leetcodeUrl: "https://leetcode.com/problems/kth-largest-element-in-an-array/",
   },
   {
@@ -919,7 +919,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Heaps Learning & Medium",
     title: "Kth Smallest Element in an Array",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/kth-smallest-element-in-an-array/",
+    tufUrl: "https://takeuforward.org/practice/dsa/kth-smallest-element-in-an-array",
   },
   {
     id: "heap-3",
@@ -927,7 +927,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Heaps Learning & Medium",
     title: "Merge K Sorted Arrays",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/merge-k-sorted-arrays/",
+    tufUrl: "https://takeuforward.org/practice/dsa/merge-k-sorted-arrays",
   },
   {
     id: "heap-4",
@@ -935,7 +935,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Heaps Learning & Medium",
     title: "Merge K Sorted Lists",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/merge-k-sorted-linked-lists/",
+    tufUrl: "https://takeuforward.org/practice/dsa/merge-k-sorted-lists",
     leetcodeUrl: "https://leetcode.com/problems/merge-k-sorted-lists/",
   },
   {
@@ -944,7 +944,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Heaps Learning & Medium",
     title: "Top K Frequent Elements",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/top-k-frequent-elements-in-array/",
+    tufUrl: "https://takeuforward.org/practice/dsa/top-k-frequent-elements",
     leetcodeUrl: "https://leetcode.com/problems/top-k-frequent-elements/",
   },
   {
@@ -953,7 +953,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Heaps Hard",
     title: "Find Median from Data Stream",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/find-median-from-data-stream/",
+    tufUrl: "https://takeuforward.org/practice/dsa/find-median-from-data-stream",
     leetcodeUrl: "https://leetcode.com/problems/find-median-from-data-stream/",
   },
 
@@ -964,7 +964,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Greedy Algorithms",
     title: "Assign Cookies",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/assign-cookies/",
+    tufUrl: "https://takeuforward.org/practice/dsa/assign-cookies",
     leetcodeUrl: "https://leetcode.com/problems/assign-cookies/",
   },
   {
@@ -973,7 +973,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Greedy Algorithms",
     title: "Fractional Knapsack Problem",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/fractional-knapsack-problem-greedy-approach/",
+    tufUrl: "https://takeuforward.org/practice/dsa/fractional-knapsack",
   },
   {
     id: "gr-3",
@@ -981,7 +981,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Greedy Algorithms",
     title: "Find Minimum number of Coins",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/find-minimum-number-of-coins/",
+    tufUrl: "https://takeuforward.org/practice/dsa/find-minimum-number-of-coins",
   },
   {
     id: "gr-4",
@@ -989,7 +989,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Greedy Algorithms",
     title: "Lemonade Change",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/lemonade-change/",
+    tufUrl: "https://takeuforward.org/practice/dsa/lemonade-change",
     leetcodeUrl: "https://leetcode.com/problems/lemonade-change/",
   },
   {
@@ -998,7 +998,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Greedy Algorithms",
     title: "Valid Parenthesis String",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/check-if-a-parentheses-string-can-be-valid/",
+    tufUrl: "https://takeuforward.org/practice/dsa/valid-parenthesis-string",
     leetcodeUrl: "https://leetcode.com/problems/valid-parenthesis-string/",
   },
   {
@@ -1007,7 +1007,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Greedy Algorithms",
     title: "N meetings in one room",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/n-meetings-in-one-room/",
+    tufUrl: "https://takeuforward.org/practice/dsa/n-meetings-in-one-room",
   },
   {
     id: "gr-7",
@@ -1015,7 +1015,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Greedy Algorithms",
     title: "Non-overlapping Intervals",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/non-overlapping-intervals/",
+    tufUrl: "https://takeuforward.org/practice/dsa/non-overlapping-intervals",
     leetcodeUrl: "https://leetcode.com/problems/non-overlapping-intervals/",
   },
   {
@@ -1024,7 +1024,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Greedy Algorithms",
     title: "Insert Interval",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/insert-interval/",
+    tufUrl: "https://takeuforward.org/practice/dsa/insert-interval",
     leetcodeUrl: "https://leetcode.com/problems/insert-interval/",
   },
   {
@@ -1033,7 +1033,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Greedy Algorithms",
     title: "Minimum number of platforms required for a railway",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/minimum-number-of-platforms-required-for-a-railway/",
+    tufUrl: "https://takeuforward.org/practice/dsa/minimum-number-of-platforms-required-for-a-railway",
   },
   {
     id: "gr-10",
@@ -1041,7 +1041,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Greedy Algorithms",
     title: "Job Sequencing Problem",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/job-sequencing-problem/",
+    tufUrl: "https://takeuforward.org/practice/dsa/job-sequencing-problem",
   },
   {
     id: "gr-11",
@@ -1049,7 +1049,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Greedy Algorithms",
     title: "Candy",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/candy/",
+    tufUrl: "https://takeuforward.org/practice/dsa/candy",
     leetcodeUrl: "https://leetcode.com/problems/candy/",
   },
 
@@ -1060,7 +1060,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Trees Traversals",
     title: "Binary Tree Traversals (Inorder, Preorder, Postorder)",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/preorder-inorder-postorder-traversals-in-one-traversal/",
+    tufUrl: "https://takeuforward.org/practice/dsa/binary-tree-traversals",
   },
   {
     id: "bt-2",
@@ -1068,7 +1068,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Trees Traversals",
     title: "Level order Traversal / Spiral Traversal",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/level-order-traversal-of-a-binary-tree/",
+    tufUrl: "https://takeuforward.org/practice/dsa/level-order-traversal-of-a-binary-tree",
     leetcodeUrl: "https://leetcode.com/problems/binary-tree-level-order-traversal/",
   },
   {
@@ -1077,7 +1077,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Trees Medium",
     title: "Maximum Depth in Binary Tree",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/maximum-depth-of-a-binary-tree/",
+    tufUrl: "https://takeuforward.org/practice/dsa/maximum-depth-of-a-binary-tree",
     leetcodeUrl: "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
   },
   {
@@ -1086,7 +1086,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Trees Medium",
     title: "Check for Balanced Binary Tree",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/check-for-balanced-binary-tree/",
+    tufUrl: "https://takeuforward.org/practice/dsa/check-for-balanced-binary-tree",
     leetcodeUrl: "https://leetcode.com/problems/balanced-binary-tree/",
   },
   {
@@ -1095,7 +1095,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Trees Medium",
     title: "Diameter of Binary Tree",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/calculate-the-diameter-of-a-binary-tree/",
+    tufUrl: "https://takeuforward.org/practice/dsa/diameter-of-binary-tree",
     leetcodeUrl: "https://leetcode.com/problems/diameter-of-binary-tree/",
   },
   {
@@ -1104,7 +1104,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Trees Medium",
     title: "Maximum Path Sum in Binary Tree",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/maximum-sum-path-in-binary-tree/",
+    tufUrl: "https://takeuforward.org/practice/dsa/maximum-path-sum-in-binary-tree",
     leetcodeUrl: "https://leetcode.com/problems/binary-tree-maximum-path-sum/",
   },
   {
@@ -1113,7 +1113,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Trees Medium",
     title: "Check if two trees are Identical or not",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/check-if-two-trees-are-identical-or-not/",
+    tufUrl: "https://takeuforward.org/practice/dsa/check-if-two-trees-are-identical-or-not",
     leetcodeUrl: "https://leetcode.com/problems/same-tree/",
   },
   {
@@ -1122,7 +1122,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Trees Medium",
     title: "Zig Zag Traversal of Binary Tree",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/zig-zag-traversal-of-binary-tree/",
+    tufUrl: "https://takeuforward.org/practice/dsa/zig-zag-traversal-of-binary-tree",
     leetcodeUrl: "https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/",
   },
   {
@@ -1131,7 +1131,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Trees Medium",
     title: "Boundary Traversal of Binary Tree",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/boundary-traversal-of-a-binary-tree/",
+    tufUrl: "https://takeuforward.org/practice/dsa/boundary-traversal-of-a-binary-tree",
   },
   {
     id: "bt-10",
@@ -1139,7 +1139,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Trees Medium",
     title: "Vertical Order Traversal of Binary Tree",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/vertical-order-traversal-of-binary-tree/",
+    tufUrl: "https://takeuforward.org/practice/dsa/vertical-order-traversal-of-binary-tree",
     leetcodeUrl: "https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/",
   },
   {
@@ -1148,7 +1148,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Trees Medium",
     title: "Top View of Binary Tree",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/top-view-of-a-binary-tree/",
+    tufUrl: "https://takeuforward.org/practice/dsa/top-view-of-a-binary-tree",
   },
   {
     id: "bt-12",
@@ -1156,7 +1156,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Trees Medium",
     title: "Bottom View of Binary Tree",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/bottom-view-of-a-binary-tree/",
+    tufUrl: "https://takeuforward.org/practice/dsa/bottom-view-of-a-binary-tree",
   },
   {
     id: "bt-13",
@@ -1164,7 +1164,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Trees Medium",
     title: "Right/Left View of Binary Tree",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/right-left-view-of-binary-tree/",
+    tufUrl: "https://takeuforward.org/practice/dsa/right-left-view-of-binary-tree",
     leetcodeUrl: "https://leetcode.com/problems/binary-tree-right-side-view/",
   },
   {
@@ -1173,7 +1173,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Trees Medium",
     title: "Symmetric Binary Tree",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/check-for-symmetrical-binary-tree/",
+    tufUrl: "https://takeuforward.org/practice/dsa/symmetric-binary-tree",
     leetcodeUrl: "https://leetcode.com/problems/symmetric-tree/",
   },
   {
@@ -1182,7 +1182,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Trees Medium",
     title: "Lowest Common Ancestor for two given Nodes",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/lowest-common-ancestor-for-two-given-nodes/",
+    tufUrl: "https://takeuforward.org/practice/dsa/lowest-common-ancestor-for-two-given-nodes",
     leetcodeUrl: "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/",
   },
 
@@ -1193,7 +1193,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search Trees",
     title: "Search in a Binary Search Tree",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/search-in-a-binary-search-tree-bst/",
+    tufUrl: "https://takeuforward.org/practice/dsa/search-in-a-binary-search-tree",
     leetcodeUrl: "https://leetcode.com/problems/search-in-a-binary-search-tree/",
   },
   {
@@ -1202,7 +1202,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search Trees",
     title: "Ceil in a Binary Search Tree",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/ceil-in-a-binary-search-tree-bst/",
+    tufUrl: "https://takeuforward.org/practice/dsa/ceil-in-a-binary-search-tree",
   },
   {
     id: "bst-3",
@@ -1210,7 +1210,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search Trees",
     title: "Floor in a Binary Search Tree",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/floor-in-a-binary-search-tree-bst/",
+    tufUrl: "https://takeuforward.org/practice/dsa/floor-in-a-binary-search-tree",
   },
   {
     id: "bst-4",
@@ -1218,7 +1218,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search Trees",
     title: "Insert a given Node in Binary Search Tree",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/insert-a-given-node-in-binary-search-tree-bst/",
+    tufUrl: "https://takeuforward.org/practice/dsa/insert-a-given-node-in-binary-search-tree",
     leetcodeUrl: "https://leetcode.com/problems/insert-into-a-binary-search-tree/",
   },
   {
@@ -1227,7 +1227,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search Trees",
     title: "Delete a Node in Binary Search Tree",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/delete-a-node-in-binary-search-tree-bst/",
+    tufUrl: "https://takeuforward.org/practice/dsa/delete-a-node-in-binary-search-tree",
     leetcodeUrl: "https://leetcode.com/problems/delete-node-in-a-bst/",
   },
   {
@@ -1236,7 +1236,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search Trees",
     title: "Find K-th smallest/largest element in BST",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/kth-largest-smallest-element-in-binary-search-tree/",
+    tufUrl: "https://takeuforward.org/practice/dsa/kth-largest-smallest-element-in-binary-search-tree",
     leetcodeUrl: "https://leetcode.com/problems/kth-smallest-element-in-a-bst/",
   },
   {
@@ -1245,7 +1245,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search Trees",
     title: "Check if a tree is a BST or BT",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/check-if-a-binary-tree-is-bst-or-not/",
+    tufUrl: "https://takeuforward.org/practice/dsa/check-if-a-binary-tree-is-bst-or-not",
     leetcodeUrl: "https://leetcode.com/problems/validate-binary-search-tree/",
   },
   {
@@ -1254,7 +1254,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Binary Search Trees",
     title: "LCA in Binary Search Tree",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/lca-in-binary-search-tree-bst/",
+    tufUrl: "https://takeuforward.org/practice/dsa/lca-in-binary-search-tree",
     leetcodeUrl: "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/",
   },
 
@@ -1265,7 +1265,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Breadth First Search (BFS)",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/breadth-first-search-bfs-level-order-traversal/",
+    tufUrl: "https://takeuforward.org/practice/dsa/breadth-first-search-bfs-level-order-traversal",
   },
   {
     id: "g-2",
@@ -1273,7 +1273,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Depth First Search (DFS)",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/depth-first-search-dfs/",
+    tufUrl: "https://takeuforward.org/practice/dsa/depth-first-search-dfs",
   },
   {
     id: "g-3",
@@ -1281,7 +1281,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Number of Provinces",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/number-of-provinces/",
+    tufUrl: "https://takeuforward.org/practice/dsa/number-of-provinces",
     leetcodeUrl: "https://leetcode.com/problems/number-of-provinces/",
   },
   {
@@ -1290,7 +1290,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Rotten Oranges",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/rotton-oranges-min-time-to-rot-all-oranges-bfs/",
+    tufUrl: "https://takeuforward.org/practice/dsa/rotting-oranges",
     leetcodeUrl: "https://leetcode.com/problems/rotting-oranges/",
   },
   {
@@ -1299,7 +1299,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Flood Fill Algorithm",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/flood-fill-algorithm/",
+    tufUrl: "https://takeuforward.org/practice/dsa/flood-fill-algorithm",
     leetcodeUrl: "https://leetcode.com/problems/flood-fill/",
   },
   {
@@ -1308,7 +1308,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Cycle Detection in Undirected Graph (BFS & DFS)",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/detect-cycle-in-an-undirected-graph-using-bfs/",
+    tufUrl: "https://takeuforward.org/practice/dsa/detect-cycle-in-an-undirected-graph",
   },
   {
     id: "g-7",
@@ -1316,7 +1316,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "0/1 Matrix (Bfs Problem)",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/distance-of-nearest-cell-having-1/",
+    tufUrl: "https://takeuforward.org/practice/dsa/01-matrix",
     leetcodeUrl: "https://leetcode.com/problems/01-matrix/",
   },
   {
@@ -1325,7 +1325,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Surrounded Regions",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/surrounded-regions-replace-os-with-xs/",
+    tufUrl: "https://takeuforward.org/practice/dsa/surrounded-regions",
     leetcodeUrl: "https://leetcode.com/problems/surrounded-regions/",
   },
   {
@@ -1334,7 +1334,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Number of Enclaves",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/number-of-enclaves/",
+    tufUrl: "https://takeuforward.org/practice/dsa/number-of-enclaves",
     leetcodeUrl: "https://leetcode.com/problems/number-of-enclaves/",
   },
   {
@@ -1343,7 +1343,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Word Ladder I",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/word-ladder-i-g-29/",
+    tufUrl: "https://takeuforward.org/practice/dsa/word-ladder-i",
     leetcodeUrl: "https://leetcode.com/problems/word-ladder/",
   },
   {
@@ -1352,7 +1352,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Dijkstra's Algorithm - Using Priority Queue",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/dijkstras-algorithm-using-priority-queue-g-32/",
+    tufUrl: "https://takeuforward.org/practice/dsa/dijkstras-algorithm-using-priority-queue",
   },
   {
     id: "g-12",
@@ -1360,7 +1360,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Shortest Path in Directed Acyclic Graph (DAG)",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/shortest-path-in-directed-acyclic-graph-topological-sort-g-27/",
+    tufUrl: "https://takeuforward.org/practice/dsa/shortest-path-in-directed-acyclic-graph",
   },
   {
     id: "g-13",
@@ -1368,7 +1368,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Cheapest Flights Within K Stops",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/g-38-cheapest-flights-within-k-stops/",
+    tufUrl: "https://takeuforward.org/practice/dsa/cheapest-flights-within-k-stops",
     leetcodeUrl: "https://leetcode.com/problems/cheapest-flights-within-k-stops/",
   },
   {
@@ -1377,7 +1377,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Network Delay Time",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/network-delay-time-dijkstras-algorithm-g-37/",
+    tufUrl: "https://takeuforward.org/practice/dsa/network-delay-time",
     leetcodeUrl: "https://leetcode.com/problems/network-delay-time/",
   },
   {
@@ -1386,7 +1386,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Bellman Ford Algorithm",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/bellman-ford-algorithm-g-41/",
+    tufUrl: "https://takeuforward.org/practice/dsa/bellman-ford-algorithm",
   },
   {
     id: "g-16",
@@ -1394,7 +1394,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Floyd Warshall Algorithm",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/floyd-warshall-algorithm-g-42/",
+    tufUrl: "https://takeuforward.org/practice/dsa/floyd-warshall-algorithm",
   },
   {
     id: "g-17",
@@ -1402,7 +1402,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Disjoint Set (Union By Rank and Find Path Compression)",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/disjoint-set-union-by-rank-union-by-size-path-compression-g-46/",
+    tufUrl: "https://takeuforward.org/practice/dsa/disjoint-set-union-by-rank-and-size",
   },
   {
     id: "g-18",
@@ -1410,7 +1410,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "Graph Traversals & Problems",
     title: "Kruskal's Algorithm - Minimum Spanning Tree",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/kruskals-algorithm-minimum-spanning-tree-g-47/",
+    tufUrl: "https://takeuforward.org/practice/dsa/kruskals-algorithm-minimum-spanning-tree",
   },
 
   // --- Step 16: Dynamic Programming ---
@@ -1420,7 +1420,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "DP on Grids & 1D",
     title: "Climbing Stairs",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/dynamic-programming-climbing-stairs/",
+    tufUrl: "https://takeuforward.org/practice/dsa/climbing-stairs",
     leetcodeUrl: "https://leetcode.com/problems/climbing-stairs/",
   },
   {
@@ -1429,7 +1429,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "DP on Grids & 1D",
     title: "Frog Jump (DP-3)",
     difficulty: "Easy",
-    tufUrl: "https://takeuforward.org/data-structure/dynamic-programming-frog-jump-dp-3/",
+    tufUrl: "https://takeuforward.org/practice/dsa/frog-jump",
   },
   {
     id: "dp-3",
@@ -1437,7 +1437,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "DP on Grids & 1D",
     title: "Maximum Sum of Non-Adjacent Elements (House Robber)",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/maximum-sum-of-non-adjacent-elements-dp-5/",
+    tufUrl: "https://takeuforward.org/practice/dsa/maximum-sum-of-non-adjacent-elements",
     leetcodeUrl: "https://leetcode.com/problems/house-robber/",
   },
   {
@@ -1446,7 +1446,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "DP on Grids & 1D",
     title: "House Robber II",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/dynamic-programming-house-robber-dp-6/",
+    tufUrl: "https://takeuforward.org/practice/dsa/house-robber-ii",
     leetcodeUrl: "https://leetcode.com/problems/house-robber-ii/",
   },
   {
@@ -1455,7 +1455,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "DP on Grids & 1D",
     title: "Ninja's Training (2D DP)",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/dynamic-programming-ninjas-training-dp-7/",
+    tufUrl: "https://takeuforward.org/practice/dsa/ninjas-training",
   },
   {
     id: "dp-6",
@@ -1463,7 +1463,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "DP on Grids & 1D",
     title: "Grid Unique Paths",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/grid-unique-paths-dp-on-grids-dp8/",
+    tufUrl: "https://takeuforward.org/practice/dsa/grid-unique-paths",
     leetcodeUrl: "https://leetcode.com/problems/unique-paths/",
   },
   {
@@ -1472,7 +1472,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "DP on Grids & 1D",
     title: "Grid Unique Paths 2 (With Obstacles)",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/grid-unique-paths-2-dp-9/",
+    tufUrl: "https://takeuforward.org/practice/dsa/grid-unique-paths-2",
     leetcodeUrl: "https://leetcode.com/problems/unique-paths-ii/",
   },
   {
@@ -1481,7 +1481,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "DP on Grids & 1D",
     title: "Minimum Path Sum in Grid",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/minimum-path-sum-in-a-grid-dp-10/",
+    tufUrl: "https://takeuforward.org/practice/dsa/minimum-path-sum-in-a-grid",
     leetcodeUrl: "https://leetcode.com/problems/minimum-path-sum/",
   },
   {
@@ -1490,7 +1490,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "DP on Subsequences",
     title: "Subset Sum Equal to Target",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/subset-sum-equal-to-target-dp-14/",
+    tufUrl: "https://takeuforward.org/practice/dsa/subset-sum-equal-to-target",
   },
   {
     id: "dp-10",
@@ -1498,7 +1498,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "DP on Subsequences",
     title: "Partition Equal Subset Sum",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/partition-equal-subset-sum-dp-15/",
+    tufUrl: "https://takeuforward.org/practice/dsa/partition-equal-subset-sum",
     leetcodeUrl: "https://leetcode.com/problems/partition-equal-subset-sum/",
   },
   {
@@ -1507,7 +1507,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "DP on Subsequences",
     title: "0/1 Knapsack",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/0-1-knapsack-dp-19/",
+    tufUrl: "https://takeuforward.org/practice/dsa/0-1-knapsack",
   },
   {
     id: "dp-12",
@@ -1515,7 +1515,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "DP on Subsequences",
     title: "Coin Change (Minimum Coins)",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/minimum-coins-dp-20/",
+    tufUrl: "https://takeuforward.org/practice/dsa/minimum-coins",
     leetcodeUrl: "https://leetcode.com/problems/coin-change/",
   },
   {
@@ -1524,7 +1524,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "DP on Strings",
     title: "Longest Common Subsequence (LCS)",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/longest-common-subsequence-dp-25/",
+    tufUrl: "https://takeuforward.org/practice/dsa/longest-common-subsequence",
     leetcodeUrl: "https://leetcode.com/problems/longest-common-subsequence/",
   },
   {
@@ -1533,7 +1533,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "DP on Strings",
     title: "Edit Distance",
     difficulty: "Hard",
-    tufUrl: "https://takeuforward.org/data-structure/edit-distance-dp-33/",
+    tufUrl: "https://takeuforward.org/practice/dsa/edit-distance",
     leetcodeUrl: "https://leetcode.com/problems/edit-distance/",
   },
   {
@@ -1542,7 +1542,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "DP on LIS",
     title: "Longest Increasing Subsequence (LIS)",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/longest-increasing-subsequence-dp-41/",
+    tufUrl: "https://takeuforward.org/practice/dsa/longest-increasing-subsequence",
     leetcodeUrl: "https://leetcode.com/problems/longest-increasing-subsequence/",
   },
   {
@@ -1551,7 +1551,7 @@ export const STRIVERS_A2Z_SHEET: StriverProblem[] = [
     topic: "DP on LIS",
     title: "Largest Divisible Subset",
     difficulty: "Medium",
-    tufUrl: "https://takeuforward.org/data-structure/longest-divisible-subset-dp-44/",
+    tufUrl: "https://takeuforward.org/practice/dsa/longest-divisible-subset",
     leetcodeUrl: "https://leetcode.com/problems/largest-divisible-subset/",
   },
 ];
