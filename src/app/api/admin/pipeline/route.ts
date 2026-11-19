@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AIService } from "@/lib/ai/service";
 import { RawScrapedProblem } from "@/lib/ai/prompts";
+import { resolveCanonicalTufUrl } from "@/lib/data/tuf-url-normalizer";
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,7 +17,11 @@ export async function POST(req: NextRequest) {
     }
 
     // 2. Prepare problem inputs from URLs
-    const problems: RawScrapedProblem[] = urls.map((url: string, idx: number) => {
+    const problems: RawScrapedProblem[] = urls.map((rawUrl: string, idx: number) => {
+      const url = rawUrl.includes("takeuforward.org")
+        ? resolveCanonicalTufUrl(rawUrl)
+        : rawUrl;
+
       let slug = "Problem";
       try {
         const parsed = new URL(url);

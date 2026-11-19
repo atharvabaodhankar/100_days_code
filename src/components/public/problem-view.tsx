@@ -25,6 +25,7 @@ import { GitHubIcon } from "../ui/icons";
 import { useAuth } from "@/lib/firebase/auth";
 import { recordStudentSubmission } from "@/lib/firebase/gamification";
 import { useToast } from "../ui/toast";
+import { resolveCanonicalTufUrl } from "@/lib/data/tuf-url-normalizer";
 
 /**
  * Parses inline markdown tokens (e.g. `code`, **bold**, etc.) into React elements.
@@ -231,15 +232,20 @@ export function ProblemView({
 
         {/* Source link */}
         {problem.sourceUrl && (
-          <a
-            href={problem.sourceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white px-3 py-1.5 rounded-md bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 transition-colors w-fit shadow-xs"
-          >
-            <span>Solve on {problem.sourceName}</span>
-            <ExternalLink className="h-3.5 w-3.5 text-zinc-500 dark:text-zinc-400" />
-          </a>
+          (() => {
+            const resolvedUrl = resolveCanonicalTufUrl(problem.sourceUrl, problem.title);
+            return (
+              <a
+                href={resolvedUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white px-3 py-1.5 rounded-md bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 transition-colors w-fit shadow-xs"
+              >
+                <span>Solve on {problem.sourceName || "TakeUForward"}</span>
+                <ExternalLink className="h-3.5 w-3.5 text-zinc-500 dark:text-zinc-400" />
+              </a>
+            );
+          })()
         )}
       </div>
 

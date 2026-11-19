@@ -10,6 +10,7 @@ import {
   Eye,
   Loader2,
   Trash2,
+  Sparkles,
 } from "lucide-react";
 import { getAdminDayByNumber, saveAdminDraft, publishDay, deleteDay } from "@/lib/firebase/firestore";
 import { AdminDay, Problem } from "@/types";
@@ -21,6 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/toast";
 import { EmptyState } from "@/components/ui/empty-state";
+import { normalizeProblemTufUrls } from "@/lib/data/tuf-url-normalizer";
 
 export default function AdminDayReviewPage() {
   const params = useParams();
@@ -35,6 +37,7 @@ export default function AdminDayReviewPage() {
   const [isSaving, setIsSaving] = React.useState(false);
   const [isPublishing, setIsPublishing] = React.useState(false);
   const [isDeleting, setIsDeleting] = React.useState(false);
+  const [autoFixedUrlCount, setAutoFixedUrlCount] = React.useState(0);
 
   React.useEffect(() => {
     async function loadDay() {
@@ -44,7 +47,15 @@ export default function AdminDayReviewPage() {
       }
       try {
         const fetched = await getAdminDayByNumber(dayNumber);
-        setDayData(fetched);
+        if (fetched) {
+          const { problems: normalizedProblems, hasChanges, changes } = normalizeProblemTufUrls(fetched.problems || []);
+          if (hasChanges) {
+            setDayData({ ...fetched, problems: normalizedProblems });
+            setAutoFixedUrlCount(changes.length);
+          } else {
+            setDayData(fetched);
+          }
+        }
       } catch (err) {
         console.error("Failed to load admin day:", err);
       } finally {
@@ -85,11 +96,15 @@ export default function AdminDayReviewPage() {
   const handleSaveDraft = async () => {
     setIsSaving(true);
     try {
-      await saveAdminDraft(dayData);
+      const { problems: normalizedProblems } = normalizeProblemTufUrls(dayData.problems || []);
+      const toSave = { ...dayData, problems: normalizedProblems, updatedAt: new Date().toISOString() };
+      await saveAdminDraft(toSave);
+      setDayData(toSave);
+      setAutoFixedUrlCount(0);
       showToast({
         type: "success",
         title: "Draft Saved to Firestore",
-        message: `Day ${dayData.dayNumber} draft updated successfully.`,
+        message: `Day ${dayData.dayNumber} draft updated successfully with official TUF URLs.`,
       });
     } catch (err: any) {
       showToast({
@@ -105,12 +120,21 @@ export default function AdminDayReviewPage() {
   const handlePublish = async () => {
     setIsPublishing(true);
     try {
-      await publishDay(dayData);
-      setDayData({ ...dayData, status: "published" });
+      const { problems: normalizedProblems } = normalizeProblemTufUrls(dayData.problems || []);
+      const toPublish: AdminDay = {
+        ...dayData,
+        problems: normalizedProblems,
+        status: "published",
+        updatedAt: new Date().toISOString(),
+        publishedAt: dayData.publishedAt || new Date().toISOString(),
+      };
+      await publishDay(toPublish);
+      setDayData(toPublish);
+      setAutoFixedUrlCount(0);
       showToast({
         type: "success",
         title: "Day Published Live!",
-        message: `Day ${dayData.dayNumber} is now live in Firestore for students at /day/${dayData.dayNumber}.`,
+        message: `Day ${dayData.dayNumber} is now live in Firestore with verified TUF practice URLs.`,
       });
     } catch (err: any) {
       showToast({
@@ -208,6 +232,16 @@ export default function AdminDayReviewPage() {
 
       {/* Workflow Stage */}
       <WorkflowStepper currentStepIndex={dayData.status === "published" ? 5 : 3} />
+
+      {/* Auto-fixed TUF URLs Notice */}
+      {autoFixedUrlCount > 0 && (
+        <div className="flex items-center gap-2 p-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-xs text-emerald-800 dark:text-emerald-300">
+          <Sparkles className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
+          <span>
+            <strong>{autoFixedUrlCount} TakeUForward URL(s)</strong> in this day were automatically aligned to the official <code>/practice/dsa/</code> format. Click &quot;Save Draft&quot; or &quot;Publish&quot; to permanently update Firestore.
+          </span>
+        </div>
+      )}
 
       {/* Day Overview Header Card */}
       <section className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 p-6 space-y-4 shadow-xs">

@@ -26,6 +26,7 @@ import {
   getNextProblemsFromSheet,
   StriverProblem,
 } from "@/lib/data/strivers-sheet";
+import { resolveCanonicalTufUrl } from "@/lib/data/tuf-url-normalizer";
 
 const STORAGE_KEY = "strivers_sheet_current_index";
 
@@ -195,7 +196,9 @@ export function UrlInputForm({
     setErrorMessage("");
 
     try {
-      const validUrls = urls.filter((u) => u.trim().length > 0);
+      const validUrls = urls
+        .filter((u) => u.trim().length > 0)
+        .map((u) => resolveCanonicalTufUrl(u));
       if (validUrls.length === 0) {
         throw new Error("Please add at least one valid problem URL.");
       }

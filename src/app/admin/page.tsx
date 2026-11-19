@@ -12,8 +12,13 @@ import {
   PlusCircle,
   Loader2,
   Trash2,
+  Wand2,
+  AlertTriangle,
+  ChevronDown,
+  ChevronUp,
+  ExternalLink,
 } from "lucide-react";
-import { getAllAdminDays, saveAdminDraft, deleteDay } from "@/lib/firebase/firestore";
+import { getAllAdminDays, saveAdminDraft, publishDay, deleteDay } from "@/lib/firebase/firestore";
 import { AdminDay } from "@/types";
 import { WorkflowStepper } from "@/components/admin/workflow-stepper";
 import { UrlInputForm } from "@/components/admin/url-input-form";
@@ -21,6 +26,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 import { useToast } from "@/components/ui/toast";
+import { normalizeProblemTufUrls } from "@/lib/data/tuf-url-normalizer";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -95,6 +101,104 @@ export default function AdminDashboardPage() {
     }
   };
 
+  const [isFixingUrls, setIsFixingUrls] = React.useState(false);
+  const [showOutdatedDetails, setShowOutdatedDetails] = React.useState(false);
+
+  // Detect outdated TUF URLs across all loaded days/drafts
+  const outdatedTufSummary = React.useMemo(() => {
+    let affectedDraftCount = 0;
+    let affectedPublishedCount = 0;
+    let totalProblemFixes = 0;
+    const fixDetails: { dayNumber: number; title: string; oldUrl: string; newUrl: string; isDraft: boolean }[] = [];
+
+    days.forEach((day) => {
+      const { hasChanges, changes } = normalizeProblemTufUrls(day.problems || []);
+      if (hasChanges) {
+        if (day.status === "draft") affectedDraftCount++;
+        else affectedPublishedCount++;
+        totalProblemFixes += changes.length;
+        changes.forEach((c) => {
+          fixDetails.push({
+            dayNumber: day.dayNumber,
+            title: c.title,
+            oldUrl: c.oldUrl,
+            newUrl: c.newUrl,
+            isDraft: day.status === "draft",
+          });
+        });
+      }
+    });
+
+    return {
+      affectedDraftCount,
+      affectedPublishedCount,
+      totalProblemFixes,
+      fixDetails,
+    };
+  }, [days]);
+
+  const handleFixAllTufUrls = async () => {
+    if (outdatedTufSummary.totalProblemFixes === 0) {
+      showToast({
+        type: "info",
+        title: "All URLs are Canonical",
+        message: "All drafts and published days are already using official TakeUForward practice URLs.",
+      });
+      return;
+    }
+
+    if (
+      !window.confirm(
+        `Update ${outdatedTufSummary.totalProblemFixes} TakeUForward URL(s) across ${outdatedTufSummary.affectedDraftCount} draft(s) and ${outdatedTufSummary.affectedPublishedCount} published day(s) to official /practice/dsa format in Firestore?`
+      )
+    ) {
+      return;
+    }
+
+    setIsFixingUrls(true);
+    try {
+      let updatedDaysList = [...days];
+      for (const day of days) {
+        const { problems: normalizedProblems, hasChanges } = normalizeProblemTufUrls(day.problems || []);
+        if (hasChanges) {
+          const updatedDay: AdminDay = {
+            ...day,
+            problems: normalizedProblems,
+            updatedAt: new Date().toISOString(),
+          };
+
+          // Save draft in adminDays
+          await saveAdminDraft(updatedDay);
+
+          // If published, also update public 'days' collection
+          if (day.status === "published") {
+            await publishDay(updatedDay);
+          }
+
+          updatedDaysList = updatedDaysList.map((d) =>
+            d.dayNumber === day.dayNumber ? updatedDay : d
+          );
+        }
+      }
+
+      setDays(updatedDaysList);
+      showToast({
+        type: "success",
+        title: "TUF URLs Successfully Synchronized!",
+        message: `Updated ${outdatedTufSummary.totalProblemFixes} problem URLs across drafts and published days in Firestore.`,
+      });
+    } catch (err: any) {
+      console.error("Failed to fix TUF URLs:", err);
+      showToast({
+        type: "error",
+        title: "Sync Failed",
+        message: err?.message || "Could not write updated URLs to Firestore.",
+      });
+    } finally {
+      setIsFixingUrls(false);
+    }
+  };
+
   const latestDayNumber = days.length > 0 ? Math.max(...days.map((d) => d.dayNumber)) : 50;
   const nextDayNumber = latestDayNumber + 1;
 
@@ -112,6 +216,19 @@ export default function AdminDashboardPage() {
         </div>
 
         <div className="flex items-center gap-2">
+          {outdatedTufSummary.totalProblemFixes > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleFixAllTufUrls}
+              isLoading={isFixingUrls}
+              className="text-xs border-amber-300 dark:border-amber-800 text-amber-700 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-950/30"
+            >
+              <Wand2 className="h-3.5 w-3.5 mr-1.5 text-amber-600 dark:text-amber-400" />
+              Fix TUF URLs ({outdatedTufSummary.totalProblemFixes})
+            </Button>
+          )}
+
           <Button
             variant={activeTab === "new" ? "default" : "secondary"}
             size="sm"
@@ -122,6 +239,99 @@ export default function AdminDashboardPage() {
           </Button>
         </div>
       </div>
+
+      {/* Outdated TUF URLs Alert Banner */}
+      {outdatedTufSummary.totalProblemFixes > 0 && (
+        <section className="rounded-xl border border-amber-300 dark:border-amber-900/60 bg-amber-50 dark:bg-amber-950/20 p-5 space-y-3 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-start gap-3">
+              <div className="p-2 rounded-lg bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-400 shrink-0">
+                <AlertTriangle className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-zinc-950 dark:text-zinc-100 flex items-center gap-2">
+                  TakeUForward Platform URLs Updated
+                  <Badge variant="outline" className="text-[10px] bg-amber-100/70 border-amber-300 text-amber-800 dark:bg-amber-900/40 dark:border-amber-700 dark:text-amber-300">
+                    {outdatedTufSummary.totalProblemFixes} URLs to sync
+                  </Badge>
+                </h3>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
+                  TakeUForward updated to the new <code>/practice/dsa/&lt;slug&gt;</code> interactive IDE structure. We detected legacy URLs across{" "}
+                  <strong>{outdatedTufSummary.affectedDraftCount} draft(s)</strong> and{" "}
+                  <strong>{outdatedTufSummary.affectedPublishedCount} published day(s)</strong>.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowOutdatedDetails(!showOutdatedDetails)}
+                className="text-xs"
+              >
+                {showOutdatedDetails ? (
+                  <>
+                    <ChevronUp className="h-3.5 w-3.5 mr-1" />
+                    Hide Details
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="h-3.5 w-3.5 mr-1" />
+                    View Details
+                  </>
+                )}
+              </Button>
+
+              <Button
+                variant="default"
+                size="sm"
+                onClick={handleFixAllTufUrls}
+                isLoading={isFixingUrls}
+                className="text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white"
+              >
+                <Wand2 className="h-3.5 w-3.5 mr-1.5" />
+                Sync & Fix All in Firestore
+              </Button>
+            </div>
+          </div>
+
+          {/* Expandable Details List */}
+          {showOutdatedDetails && (
+            <div className="pt-3 border-t border-amber-200 dark:border-amber-900/40 space-y-2">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
+                URLs that will be updated to official practice slugs:
+              </span>
+              <div className="max-h-60 overflow-y-auto space-y-1.5 pr-2">
+                {outdatedTufSummary.fixDetails.map((f, idx) => (
+                  <div
+                    key={idx}
+                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 p-2 rounded bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-mono"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                        Day {f.dayNumber} {f.isDraft ? "(Draft)" : "(Published)"}:
+                      </span>
+                      <span className="text-zinc-700 dark:text-zinc-300 font-sans">
+                        {f.title}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-[11px] text-zinc-500">
+                      <span className="line-through text-rose-500/80 max-w-[200px] truncate" title={f.oldUrl}>
+                        {f.oldUrl.split("/").pop()}
+                      </span>
+                      <span>&rarr;</span>
+                      <span className="text-emerald-600 dark:text-emerald-400 font-bold max-w-[200px] truncate" title={f.newUrl}>
+                        {f.newUrl.split("/").pop()}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
+      )}
 
       {/* Visual Pipeline Workflow Banner */}
       <section className="space-y-2">
