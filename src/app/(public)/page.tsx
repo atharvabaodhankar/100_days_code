@@ -41,6 +41,34 @@ export default function HomePage() {
     () => previewCelebrate || publishedDays.some((d) => d.dayNumber >= 100),
     [publishedDays, previewCelebrate]
   );
+  const isDay99Today = !isDay100Complete && latestDay?.dayNumber === 99;
+
+  const [timeLeft, setTimeLeft] = React.useState<{
+    hours: string;
+    minutes: string;
+    seconds: string;
+  } | null>(null);
+
+  React.useEffect(() => {
+    if (!isDay99Today) return;
+
+    const targetMs = new Date("2026-11-26T00:00:00+05:30").getTime();
+    const updateTimer = () => {
+      const diff = Math.max(0, targetMs - Date.now());
+      const h = Math.floor(diff / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+      setTimeLeft({
+        hours: String(h).padStart(2, "0"),
+        minutes: String(m).padStart(2, "0"),
+        seconds: String(s).padStart(2, "0"),
+      });
+    };
+
+    updateTimer();
+    const id = setInterval(updateTimer, 1000);
+    return () => clearInterval(id);
+  }, [isDay99Today]);
 
   React.useEffect(() => {
     if (isDay100Complete) {
@@ -122,6 +150,40 @@ export default function HomePage() {
                 : "A minimalist learning platform designed to eliminate cognitive overload. Read the logic, dry run the state transitions, and study verified implementations."}
             </p>
           </div>
+
+          {/* Day 99 Countdown Timer (shown only while Day 99 is the latest published day) */}
+          {isDay99Today && timeLeft && (
+            <div className="border-y border-zinc-900/10 dark:border-zinc-100/10 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 max-w-2xl">
+              <div className="space-y-0.5">
+                <p className="text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
+                  Day 100 Finale Countdown
+                </p>
+                <p
+                  style={{ fontFamily: "var(--font-hand)" }}
+                  className="text-lg sm:text-xl text-zinc-800 dark:text-zinc-200"
+                >
+                  Tomorrow we conclude our 100 Days of Code.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 font-mono tabular-nums text-zinc-950 dark:text-zinc-50">
+                <div className="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 px-2.5 py-1.5 rounded text-center min-w-[3.25rem]">
+                  <div className="text-lg sm:text-xl font-bold leading-none">{timeLeft.hours}</div>
+                  <div className="text-[9px] uppercase tracking-wider text-zinc-500 mt-1">hrs</div>
+                </div>
+                <span className="text-zinc-400 font-bold">:</span>
+                <div className="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 px-2.5 py-1.5 rounded text-center min-w-[3.25rem]">
+                  <div className="text-lg sm:text-xl font-bold leading-none">{timeLeft.minutes}</div>
+                  <div className="text-[9px] uppercase tracking-wider text-zinc-500 mt-1">min</div>
+                </div>
+                <span className="text-zinc-400 font-bold">:</span>
+                <div className="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 px-2.5 py-1.5 rounded text-center min-w-[3.25rem]">
+                  <div className="text-lg sm:text-xl font-bold leading-none">{timeLeft.seconds}</div>
+                  <div className="text-[9px] uppercase tracking-wider text-zinc-500 mt-1">sec</div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Hero Actions */}
           <div className="flex flex-wrap items-center gap-3 pt-2">
