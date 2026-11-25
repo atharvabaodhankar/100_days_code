@@ -22,6 +22,7 @@ import { DifficultyBadge } from "../ui/badge";
 import { CodeBlock } from "../ui/code-block";
 import { Button } from "../ui/button";
 import { GitHubIcon } from "../ui/icons";
+import { HeroConfetti } from "./hero-confetti";
 import { useAuth } from "@/lib/firebase/auth";
 import { recordStudentSubmission } from "@/lib/firebase/gamification";
 import { useToast } from "../ui/toast";
@@ -112,6 +113,7 @@ export function ProblemView({
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [submittedStreak, setSubmittedStreak] = React.useState<number | null>(null);
   const [commitUrl, setCommitUrl] = React.useState<string | null>(null);
+  const [confettiBurst, setConfettiBurst] = React.useState(0);
 
   const handleSubmitCode = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -198,6 +200,9 @@ export function ProblemView({
       });
 
       setSubmittedStreak(res.streak);
+      if (dayNumber === 100) {
+        setConfettiBurst((c) => c + 1);
+      }
       showToast({
         type: "success",
         title: "Saved to GitHub & Logged!",
@@ -216,6 +221,7 @@ export function ProblemView({
 
   return (
     <div className="space-y-6">
+      <HeroConfetti burstKey={confettiBurst} />
       {/* Title & Metadata Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-zinc-200 dark:border-zinc-800">
         <div>

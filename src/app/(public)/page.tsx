@@ -2,17 +2,27 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles, Flame, BookOpen, Loader2, Calendar } from "lucide-react";
+import { ArrowRight, Sparkles, Flame, BookOpen, Loader2, Calendar, Trophy, PartyPopper } from "lucide-react";
 import { getPublishedDays } from "@/lib/firebase/firestore";
 import { PublicDay } from "@/types";
 import { DayCard } from "@/components/public/day-card";
+import { HeroConfetti } from "@/components/public/hero-confetti";
 import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   const [publishedDays, setPublishedDays] = React.useState<PublicDay[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const [confettiBurst, setConfettiBurst] = React.useState(0);
+  const [previewCelebrate, setPreviewCelebrate] = React.useState(false);
 
   React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("celebrate") === "1") {
+        setPreviewCelebrate(true);
+      }
+    }
+
     async function load() {
       try {
         const days = await getPublishedDays();
@@ -27,6 +37,16 @@ export default function HomePage() {
   }, []);
 
   const latestDay = publishedDays[0];
+  const isDay100Complete = React.useMemo(
+    () => previewCelebrate || publishedDays.some((d) => d.dayNumber >= 100),
+    [publishedDays, previewCelebrate]
+  );
+
+  React.useEffect(() => {
+    if (isDay100Complete) {
+      setConfettiBurst((c) => (c === 0 ? 1 : c));
+    }
+  }, [isDay100Complete]);
 
   const features = [
     {
@@ -45,45 +65,102 @@ export default function HomePage() {
 
   return (
     <div className="space-y-16 py-4">
+      <HeroConfetti burstKey={confettiBurst} />
+
       {/* Hero Section */}
-      <section className="space-y-6 text-left">
-        <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 px-3 py-1 text-xs text-zinc-700 dark:text-zinc-300 shadow-xs">
-          <Flame className="h-3.5 w-3.5 text-amber-500" />
-          <span>Active Challenge Track: 100 Days of Structured Mastery</span>
-        </div>
-
-        <div className="space-y-3 max-w-3xl">
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-100 leading-[1.15]">
-            Master DSA with structured daily intuition.
-          </h1>
-          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl font-sans">
-            A minimalist learning platform designed to eliminate cognitive overload. Read the logic, dry run the state transitions, and study verified implementations.
-          </p>
-        </div>
-
-        {/* Hero Actions */}
-        <div className="flex flex-wrap items-center gap-3 pt-2">
-          {latestDay ? (
-            <Link href={`/day/${latestDay.dayNumber}`}>
-              <Button size="lg" className="font-semibold">
-                Start Today's Challenge (Day {latestDay.dayNumber})
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
+      <section
+        className={`relative text-left transition-all ${
+          isDay100Complete
+            ? "border-y border-zinc-900/15 dark:border-zinc-100/15 py-10 sm:py-14"
+            : "space-y-6"
+        }`}
+      >
+        <div className={isDay100Complete ? "space-y-6" : "space-y-6"}>
+          {isDay100Complete ? (
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="inline-flex items-center gap-2 border border-zinc-900 dark:border-zinc-200 px-3 py-1 text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-900 dark:text-zinc-100">
+                <Trophy className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
+                Day 100 / 100 · Finale
+              </span>
+              <span
+                style={{ fontFamily: "var(--font-hand)" }}
+                className="text-xl sm:text-2xl text-amber-700 dark:text-amber-400 -rotate-1"
+              >
+                we actually did it!
+              </span>
+            </div>
           ) : (
-            <Link href="/leaderboard">
-              <Button size="lg" className="font-semibold">
-                View Global Leaderboard
-                <ArrowRight className="ml-2 h-4 w-4" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 px-3 py-1 text-xs text-zinc-700 dark:text-zinc-300 shadow-xs">
+              <Flame className="h-3.5 w-3.5 text-amber-500" />
+              <span>
+                {latestDay?.dayNumber === 99
+                  ? "Day 99 Live — 1 Day Left to 100!"
+                  : "Active Challenge Track: 100 Days of Structured Mastery"}
+              </span>
+            </div>
+          )}
+
+          <div className="space-y-4 max-w-4xl">
+            {isDay100Complete ? (
+              <h1
+                style={{ fontFamily: "var(--font-display)" }}
+                className="text-5xl sm:text-7xl lg:text-8xl font-normal tracking-tight text-zinc-950 dark:text-zinc-50 leading-[0.95]"
+              >
+                100 Days of Code,{" "}
+                <span className="italic text-emerald-700 dark:text-emerald-400">
+                  completed.
+                </span>
+              </h1>
+            ) : (
+              <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-100 leading-[1.15]">
+                Master DSA with structured daily intuition.
+              </h1>
+            )}
+            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl font-sans">
+              {isDay100Complete
+                ? "From Day 1 fundamentals to Day 100 mastery — thank you for showing up, debugging dry runs, and building the habit every single day."
+                : "A minimalist learning platform designed to eliminate cognitive overload. Read the logic, dry run the state transitions, and study verified implementations."}
+            </p>
+          </div>
+
+          {/* Hero Actions */}
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            {latestDay ? (
+              <Link href={`/day/${latestDay.dayNumber}`}>
+                <Button size="lg" className="font-semibold">
+                  {isDay100Complete
+                    ? `Open Day ${latestDay.dayNumber} Finale`
+                    : `Start Today's Challenge (Day ${latestDay.dayNumber})`}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            ) : (
+              <Link href="/leaderboard">
+                <Button size="lg" className="font-semibold">
+                  View Global Leaderboard
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            )}
+            <Link href="/days">
+              <Button variant="secondary" size="lg">
+                <BookOpen className="mr-2 h-4 w-4 text-zinc-500 dark:text-zinc-400" />
+                Browse All Days
               </Button>
             </Link>
-          )}
-          <Link href="/days">
-            <Button variant="secondary" size="lg">
-              <BookOpen className="mr-2 h-4 w-4 text-zinc-500 dark:text-zinc-400" />
-              Browse All Days
-            </Button>
-          </Link>
+            {isDay100Complete && (
+              <Button
+                type="button"
+                variant="outline"
+                size="lg"
+                onClick={() => setConfettiBurst((c) => c + 1)}
+                className="border-zinc-900/25 dark:border-zinc-200/25 text-zinc-900 dark:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900"
+              >
+                <PartyPopper className="mr-2 h-4 w-4 text-amber-600 dark:text-amber-400" />
+                Replay Confetti
+              </Button>
+            )}
+          </div>
         </div>
       </section>
 

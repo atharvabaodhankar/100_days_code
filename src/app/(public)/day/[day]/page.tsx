@@ -3,9 +3,10 @@
 import * as React from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Calendar, ArrowLeft, Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Calendar, ArrowLeft, Loader2, Trophy, PartyPopper } from "lucide-react";
 import { getPublishedDayByNumber, getPublishedDays } from "@/lib/firebase/firestore";
 import { ProblemView } from "@/components/public/problem-view";
+import { HeroConfetti } from "@/components/public/hero-confetti";
 import { DifficultyBadge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,13 @@ export default function DayDetailPage() {
   const [allDays, setAllDays] = React.useState<PublicDay[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [selectedProblemIndex, setSelectedProblemIndex] = React.useState(0);
+  const [confettiBurst, setConfettiBurst] = React.useState(0);
+
+  React.useEffect(() => {
+    if (dayNumber === 100 && day) {
+      setConfettiBurst((c) => (c === 0 ? 1 : c));
+    }
+  }, [dayNumber, day]);
 
   React.useEffect(() => {
     async function load() {
@@ -73,6 +81,7 @@ export default function DayDetailPage() {
 
   return (
     <div className="space-y-8 py-2">
+      <HeroConfetti burstKey={confettiBurst} />
       {/* Back link & Day Navigation Header */}
       <div className="flex items-center justify-between gap-4">
         <Link
@@ -114,6 +123,51 @@ export default function DayDetailPage() {
           )}
         </div>
       </div>
+
+      {/* Day 100 Handcrafted Editorial Finale */}
+      {dayNumber === 100 && (
+        <section className="border-y border-zinc-900/15 dark:border-zinc-100/15 py-8 sm:py-10 space-y-5">
+          <div className="flex flex-wrap items-baseline justify-between gap-4">
+            <div className="flex items-baseline gap-4">
+              <span
+                style={{ fontFamily: "var(--font-display)" }}
+                className="text-6xl sm:text-8xl leading-none tracking-tight text-zinc-950 dark:text-zinc-50"
+              >
+                100
+              </span>
+              <div className="space-y-1">
+                <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-zinc-500 dark:text-zinc-400">
+                  Final Chapter · 100 / 100
+                </p>
+                <h2
+                  style={{ fontFamily: "var(--font-display)" }}
+                  className="text-2xl sm:text-4xl italic text-zinc-900 dark:text-zinc-100 leading-tight"
+                >
+                  You made it to the finish line.
+                </h2>
+              </div>
+            </div>
+
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setConfettiBurst((c) => c + 1)}
+              className="shrink-0 border-zinc-900/25 dark:border-zinc-200/25 text-zinc-900 dark:text-zinc-100"
+            >
+              <PartyPopper className="h-3.5 w-3.5 mr-1.5 text-amber-600 dark:text-amber-400" />
+              Throw Confetti
+            </Button>
+          </div>
+
+          <p
+            style={{ fontFamily: "var(--font-hand)" }}
+            className="text-xl sm:text-2xl text-zinc-700 dark:text-zinc-300 leading-snug max-w-2xl"
+          >
+            Congratulations on showing up through every array, graph, and DP trace from Day 1 to Day 100. Take a bow — and solve one last problem.
+          </p>
+        </section>
+      )}
 
       {/* Day Title Card */}
       <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 p-6 space-y-2 shadow-xs">

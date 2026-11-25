@@ -81,12 +81,23 @@ ${(p.examples || []).map((e) => `Input: ${e.input} -> Output: ${e.output}`).join
     )
     .join("\n\n");
 
+  const isDay100 = params.dayNumber === 100;
+  const day100Instructions = isDay100
+    ? `
+
+SPECIAL DAY 100 FINALE INSTRUCTIONS:
+- This is the FINAL DAY (Day 100 of 100) of the 100 Days of Code challenge!
+- In "whatsappMessage", write a very warm, heartfelt, celebratory congratulation message marking the completion of all 100 days.
+- Thank and congratulate everyone who stayed consistent, solved problems daily, and made it all the way from Day 1 to Day 100.
+- Use celebratory emojis (🎉, 🏆, 🔥, 🥳, 🚀), keep it energetic and personal, and invite everyone to celebrate the finale on ${publicUrl}/day/100 and check the leaderboard (${publicUrl}/leaderboard).`
+    : "";
+
   return `Generate full pedagogical educational breakdowns for Day ${params.dayNumber}.
 Topic: ${params.topic}
 Public Challenge URL: ${publicUrl}/day/${params.dayNumber}
 
 UNTRUSTED SOURCE PROBLEMS:
-${problemDetails}
+${problemDetails}${day100Instructions}
 
 Remember:
 - Return ONLY valid JSON.
